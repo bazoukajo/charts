@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Keyboard Shortcuts Reference</title>
+
+    <!-- Material Design CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <style>
+        :root {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: rgba(0,0,0,0.1);
+            --shadow: 0 2px 4px rgba(0,0,0,0.1);
+            --accent-color: #667eea;
+            --accent-hover: #764ba2;
+        }
+
+        body.dark-theme {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: rgba(255,255,255,0.1);
+            --shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        nav {
+            background-color: var(--bg-secondary) !important;
+            box-shadow: var(--shadow) !important;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        nav .brand-logo,
+        nav ul a {
+            color: var(--accent-color) !important;
+        }
+
+        nav ul a:hover {
+            background-color: transparent !important;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .content-container {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .intro-text {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .section-header {
+            background: var(--bg-secondary);
+            padding: 15px 20px;
+            margin: 20px 0 20px 0;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            color: var(--accent-color);
+            font-weight: 500;
+            font-size: 1.5rem;
+        }
+
+        .section-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin: 10px 0;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .shortcuts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
+        .shortcuts-table thead {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .shortcuts-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+
+        .shortcuts-table td {
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .shortcuts-table tbody tr {
+            background-color: var(--bg-secondary);
+            transition: background-color 0.2s ease;
+        }
+
+        .shortcuts-table tbody tr:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+
+        .shortcut-key {
+            background-color: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-weight: 500;
+            color: #333;
+            border: 1px solid #ccc;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        body.dark-theme .shortcut-key {
+            background-color: #3a3a3a;
+            color: #e0e0e0;
+            border-color: #555;
+        }
+
+        /* Dark theme table hover effect */
+        body.dark-theme .shortcuts-table tbody tr:hover {
+            background-color: rgba(102, 126, 234, 0.2);
+        }
+
+        /* Dark theme navigation */
+        body.dark-theme nav {
+            background-color: var(--bg-secondary) !important;
+        }
+
+        body.dark-theme nav .brand-logo,
+        body.dark-theme nav ul a {
+            color: var(--accent-color) !important;
+        }
+
+        /* Dark theme tabs */
+        body.dark-theme .tabs .tab a {
+            color: var(--accent-color);
+        }
+
+        body.dark-theme .tabs .tab a:hover,
+        body.dark-theme .tabs .tab a.active {
+            color: #8b9df8;
+        }
+
+        /* Dark theme content containers */
+        body.dark-theme .content-container {
+            background-color: var(--bg-secondary);
+        }
+
+        body.dark-theme .reflection-box {
+            background-color: rgba(102, 126, 234, 0.15);
+            border-color: var(--accent-color);
+        }
+
+        body.dark-theme .intro-text {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+            border: 1px solid var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .category-badge {
+            background-color: #4caf50;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .category-editing { background-color: #2196f3; }
+        .category-navigation { background-color: #ff9800; }
+        .category-debugging { background-color: #f44336; }
+        .category-build { background-color: #9c27b0; }
+        .category-tools { background-color: #009688; }
+        .category-transform { background-color: #795548; }
+        .category-view { background-color: #607d8b; }
+        .category-selection { background-color: #e91e63; }
+        .category-code { background-color: #00bcd4; }
+
+        .tool-chip {
+            display: inline-block;
+            margin: 3px;
+            padding: 0 12px;
+            height: 28px;
+            line-height: 28px;
+            font-size: 13px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .tabs {
+            background-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .tabs .tab a {
+            color: var(--accent-color);
+        }
+
+        .tabs .tab a:hover {
+            color: var(--accent-hover);
+        }
+
+        .tabs .tab a.active {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .tabs .indicator {
+            background-color: var(--accent-color);
+        }
+
+        .filter-chips {
+            margin: 15px 0;
+        }
+
+        .filter-chip {
+            cursor: pointer;
+            margin: 3px;
+            padding: 0 12px;
+            height: 28px;
+            line-height: 28px;
+            font-size: 13px;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            border-radius: 14px;
+        }
+
+        .filter-chip:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+
+        body.dark-theme .filter-chip:hover {
+            background-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .filter-chip.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        /* Section titles */
+        h5 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            margin-top: 0;
+            font-weight: 500;
+        }
+
+        h5 .material-icons {
+            vertical-align: middle;
+            color: var(--accent-color);
+        }
+
+        /* Table column widths */
+        .shortcuts-table th:nth-child(1),
+        .shortcuts-table td:nth-child(1) {
+            width: 15%;
+        }
+
+        .shortcuts-table th:nth-child(2),
+        .shortcuts-table td:nth-child(2) {
+            width: 25%;
+        }
+
+        .shortcuts-table th:nth-child(3),
+        .shortcuts-table td:nth-child(3) {
+            width: 30%;
+        }
+
+        .shortcuts-table th:nth-child(4),
+        .shortcuts-table td:nth-child(4) {
+            width: 30%;
+        }
+
+        .tools-header {
+            margin-top: 10px;
+        }
+
+        .tool-chip.language {
+            background-color: #4caf50;
+        }
+
+        /* Special table widths for creative tools */
+        .creative-tools-table th:nth-child(2),
+        .creative-tools-table td:nth-child(2) {
+            width: 35%;
+        }
+
+        .creative-tools-table th:nth-child(3),
+        .creative-tools-table td:nth-child(3) {
+            width: 40%;
+        }
+
+        /* Reflection boxes */
+        .reflection-box {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 4px;
+        }
+
+        body.dark-theme .reflection-box {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        /* Final reflection section */
+        .final-reflection {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .final-reflection h5 {
+            color: white;
+        }
+
+        .final-reflection ul {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">
+                <i class="material-icons left">keyboard</i>
+                Shortcuts Guide
+            </a>
+            <ul class="right">
+                <li>
+                    <a href="#" class="theme-toggle" onclick="toggleTheme(); return false;">
+                        <i class="material-icons" id="theme-icon">dark_mode</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Tools Overview -->
+        <div class="content-container">
+            <h5>🛠️ Supported Tools & Languages</h5>
+            <div>
+                <span class="tool-chip">Visual Studio 2022</span>
+                <span class="tool-chip">VS Code</span>
+                <span class="tool-chip">GitHub Copilot</span>
+                <span class="tool-chip">Photoshop</span>
+                <span class="tool-chip">Blender</span>
+                <span class="tool-chip">Unreal Engine</span>
+                <span class="tool-chip">Unity</span>
+            </div>
+            <div class="tools-header">
+                <span class="tool-chip language">C#</span>
+                <span class="tool-chip language">C++</span>
+                <span class="tool-chip language">Python</span>
+                <span class="tool-chip language">JavaScript</span>
+                <span class="tool-chip language">TypeScript</span>
+                <span class="tool-chip language">React</span>
+                <span class="tool-chip language">HTML/CSS</span>
+            </div>
+        </div>
+
+        <!-- Tabs for different tools -->
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s2"><a class="active" href="#tab-vs2022">Visual Studio</a></li>
+                    <li class="tab col s2"><a href="#tab-vscode">VS Code</a></li>
+                    <li class="tab col s2"><a href="#tab-copilot">Copilot</a></li>
+                    <li class="tab col s2"><a href="#tab-creative">Creative Tools</a></li>
+                    <li class="tab col s2"><a href="#tab-unreal">Unreal</a></li>
+                    <li class="tab col s2"><a href="#tab-unity">Unity</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Visual Studio 2022 Tab -->
+        <div id="tab-vs2022">
+            <div class="section-header">
+                <h2><i class="material-icons left">code</i>Visual Studio 2022</h2>
+            </div>
+
+            <div class="content-container">
+                <h5>Editing Shortcuts</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Category</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Ctrl + K, Ctrl + D</span></td>
+                            <td>Format document</td>
+                            <td>Auto-formats code in C#, C++, or Python for clean, readable scripts</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Ctrl + R, Ctrl + R</span></td>
+                            <td>Rename symbol</td>
+                            <td>Refactors variables/classes across files—crucial for large C++ or C# projects</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Ctrl + D</span></td>
+                            <td>Duplicate line/selection</td>
+                            <td>Quickly copies code snippets in Python automation or C# Unity behaviors</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Alt + ↑ / ↓</span></td>
+                            <td>Move line up/down</td>
+                            <td>Reorders code blocks efficiently in any language</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-container">
+                <h5>Navigation Shortcuts</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Category</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-navigation">Navigation</span></td>
+                            <td><span class="shortcut-key">Ctrl + Tab</span></td>
+                            <td>Switch between open tabs</td>
+                            <td>Jumps between files in multi-language projects like C++ with Python interop</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-navigation">Navigation</span></td>
+                            <td><span class="shortcut-key">Ctrl + -</span> / <span class="shortcut-key">Ctrl + Shift + -</span></td>
+                            <td>Navigate back/forward</td>
+                            <td>Returns to previous cursor positions after exploring code references</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-navigation">Navigation</span></td>
+                            <td><span class="shortcut-key">Ctrl + I</span></td>
+                            <td>Incremental search</td>
+                            <td>Finds terms quickly in large codebases</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-container">
+                <h5>Debugging & Building</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Category</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-debugging">Debugging</span></td>
+                            <td><span class="shortcut-key">F5</span></td>
+                            <td>Start debugging</td>
+                            <td>Launches debug sessions for C# or Python errors in tools</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-debugging">Debugging</span></td>
+                            <td><span class="shortcut-key">Ctrl + F5</span></td>
+                            <td>Run without debugging</td>
+                            <td>Tests executables fast, e.g., C++ binaries</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-debugging">Debugging</span></td>
+                            <td><span class="shortcut-key">F10</span></td>
+                            <td>Step over</td>
+                            <td>Navigates code line-by-line in debug mode</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-build">Build</span></td>
+                            <td><span class="shortcut-key">Ctrl + Shift + B</span></td>
+                            <td>Build solution</td>
+                            <td>Compiles projects involving multiple languages</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-container">
+                <h5>Code Assistance</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Category</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-code">Code Assist</span></td>
+                            <td><span class="shortcut-key">Ctrl + Space</span></td>
+                            <td>IntelliSense completion</td>
+                            <td>Suggests code for C#, C++, or Python</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-code">Code Assist</span></td>
+                            <td><span class="shortcut-key">Ctrl + Shift + Space</span></td>
+                            <td>Parameter info</td>
+                            <td>Shows function signatures, helpful for Python libs or C++ APIs</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Organization</span></td>
+                            <td><span class="shortcut-key">Ctrl + R, Ctrl + G</span></td>
+                            <td>Remove unused usings</td>
+                            <td>Cleans up C# code imports</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VS Code Tab -->
+        <div id="tab-vscode">
+            <div class="section-header">
+                <h2><i class="material-icons left">web</i>VS Code</h2>
+            </div>
+
+            <div class="content-container">
+                <h5>Navigation & Search</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Category</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-navigation">Navigation</span></td>
+                            <td><span class="shortcut-key">Ctrl + P</span></td>
+                            <td>Quick open file</td>
+                            <td>Finds React components or HTML files instantly in web projects</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-navigation">Navigation</span></td>
+                            <td><span class="shortcut-key">Ctrl + Shift + P</span></td>
+                            <td>Command palette</td>
+                            <td>Accesses settings or extensions for JS/TS dev</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-navigation">Search</span></td>
+                            <td><span class="shortcut-key">Ctrl + Shift + F</span></td>
+                            <td>Search in files</td>
+                            <td>Greps across web project for JS patterns</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-container">
+                <h5>Editing Shortcuts</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Category</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Alt + Shift + F</span></td>
+                            <td>Format document</td>
+                            <td>Beautifies HTML, CSS, JS, TS, or React code with Prettier</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Ctrl + /</span></td>
+                            <td>Toggle line comment</td>
+                            <td>Comments out JS/TS lines in React hooks</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Alt + ↑ / ↓</span></td>
+                            <td>Move line up/down</td>
+                            <td>Reorders CSS rules or Python functions</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Shift + Alt + ↓ / ↑</span></td>
+                            <td>Copy line up/down</td>
+                            <td>Duplicates React elements or HTML blocks</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Ctrl + D</span></td>
+                            <td>Select next occurrence</td>
+                            <td>Edits multiple instances in JS code</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-container">
+                <h5>Multi-Cursor & Terminal</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Category</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-editing">Multi-Cursor</span></td>
+                            <td><span class="shortcut-key">Ctrl + Alt + ↓ / ↑</span></td>
+                            <td>Add cursor above/below</td>
+                            <td>Edits multiple lines in CSS or TS interfaces</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-tools">Terminal</span></td>
+                            <td><span class="shortcut-key">Ctrl + `</span></td>
+                            <td>Toggle integrated terminal</td>
+                            <td>Runs npm scripts for React builds or Python commands</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-debugging">Debugging</span></td>
+                            <td><span class="shortcut-key">F5</span></td>
+                            <td>Start debugging</td>
+                            <td>Debugs Node.js or Python in tools dev</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-container">
+                <h5>Extension-Specific (React Snippets)</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Type</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-code">React</span></td>
+                            <td><span class="shortcut-key">rcc</span> + <span class="shortcut-key">Tab</span></td>
+                            <td>React class component</td>
+                            <td>Quick scaffolds React/TS code</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-code">React</span></td>
+                            <td><span class="shortcut-key">rfce</span> + <span class="shortcut-key">Tab</span></td>
+                            <td>React functional component</td>
+                            <td>Creates functional components with export</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- GitHub Copilot Tab -->
+        <div id="tab-copilot">
+            <div class="section-header">
+                <h2><i class="material-icons left">smart_toy</i>GitHub Copilot</h2>
+            </div>
+
+            <div class="content-container">
+                <h5>Copilot Shortcuts</h5>
+                <table class="shortcuts-table creative-tools-table">
+                    <thead>
+                        <tr>
+                            <th>Shortcut</th>
+                            <th>Description</th>
+                            <th>Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="shortcut-key">Ctrl + Enter</span></td>
+                            <td>Open Copilot suggestions panel</td>
+                            <td>Views alternatives for JS/TS code in React</td>
+                        </tr>
+                        <tr>
+                            <td><span class="shortcut-key">Tab</span></td>
+                            <td>Accept suggestion</td>
+                            <td>Auto-completes Python scripts or C# methods</td>
+                        </tr>
+                        <tr>
+                            <td><span class="shortcut-key">Ctrl + Alt + I</span></td>
+                            <td>Open Copilot Chat</td>
+                            <td>Starts AI chat for explaining HTML/CSS issues</td>
+                        </tr>
+                        <tr>
+                            <td><span class="shortcut-key">Ctrl + I</span></td>
+                            <td>Inline chat prompt</td>
+                            <td>Quick queries in VS Code for code fixes</td>
+                        </tr>
+                        <tr>
+                            <td><span class="shortcut-key">Alt + /</span></td>
+                            <td>Trigger inline suggestion</td>
+                            <td>Forces Copilot to suggest next line in any language</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Creative Tools Tab -->
+        <div id="tab-creative">
+            <div class="section-header">
+                <h2><i class="material-icons left">palette</i>Creative Tools</h2>
+            </div>
+
+            <!-- Photoshop Section -->
+            <div class="content-container">
+                <h5><i class="material-icons">photo</i> Adobe Photoshop</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Category</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-tools">Tools</span></td>
+                            <td><span class="shortcut-key">B</span></td>
+                            <td>Brush tool</td>
+                            <td>Paints details for game assets</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-tools">Tools</span></td>
+                            <td><span class="shortcut-key">V</span></td>
+                            <td>Move tool</td>
+                            <td>Repositions layers for web mockups</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Ctrl + T</span></td>
+                            <td>Free transform</td>
+                            <td>Resizes/scales images for Unity/Blender import</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Ctrl + J</span></td>
+                            <td>Duplicate layer</td>
+                            <td>Copies elements quickly</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Ctrl + Shift + N</span></td>
+                            <td>New layer</td>
+                            <td>Adds blank layers for compositing</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-selection">Selection</span></td>
+                            <td><span class="shortcut-key">Ctrl + D</span></td>
+                            <td>Deselect</td>
+                            <td>Clears selections after edits</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Undo</span></td>
+                            <td><span class="shortcut-key">Ctrl + Z</span></td>
+                            <td>Undo</td>
+                            <td>Reverts mistakes in asset design</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-tools">Colors</span></td>
+                            <td><span class="shortcut-key">D</span></td>
+                            <td>Reset foreground/background</td>
+                            <td>Defaults to black/white for masking</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-view">View</span></td>
+                            <td><span class="shortcut-key">Ctrl + + / -</span></td>
+                            <td>Zoom in/out</td>
+                            <td>Inspects details for precise work</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Blender Section -->
+            <div class="content-container">
+                <h5><i class="material-icons">view_in_ar</i> Blender</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Category</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-transform">Transform</span></td>
+                            <td><span class="shortcut-key">G</span></td>
+                            <td>Grab/move</td>
+                            <td>Positions objects in scenes</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-transform">Transform</span></td>
+                            <td><span class="shortcut-key">R</span></td>
+                            <td>Rotate</td>
+                            <td>Adjusts angles for assets</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-transform">Transform</span></td>
+                            <td><span class="shortcut-key">S</span></td>
+                            <td>Scale</td>
+                            <td>Resizes models for export to Unity</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Modes</span></td>
+                            <td><span class="shortcut-key">Tab</span></td>
+                            <td>Toggle edit mode</td>
+                            <td>Switches to vertex/edge editing</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-selection">Selection</span></td>
+                            <td><span class="shortcut-key">A</span></td>
+                            <td>Select/deselect all</td>
+                            <td>Manages complex meshes</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-view">View</span></td>
+                            <td><span class="shortcut-key">Numpad 1/3/7</span></td>
+                            <td>Front/right/top view</td>
+                            <td>Orbits camera for precision</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Ctrl + B</span></td>
+                            <td>Bevel</td>
+                            <td>Smooths edges in models</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">File</span></td>
+                            <td><span class="shortcut-key">Ctrl + S</span></td>
+                            <td>Save</td>
+                            <td>Preserves work for game integration</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Unreal Engine Tab -->
+        <div id="tab-unreal">
+            <div class="section-header">
+                <h2><i class="material-icons left">videogame_asset</i>Unreal Engine</h2>
+            </div>
+
+            <div class="content-container">
+                <h5>Unreal Editor Shortcuts</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Category</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-transform">Transform</span></td>
+                            <td><span class="shortcut-key">W</span></td>
+                            <td>Translate</td>
+                            <td>Moves actors in levels</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-transform">Transform</span></td>
+                            <td><span class="shortcut-key">E</span></td>
+                            <td>Rotate</td>
+                            <td>Rotates blueprints</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-transform">Transform</span></td>
+                            <td><span class="shortcut-key">R</span></td>
+                            <td>Scale</td>
+                            <td>Adjusts sizes for C++-driven simulations</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-navigation">Navigation</span></td>
+                            <td><span class="shortcut-key">Alt + LMB</span></td>
+                            <td>Orbit camera</td>
+                            <td>Views scenes dynamically</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Ctrl + B</span></td>
+                            <td>Bookmark view</td>
+                            <td>Saves camera positions</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Assets</span></td>
+                            <td><span class="shortcut-key">Ctrl + E</span></td>
+                            <td>Edit selected asset</td>
+                            <td>Opens Blueprints or C++ code</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-build">Build</span></td>
+                            <td><span class="shortcut-key">Ctrl + Shift + B</span></td>
+                            <td>Build lighting</td>
+                            <td>Optimizes game visuals</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Unity Tab -->
+        <div id="tab-unity">
+            <div class="section-header">
+                <h2><i class="material-icons left">sports_esports</i>Unity Editor</h2>
+            </div>
+
+            <div class="content-container">
+                <h5>Unity Editor Shortcuts</h5>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th >Category</th>
+                            <th >Shortcut</th>
+                            <th >Description</th>
+                            <th >Relevance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="category-badge category-navigation">Navigation</span></td>
+                            <td><span class="shortcut-key">F</span></td>
+                            <td>Frame selected</td>
+                            <td>Zooms to object in scene</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Editing</span></td>
+                            <td><span class="shortcut-key">Ctrl + D</span></td>
+                            <td>Duplicate</td>
+                            <td>Copies GameObjects or scripts</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Modes</span></td>
+                            <td><span class="shortcut-key">Ctrl + 1-7</span></td>
+                            <td>Switch editor tabs</td>
+                            <td>e.g., Ctrl+7 for Profiler</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-view">View</span></td>
+                            <td><span class="shortcut-key">Shift + Space</span></td>
+                            <td>Maximize window</td>
+                            <td>Full-screens views for detailed work</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">File</span></td>
+                            <td><span class="shortcut-key">Ctrl + S</span></td>
+                            <td>Save scene/project</td>
+                            <td>Secures C# changes</td>
+                        </tr>
+                        <tr>
+                            <td><span class="category-badge category-editing">Alignment</span></td>
+                            <td><span class="shortcut-key">Ctrl + Shift + F</span></td>
+                            <td>Align with view</td>
+                            <td>Positions camera to selection</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+            document.getElementById('theme-icon').textContent = 'light_mode';
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                themeIcon.textContent = 'dark_mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-theme');
+                themeIcon.textContent = 'light_mode';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize Material Design components
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tabs
+            const tabs = document.querySelectorAll('.tabs');
+            M.Tabs.init(tabs);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
