@@ -416,6 +416,48 @@
             font-style: italic;
         }
 
+        .event-speculation__focus {
+            margin: 0 0 0.8rem 0;
+            font-size: 0.8rem;
+            line-height: 1.45;
+            color: var(--text-secondary);
+        }
+
+        .event-speculation__metrics {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .event-speculation__guide {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin: 0 0 0.85rem 0;
+        }
+
+        .event-speculation__panel {
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .event-speculation__panel-title {
+            margin: 0 0 0.25rem 0;
+            font-size: 0.76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--accent-color);
+        }
+
+        .event-speculation__panel-text {
+            margin: 0;
+            font-size: 0.79rem;
+            line-height: 1.45;
+            color: var(--text-primary);
+        }
+
         .event-speculation__list {
             margin: 0;
             padding-left: 1.15rem;
@@ -1017,6 +1059,7 @@
             <li class="tab"><a href="#tab-technology">Tech</a></li>
             <li class="tab"><a href="#tab-trade">Trade</a></li>
             <li class="tab"><a href="#tab-immigration">Migration</a></li>
+            <li class="tab"><a href="#tab-wellbeing">Quality of Life</a></li>
         </ul>
 
         <!-- Economic Tab -->
@@ -1111,6 +1154,96 @@
                             <li><strong>2008–2009 GFC</strong> — credit freeze and equity collapse, then uneven recovery.</li>
                             <li><strong>2020 Q1 crash &amp; rebound</strong> — pandemic shock then policy-driven recovery.</li>
                             <li><strong>2022+ rate hikes</strong> — tighter financial conditions and pressure on growth-stock valuations.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2><i class="material-icons left">security</i>Military Spending</h2>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l4">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Military Expenditure (USD bn)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="militaryBudgetChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l4">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Military Expenditure (% of GDP)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="militaryShareChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l4">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Military Expenditure Per Capita (USD)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="militaryPerCapitaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Defense budgets, burden-sharing &amp; rearmament (modelled)</h3>
+                <p class="event-intro">These are synthetic defense-spending series shaped to resemble major geopolitical eras: Cold War burden-sharing, the 1990s peace dividend, post-2001 expeditionary buildup, and the renewed rearmament cycle after 2014 and especially after 2022.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Common reasons spending rises</h4>
+                        <ul>
+                            <li><strong>Cold War bloc competition</strong> — sustained high defense burdens across NATO, the USSR, and key Asian allies.</li>
+                            <li><strong>Post-2001 expeditionary campaigns</strong> — US-led operations lifted spending and procurement across several allies.</li>
+                            <li><strong>2014 Crimea and 2022 full-scale invasion of Ukraine</strong> — European rearmament, munitions restocking, and higher burden-sharing targets.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Common reasons spending falls</h4>
+                        <ul>
+                            <li><strong>1990s peace dividend</strong> — many advanced economies cut force structure and procurement after the Soviet collapse.</li>
+                            <li><strong>Fiscal crises and austerity</strong> — debt stress often delayed replacement cycles and capital modernization.</li>
+                            <li><strong>Demographic and social spending pressures</strong> — aging populations can crowd out defense growth even when threats rise.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Labour Productivity Index (1990 = 100)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="productivityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Productivity, technology diffusion &amp; stagnation (modelled)</h3>
+                <p class="event-intro">This synthetic labour-productivity series tracks the familiar postwar pattern: catch-up growth, periodic efficiency plateaus, and faster gains where manufacturing upgrade, digital adoption, and capital deepening stayed strong.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Faster productivity growth</h4>
+                        <ul>
+                            <li><strong>Export-led industrial upgrading</strong> — Korea, China, and later Malaysia improved output per worker through technology transfer and scale.</li>
+                            <li><strong>ICT and process innovation</strong> — 1990s–2000s software, logistics, and automation lifted high-income productivity frontiers.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Productivity slowdowns</h4>
+                        <ul>
+                            <li><strong>Post-2008 stagnation</strong> — weak capital expenditure and low demand left many advanced economies with sluggish gains.</li>
+                            <li><strong>Resource or rent-heavy growth</strong> — GDP can rise without broad efficiency gains if output is driven by commodity booms or asset inflation.</li>
                         </ul>
                     </div>
                 </div>
@@ -1334,6 +1467,94 @@
                     </div>
                 </div>
             </div>
+
+            <div class="section-header">
+                <h2><i class="material-icons left">smartphone</i>Telecom &amp; Connectivity Costs</h2>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Monthly Phone Contract (USD)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="phoneContractChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Monthly Broadband / Internet Contract (USD)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="internetContractChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Phone &amp; internet contract costs (modelled)</h3>
+                <p class="event-intro">Phone costs transition from flat landline fees toward rising mobile/data plans through the 1990s–2010s. Broadband barely existed before 1993; dial-up gave way to DSL, cable, then fibre. Deregulation dynamics differ sharply between markets.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Competition driving prices down</h4>
+                        <ul>
+                            <li><strong>France 2012 — Iliad (Free Mobile)</strong> — disruptive market entry slashed mobile prices; similar dynamics later in UK and Nordics.</li>
+                            <li><strong>South Korea &amp; Japan broadband investment (2000s)</strong> — government-backed fibre build-outs drove down per-Mb costs sharply.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Prices remaining high</h4>
+                        <ul>
+                            <li><strong>North American mobile markets</strong> — limited operator competition kept USD plan prices well above comparable European tariffs.</li>
+                            <li><strong>Data plan inflation (2010s+)</strong> — shift from voice-only to unlimited-data contracts drove average revenue per user upward.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Monthly TV / Streaming Subscription (USD)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="tvContractChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Total Telecom Bundle — Phone + Internet + TV (USD/month)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="telecomBundleChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> TV &amp; total connectivity bundle costs (modelled)</h3>
+                <p class="event-intro">Pay TV expanded from a US-centric model in the 1970s to global cable through the 1990s. Streaming disruption created new subscription layers; remaining cable subscribers often paid more as audience bases shrank.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Consumer savings possible</h4>
+                        <ul>
+                            <li><strong>Cord-cutting wave (2015+)</strong> — households replacing expensive cable with one or two streaming services initially saved meaningfully.</li>
+                            <li><strong>Public-broadcasting models</strong> — Nordic and continental European licence-fee structures kept TV costs lower than North American bundles.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Bundle creep</h4>
+                        <ul>
+                            <li><strong>Streaming fragmentation (2020s)</strong> — multiple subscriptions pushed monthly totals back toward old cable-era levels.</li>
+                            <li><strong>Live sports rights escalation</strong> — premium sport remained the anchor sustaining high video bundle prices.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Social Tab -->
@@ -1368,10 +1589,10 @@
                 <p class="event-intro">Per-capita health expenditure follows WDI when merged; food-bank series remain illustrative.</p>
                 <div class="event-columns">
                     <div>
-                        <h4 class="event-good-h">Expanded coverage or support</h4>
+                        <h4 class="event-good-h">Expanded protection or treatment</h4>
                         <ul>
-                            <li><strong>Post-war welfare expansion</strong> — broader health access in many OECD countries.</li>
-                            <li><strong>2000s social programs</strong> — targeted transfers in several emerging economies.</li>
+                            <li><strong>Universal coverage expansion</strong> — social-insurance and tax-funded systems broadened access in many middle- and high-income countries.</li>
+                            <li><strong>Post-1990 medical technology gains</strong> — new drugs, diagnostics, and chronic-disease management lifted spending and coverage together.</li>
                         </ul>
                     </div>
                     <div>
@@ -1469,7 +1690,16 @@
             </div>
 
             <div class="row">
-                <div class="col s12 l6">
+                <div class="col s12 l4">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>DEI Index (0-100)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="deiChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l4">
                     <div class="chart-container">
                         <div class="chart-title">
                             <span>Gender Equality Index</span>
@@ -1478,7 +1708,7 @@
                         <canvas id="genderEqualityChart"></canvas>
                     </div>
                 </div>
-                <div class="col s12 l6">
+                <div class="col s12 l4">
                     <div class="chart-container">
                         <div class="chart-title">
                             <span>Happiness Index</span>
@@ -1490,21 +1720,21 @@
             </div>
 
             <div class="historical-context historical-context--below-chart">
-                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Gender &amp; subjective wellbeing (modelled)</h3>
-                <p class="event-intro">Composite indices here are illustrative; see World Happiness Report and OECD gender data for official approaches.</p>
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> DEI, gender parity &amp; subjective wellbeing (modelled)</h3>
+                <p class="event-intro">These composite indices are illustrative. The DEI line is a broad proxy for diversity, equity, and inclusion conditions, while gender equality and happiness capture narrower but related social outcomes.</p>
                 <div class="event-columns">
                     <div>
                         <h4 class="event-good-h">Inclusion &amp; wellbeing</h4>
                         <ul>
-                            <li><strong>1990s–2000s gender parity reforms</strong> — education and labour-market access in many countries.</li>
-                            <li><strong>Post-apartheid South Africa</strong> — civil rights expansion (with persistent inequality).</li>
+                            <li><strong>1990s–2000s anti-discrimination and parity reforms</strong> — education, hiring, and civic-rights rules widened formal inclusion in many countries.</li>
+                            <li><strong>Post-apartheid South Africa and multicultural-policy states</strong> — civil-rights expansion widened representation, even where inequality persisted.</li>
                         </ul>
                     </div>
                     <div>
                         <h4 class="event-bad-h">Stress on reported wellbeing</h4>
                         <ul>
-                            <li><strong>2008–2012 austerity</strong> — mental-health and life-satisfaction pressures in several European surveys.</li>
-                            <li><strong>COVID-19</strong> — loneliness and anxiety spikes in many national polls.</li>
+                            <li><strong>2008–2012 austerity</strong> — cuts and labour-market stress can weaken the lived experience of equity even when formal rights stay in place.</li>
+                            <li><strong>Polarization and post-2020 backlash cycles</strong> — representation can improve on paper while social trust and belonging become more contested.</li>
                         </ul>
                     </div>
                 </div>
@@ -1645,7 +1875,16 @@
             </div>
 
             <div class="row">
-                <div class="col s12">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Abortion Rate (per 1,000 women ages 15-44)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="abortionRateChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
                     <div class="chart-container">
                         <div class="chart-title">
                             <span>Infant Mortality Rate (per 1000 live births)</span>
@@ -1657,21 +1896,21 @@
             </div>
 
             <div class="historical-context historical-context--below-chart">
-                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Infant mortality (WDI)</h3>
-                <p class="event-intro">Neonatal and child-survival programs (vaccines, ORS, maternal care) drive the long global decline documented by WHO/UNICEF.</p>
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Reproductive health: abortion &amp; infant mortality</h3>
+                <p class="event-intro">Infant mortality is WDI-backed when available; abortion rates here are modelled. Both respond to reproductive healthcare access, maternal health, contraception, law, and household conditions, but they do not move one-for-one.</p>
                 <div class="event-columns">
                     <div>
-                        <h4 class="event-good-h">Rapid declines</h4>
+                        <h4 class="event-good-h">Better reproductive-health systems</h4>
                         <ul>
-                            <li><strong>1970s–2000s immunization drives</strong> — measles, polio, and other campaigns.</li>
-                            <li><strong>Economic growth + primary care</strong> — East and South Asia exemplars.</li>
+                            <li><strong>Contraception and prenatal-care expansion</strong> — fewer unsafe pregnancies, lower maternal risk, and better infant outcomes.</li>
+                            <li><strong>Vaccines, ORS, and neonatal care</strong> — the classic drivers of the long global decline in infant mortality documented by WHO and UNICEF.</li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="event-bad-h">Persistently high or rising pockets</h4>
+                        <h4 class="event-bad-h">Access gaps or policy shocks</h4>
                         <ul>
-                            <li><strong>Conflict &amp; state collapse</strong> — disrupted clinics and nutrition (e.g. several African and MENA crises).</li>
-                            <li><strong>1990s transition &amp; fiscal stress</strong> — infant outcomes lagged where health spending collapsed.</li>
+                            <li><strong>Conflict, clinic disruption, and poverty</strong> — reproductive-health access and infant outcomes both worsen when systems break down.</li>
+                            <li><strong>Restrictive law or poor contraception access</strong> — official abortion rates can fall while unsafe procedures or unwanted births rise.</li>
                         </ul>
                     </div>
                 </div>
@@ -2105,6 +2344,27 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Expat Arrivals</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="expatArrivalsChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Expat Departures</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="expatDeparturesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
             <div class="historical-context historical-context--below-chart">
                 <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Migration per 100k population</h3>
                 <p class="event-intro">Per-capita flows scale raw counts by population; the same absolute inflow looks larger for small countries. Policy regimes (visas, asylum rules) dominate year-to-year changes.</p>
@@ -2121,6 +2381,408 @@
                         <ul>
                             <li><strong>1990s Balkans</strong> — refugee inflows into neighboring states.</li>
                             <li><strong>US southern border (2010s–2020s)</strong> — high policy salience; use DHS/CBP official series for counts.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quality of Life Tab -->
+        <div id="tab-wellbeing">
+            <div class="section-header">
+                <h2><i class="material-icons left">sentiment_satisfied</i>Quality of Life &amp; Social Progress</h2>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Quality of Life Index (0–100)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="qolIndexChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Happiness Index (0–10, World Happiness Report basis)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="qolHappinessChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Quality of Life &amp; Happiness</h3>
+                <p class="event-intro">Composite QoL indices bundle income, health, safety, and services; the World Happiness Report scores are based on Gallup "life-ladder" surveys. Both improve with sustained development but can diverge during crises.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Drivers of improvement</h4>
+                        <ul>
+                            <li><strong>Economic growth + public services</strong> — rising incomes and better infrastructure lift both composites together.</li>
+                            <li><strong>East Asian catch-up (1990s–2010s)</strong> — rapid gains in China, Korea, and Malaysia.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Divergences &amp; declines</h4>
+                        <ul>
+                            <li><strong>1990s post-Soviet transition</strong> — life satisfaction collapsed in Russia and former Soviet bloc despite GDP rebounds.</li>
+                            <li><strong>2020 COVID-19</strong> — happiness and QoL dipped simultaneously in most countries; recovery uneven.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Human Development Index (HDI, 0–1)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="hdiChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Gini Coefficient (Income Inequality, 0–100)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="giniChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Human Development &amp; Inequality</h3>
+                <p class="event-intro">HDI combines income, education, and life expectancy into a single score; Gini captures how evenly income is distributed within a country (higher = more unequal). Countries can grow richer while inequality widens.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Development gains</h4>
+                        <ul>
+                            <li><strong>Universal education &amp; healthcare investment</strong> — lifted HDI in many developing countries from 1970s onward.</li>
+                            <li><strong>Brazil Bolsa Família (2003+)</strong> — targeted transfers helped compress the Gini from extreme highs.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Inequality pressures</h4>
+                        <ul>
+                            <li><strong>China's market transition (1990s+)</strong> — rapid growth paired with sharply rising Gini as coastal cities pulled ahead.</li>
+                            <li><strong>Global capital income gap (2000s+)</strong> — returns to capital outpacing wages in many OECD countries.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Corruption Perception Index (0–100, higher = cleaner)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="corruptionChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Political Freedom Index (0–10)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="qolPoliticalChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Governance: Corruption &amp; Political Freedom</h3>
+                <p class="event-intro">Corruption perception scores (Transparency International basis) and political freedom (Freedom House basis) shape investment climate, public trust, and social mobility. They often move together but not always.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Governance improvements</h4>
+                        <ul>
+                            <li><strong>South Korea anti-corruption reforms (2000s+)</strong> — independent prosecution and civil society pressure cut bribery.</li>
+                            <li><strong>EU accession conditionality (1990s–2000s)</strong> — rule-of-law requirements pushed candidate countries to reform.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Governance setbacks</h4>
+                        <ul>
+                            <li><strong>1990s Russia</strong> — privatization era spawned oligarchic capture and severe corruption.</li>
+                            <li><strong>Democratic backsliding (2010s)</strong> — freedom scores fell in Hungary, Turkey, and several other mid-income countries.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2><i class="material-icons left">campaign</i>Speech &amp; Media</h2>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l4">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Free Speech Rating (0–10)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="freeSpeechChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l4">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Legacy Media Trust Rating (0–10)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="legacyMediaRatingChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l4">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>New Media Trust Rating (0–10)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="newMediaRatingChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Free speech, press culture &amp; media trust (modelled)</h3>
+                <p class="event-intro">This block separates the institutional environment for speech from trust in old and new media. Trust can fall even in free systems when polarization rises; authoritarian systems can show high stated trust without genuine press freedom.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Open information environments</h4>
+                        <ul>
+                            <li><strong>Constitutional protections and independent courts</strong> — high free-speech scores are sustained where journalists and critics face fewer legal threats.</li>
+                            <li><strong>Strong public broadcasters</strong> — Nordic and some Commonwealth systems preserved relatively high trust in legacy news for longer.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Polarization or repression</h4>
+                        <ul>
+                            <li><strong>State censorship and platform controls</strong> — lower free-speech scores in tightly managed information systems.</li>
+                            <li><strong>Disinformation waves (2010s+)</strong> — both legacy and digital trust can weaken when audiences sort into partisan ecosystems.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Legacy Media Market Share (%)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="legacyMediaShareChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>New Media Market Share (%)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="newMediaShareChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Attention shift: legacy to digital media (modelled)</h3>
+                <p class="event-intro">These series model the transition from print, broadcast, and cable dominance toward digital-first platforms, streaming, creator ecosystems, and algorithmic distribution. Market share here means share of audience attention and ad-revenue mix, not legal ownership concentration.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Digital opportunity</h4>
+                        <ul>
+                            <li><strong>Lower publishing barriers</strong> — new media expanded voice, niche reporting, and creator-led formats after the web and smartphone era.</li>
+                            <li><strong>Mobile-first adoption</strong> — emerging markets often leapfrogged directly into digital news and video consumption.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Legacy erosion &amp; platform dependence</h4>
+                        <ul>
+                            <li><strong>Print advertising collapse</strong> — newsroom layoffs and local-news deserts followed the shift of ad budgets to platforms.</li>
+                            <li><strong>Algorithmic concentration</strong> — digital market share can be high while editorial independence narrows around a few dominant gateways.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Median Elective Surgery Wait Time (weeks)</span>
+                            <span class="accuracy-badge accuracy-low">Low Accuracy</span>
+                        </div>
+                        <canvas id="surgeryWaitChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Physicians per 1,000 People</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="physiciansChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Health System Access: Wait Times &amp; Physician Density</h3>
+                <p class="event-intro">Elective surgery wait times are a proxy for public system capacity; physician density (WB indicator SH.MED.PHYS.ZS) tracks health workforce supply. High-income single-payer systems often face queues the US fee-for-service model avoids—at a price.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">System capacity gains</h4>
+                        <ul>
+                            <li><strong>Post-war hospital building (1950s–1980s)</strong> — most OECD countries expanded beds and trained more physicians.</li>
+                            <li><strong>Korea &amp; UAE investment (1990s–2010s)</strong> — rapid growth in physician numbers from a low base.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">System stress</h4>
+                        <ul>
+                            <li><strong>COVID-19 surgical backlogs (2020–2023)</strong> — elective procedures deferred globally; waits surged, especially in NHS-style systems.</li>
+                            <li><strong>Austerity (2010–2015)</strong> — health workforce hiring freezes in several European countries.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Hospital Beds per 1,000 People</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="hospitalBedsChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Healthcare Expenditure per Capita (USD)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="qolHealthcareChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Hospital Capacity &amp; Healthcare Spending</h3>
+                <p class="event-intro">Bed counts reflect historic hospital-building eras (Japan, Russia still carry Soviet-era density) and now-dominant moves toward outpatient care. Spending per capita can rise without proportional outcome gains if prices, not utilization, drive costs.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Capacity expansion</h4>
+                        <ul>
+                            <li><strong>Korea &amp; China (1990s–2010s)</strong> — dramatic bed growth as economies urbanised and middle classes demanded hospital care.</li>
+                            <li><strong>Health spending growth</strong> — OECD countries consistently increased real per-capita expenditure.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Rationalisation &amp; pressure</h4>
+                        <ul>
+                            <li><strong>OECD bed reduction (1980s+ onwards)</strong> — shift to day surgery and community care cut inpatient stays.</li>
+                            <li><strong>US spending outlier</strong> — highest per-capita spending with average life expectancy among peers.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2><i class="material-icons left">church</i>Religious Composition</h2>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Christian Population Share (%)</span>
+                            <span class="accuracy-badge accuracy-low">Low Accuracy</span>
+                        </div>
+                        <canvas id="christianChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Muslim Population Share (%)</span>
+                            <span class="accuracy-badge accuracy-low">Low Accuracy</span>
+                        </div>
+                        <canvas id="muslimChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Christian &amp; Muslim Population Shares (modelled)</h3>
+                <p class="event-intro">These are illustrative long-run trajectories based on Pew Research demographic projections and national census data. Religious identity changes slowly via births, deaths, immigration, and voluntary switching (secularisation). Year-to-year precision is low.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Broad trends</h4>
+                        <ul>
+                            <li><strong>Christian share declining in Western Europe &amp; North America</strong> — secularisation and immigration diversification from the 1970s onward.</li>
+                            <li><strong>Muslim share growing in Western Europe</strong> — immigration from MENA and South Asia; higher birth rates in the first generation.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Limitations to note</h4>
+                        <ul>
+                            <li><strong>Census methodology varies</strong> — self-identification vs. state religion registration produces different totals.</li>
+                            <li><strong>UAE &amp; Malaysia</strong> — high Muslim share reflects indigenous majority (Malaysia) and expatriate composition (UAE).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Secular / Unaffiliated Population Share (%)</span>
+                            <span class="accuracy-badge accuracy-low">Low Accuracy</span>
+                        </div>
+                        <canvas id="secularChart"></canvas>
+                    </div>
+                </div>
+                <div class="col s12 l6">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Hindu &amp; Buddhist Population Share (%)</span>
+                            <span class="accuracy-badge accuracy-low">Low Accuracy</span>
+                        </div>
+                        <canvas id="hinduBuddhistChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="historical-context historical-context--below-chart">
+                <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Secular &amp; Eastern Traditions (modelled)</h3>
+                <p class="event-intro">Secularisation is among the most consistent long-run social trends in high-income countries; the "nones" (no religion) are a fast-growing category in surveys. Hindu and Buddhist shares are relatively stable regionally but shift with diaspora migration patterns.</p>
+                <div class="event-columns">
+                    <div>
+                        <h4 class="event-good-h">Secularisation wave</h4>
+                        <ul>
+                            <li><strong>Nordic countries</strong> — very high secular share by 2000s; cultural Christianity without formal belief.</li>
+                            <li><strong>South Korea</strong> — uniquely high and rising "no religion" share alongside both Christianity and Buddhism.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="event-bad-h">Regional contrasts</h4>
+                        <ul>
+                            <li><strong>India</strong> — Hindu majority extremely stable at ~80%; communal politics shape official identity data.</li>
+                            <li><strong>Japan</strong> — high "secular" in surveys but Buddhist &amp; Shintō practices remain embedded in life-cycle rituals.</li>
                         </ul>
                     </div>
                 </div>
@@ -2191,7 +2853,7 @@
 const COUNTRIES = [
     'United States', 'Canada', 'Norway', 'Sweden', 'Finland', 'United Kingdom',
     'France', 'Germany', 'Italy', 'South Korea', 'Japan', 'China', 'Malaysia',
-    'India', 'United Arab Emirates', 'Russia', 'South Africa', 'Brazil', 'New Zealand'
+    'India', 'United Arab Emirates', 'Russia', 'South Africa', 'Brazil', 'Australia', 'New Zealand'
 ];
 
 const COUNTRY_CODES = {
@@ -2213,6 +2875,7 @@ const COUNTRY_CODES = {
     'Sweden': 'SWE',
     'South Africa': 'ZAF',
     'Malaysia': 'MYS',
+    'Australia': 'AUS',
     'New Zealand': 'NZL'
 };
 
@@ -2235,6 +2898,7 @@ const COLORS = {
     'Sweden': '#f7b6d2',
     'South Africa': '#c7c7c7',
     'Malaysia': '#dbdb8d',
+    'Australia': '#8dd3c7',
     'New Zealand': '#9edae5'
 };
 
@@ -2252,28 +2916,27 @@ function generateGDPData() {
         'DEU': 1.77, 'ITA': 1.14, 'JPN': 3.13, 'CHN': 0.36,
         'IND': 0.32, 'RUS': 0.52, 'BRA': 0.46, 'ARE': 0.04,
         'KOR': 0.28, 'FIN': 0.20, 'NOR': 0.12, 'SWE': 0.26,
-        'ZAF': 0.11, 'MYS': 0.04, 'NZL': 0.05
+        'ZAF': 0.11, 'MYS': 0.04, 'AUS': 0.31, 'NZL': 0.05
     };
 
-    // More realistic annual growth rates based on historical data
     const growthRates = {
         'USA': 1.029, 'CAN': 1.026, 'GBR': 1.024, 'FRA': 1.022,
         'DEU': 1.023, 'ITA': 1.015, 'JPN': 1.012, 'CHN': 1.095,
         'IND': 1.068, 'RUS': 1.020, 'BRA': 1.035, 'ARE': 1.045,
         'KOR': 1.065, 'FIN': 1.025, 'NOR': 1.030, 'SWE': 1.022,
-        'ZAF': 1.035, 'MYS': 1.055, 'NZL': 1.028
+        'ZAF': 1.028, 'MYS': 1.055, 'AUS': 1.029, 'NZL': 1.025
     };
 
     const data = {};
     COUNTRIES.forEach(country => {
         const code = COUNTRY_CODES[country];
         let gdp = baseGDP[code];
-        data[country] = YEARS.map((year, idx) => {
-            // Economic crisis adjustments
+        data[country] = YEARS.map((year) => {
             let crisisAdj = 1.0;
-            if (year === 2008 || year === 2009) crisisAdj = 0.96; // Financial crisis
-            if (year === 2020) crisisAdj = 0.94; // COVID-19
-            if (year === 1998 && code === 'RUS') crisisAdj = 0.85; // Russian crisis
+
+            if (year === 2008 || year === 2009) crisisAdj = 0.96;
+            if (year === 2020) crisisAdj = 0.94;
+            if (year === 1998 && code === 'RUS') crisisAdj = 0.85;
 
             const noise = random(0.98, 1.02);
             gdp = gdp * growthRates[code] * noise * crisisAdj;
@@ -2284,6 +2947,123 @@ function generateGDPData() {
     return data;
 }
 
+function generateMilitarySpendingData(gdpData) {
+    const baseShare = {
+        USA: 7.8, CAN: 2.4, NOR: 3.0, SWE: 3.2, FIN: 2.8, GBR: 5.1, FRA: 4.0, DEU: 3.0, ITA: 2.4,
+        KOR: 2.5, JPN: 1.0, CHN: 2.2, MYS: 1.8, IND: 3.7, ARE: 2.6, RUS: 11.5, ZAF: 2.7, BRA: 1.5, AUS: 2.3, NZL: 1.8
+    };
+
+    const basePopulation = {
+        USA: 205, CAN: 22, NOR: 3.9, SWE: 8.1, FIN: 4.6, GBR: 55.7, FRA: 50.8, DEU: 78.1, ITA: 53.8,
+        KOR: 32.2, JPN: 104.3, CHN: 818, MYS: 10.8, IND: 555, ARE: 0.24, RUS: 130.8, ZAF: 22.4, BRA: 95.1, AUS: 17.1, NZL: 2.9
+    };
+
+    const result = {
+        budget: {},
+        share: {},
+        perCapita: {}
+    };
+
+    function annualShareDelta(code, year) {
+        if (code === 'RUS') {
+            if (year < 1990) return -0.03;
+            if (year <= 1998) return -0.70;
+            if (year <= 2013) return 0.15;
+            if (year <= 2021) return 0.24;
+            return 0.85;
+        }
+
+        if (['USA', 'GBR', 'FRA'].includes(code)) {
+            if (year < 1990) return -0.02;
+            if (year <= 2000) return -0.09;
+            if (year <= 2013) return code === 'USA' ? 0.08 : 0.03;
+            if (year <= 2021) return 0.03;
+            return code === 'USA' ? 0.04 : 0.18;
+        }
+
+        if (['CAN', 'DEU', 'ITA', 'NOR', 'SWE', 'FIN', 'AUS', 'NZL'].includes(code)) {
+            if (year < 1990) return -0.01;
+            if (year <= 2000) return -0.07;
+            if (year <= 2013) return 0.00;
+            if (year <= 2021) return ['SWE', 'FIN', 'NOR'].includes(code) ? 0.07 : 0.03;
+            return ['SWE', 'FIN', 'NOR'].includes(code) ? 0.22 : 0.16;
+        }
+
+        if (['KOR', 'JPN'].includes(code)) {
+            if (year < 1990) return code === 'KOR' ? 0.02 : 0.00;
+            if (year <= 2000) return -0.03;
+            if (year <= 2013) return 0.01;
+            if (year <= 2021) return 0.03;
+            return 0.06;
+        }
+
+        if (code === 'ARE') {
+            if (year < 1990) return 0.08;
+            if (year <= 2000) return 0.05;
+            if (year <= 2013) return 0.03;
+            if (year <= 2021) return 0.04;
+            return 0.05;
+        }
+
+        if (['CHN', 'IND', 'MYS', 'BRA', 'ZAF'].includes(code)) {
+            if (year < 1990) return -0.01;
+            if (year <= 2000) return -0.03;
+            if (year <= 2013) return 0.01;
+            if (year <= 2021) return 0.02;
+            return 0.03;
+        }
+
+        return 0.0;
+    }
+
+    function populationGrowthFactor(code, year) {
+        if (code === 'USA') return year < 2000 ? 1.010 : 1.007;
+        if (code === 'CAN') return year < 2000 ? 1.013 : 1.011;
+        if (['NOR', 'SWE', 'AUS', 'NZL'].includes(code)) return year < 2000 ? 1.008 : 1.007;
+        if (code === 'FIN') return year < 2000 ? 1.005 : 1.003;
+        if (['GBR', 'FRA'].includes(code)) return year < 2000 ? 1.007 : 1.005;
+        if (code === 'DEU') return year < 1995 ? 1.004 : 1.000;
+        if (code === 'ITA') return year < 2000 ? 1.004 : 0.999;
+        if (code === 'KOR') return year < 1995 ? 1.016 : year < 2010 ? 1.007 : 1.002;
+        if (code === 'JPN') return year < 1995 ? 1.009 : year < 2010 ? 1.001 : 0.997;
+        if (code === 'CHN') return year < 1990 ? 1.017 : year < 2010 ? 1.008 : 1.002;
+        if (code === 'MYS') return year < 2000 ? 1.025 : 1.016;
+        if (code === 'IND') return year < 1995 ? 1.022 : year < 2015 ? 1.016 : 1.010;
+        if (code === 'ARE') return year < 2005 ? 1.065 : 1.030;
+        if (code === 'RUS') return year < 1990 ? 1.004 : year < 2008 ? 0.997 : 0.999;
+        if (code === 'ZAF') return year < 2000 ? 1.023 : 1.015;
+        if (code === 'BRA') return year < 2000 ? 1.020 : 1.011;
+        return 1.006;
+    }
+
+    COUNTRIES.forEach(country => {
+        const code = COUNTRY_CODES[country];
+        let share = baseShare[code];
+        let population = basePopulation[code];
+
+        result.budget[country] = [];
+        result.share[country] = [];
+        result.perCapita[country] = [];
+
+        YEARS.forEach((year, idx) => {
+            if (idx > 0) {
+                share += annualShareDelta(code, year);
+                population *= populationGrowthFactor(code, year);
+            }
+
+            share = Math.max(0.7, Math.min(14.0, share));
+            const budget = gdpData[country][idx] * 1000 * (share / 100);
+            const perCapita = (budget * 1000) / population;
+
+            result.budget[country].push(parseFloat(budget.toFixed(1)));
+            result.share[country].push(parseFloat(share.toFixed(2)));
+            result.perCapita[country].push(Math.round(perCapita));
+        });
+    });
+
+    return result;
+}
+
 function generateGDPPerCapita() {
     // More accurate 1990 GDP per capita values (USD)
     const baseGDPPC = {
@@ -2291,7 +3071,7 @@ function generateGDPPerCapita() {
         'DEU': 22300, 'ITA': 20100, 'JPN': 25400, 'CHN': 318,
         'IND': 367, 'RUS': 3485, 'BRA': 3100, 'ARE': 50000,
         'KOR': 5890, 'FIN': 23700, 'NOR': 28200, 'SWE': 26400,
-        'ZAF': 2940, 'MYS': 2340, 'NZL': 13600
+        'ZAF': 2940, 'MYS': 2340, 'AUS': 18100, 'NZL': 13600
     };
 
     const growthRates = {
@@ -2299,7 +3079,7 @@ function generateGDPPerCapita() {
         'DEU': 1.022, 'ITA': 1.014, 'JPN': 1.013, 'CHN': 1.087,
         'IND': 1.060, 'RUS': 1.025, 'BRA': 1.032, 'ARE': 1.035,
         'KOR': 1.055, 'FIN': 1.022, 'NOR': 1.024, 'SWE': 1.021,
-        'ZAF': 1.028, 'MYS': 1.048, 'NZL': 1.024
+        'ZAF': 1.028, 'MYS': 1.048, 'AUS': 1.022, 'NZL': 1.024
     };
 
     const data = {};
@@ -2329,7 +3109,7 @@ function generateImmigrationData() {
         'DEU': 842000, 'ITA': 145000, 'JPN': 35000, 'CHN': 1000,
         'IND': 500, 'RUS': 95000, 'BRA': 25000,
         'NOR': 15000, 'SWE': 40000, 'FIN': 8000, 'KOR': 5000,
-        'MYS': 20000, 'ZAF': 8000, 'NZL': 45000, 'ARE': 12000
+        'MYS': 20000, 'ZAF': 8000, 'AUS': 120000, 'NZL': 45000, 'ARE': 12000
     };
 
     const baseIllegal = {
@@ -2337,7 +3117,7 @@ function generateImmigrationData() {
         'DEU': 80000, 'ITA': 120000, 'JPN': 5000, 'CHN': 500,
         'IND': 200, 'RUS': 40000, 'BRA': 10000,
         'NOR': 2000, 'SWE': 5000, 'FIN': 2000, 'KOR': 2000,
-        'MYS': 8000, 'ZAF': 15000, 'NZL': 4000, 'ARE': 3000
+        'MYS': 8000, 'ZAF': 15000, 'AUS': 8000, 'NZL': 4000, 'ARE': 3000
     };
 
     const basePopulation = {
@@ -2345,7 +3125,7 @@ function generateImmigrationData() {
         'DEU': 79.4, 'ITA': 56.7, 'JPN': 123.5, 'CHN': 1143,
         'IND': 873.3, 'RUS': 147.9, 'BRA': 149.4, 'ARE': 2.4,
         'NOR': 4.24, 'SWE': 8.6, 'FIN': 5.0, 'KOR': 43.2,
-        'MYS': 17.5, 'ZAF': 35.2, 'NZL': 3.4
+        'MYS': 17.5, 'ZAF': 35.2, 'AUS': 17.1, 'NZL': 3.4
     };
 
     const popGrowthRates = {
@@ -2353,13 +3133,38 @@ function generateImmigrationData() {
         'DEU': 1.0015, 'ITA': 1.0005, 'JPN': 0.9995, 'CHN': 1.0065,
         'IND': 1.0165, 'RUS': 0.9990, 'BRA': 1.0125, 'ARE': 1.0150,
         'NOR': 1.006, 'SWE': 1.0045, 'FIN': 1.0035, 'KOR': 1.008,
-        'MYS': 1.022, 'ZAF': 1.02, 'NZL': 1.01
+        'MYS': 1.022, 'ZAF': 1.02, 'AUS': 1.012, 'NZL': 1.01
+    };
+
+    const expatProfile = {
+        'USA': {inboundBase: 420000, outboundBase: 160000, inboundTrend: 0.014, outboundTrend: 0.010},
+        'CAN': {inboundBase: 165000, outboundBase: 52000, inboundTrend: 0.018, outboundTrend: 0.010},
+        'GBR': {inboundBase: 190000, outboundBase: 110000, inboundTrend: 0.012, outboundTrend: 0.012},
+        'FRA': {inboundBase: 105000, outboundBase: 72000, inboundTrend: 0.010, outboundTrend: 0.010},
+        'DEU': {inboundBase: 260000, outboundBase: 92000, inboundTrend: 0.013, outboundTrend: 0.009},
+        'ITA': {inboundBase: 70000, outboundBase: 88000, inboundTrend: 0.009, outboundTrend: 0.014},
+        'JPN': {inboundBase: 28000, outboundBase: 34000, inboundTrend: 0.012, outboundTrend: 0.008},
+        'CHN': {inboundBase: 22000, outboundBase: 120000, inboundTrend: 0.018, outboundTrend: 0.020},
+        'IND': {inboundBase: 12000, outboundBase: 185000, inboundTrend: 0.020, outboundTrend: 0.024},
+        'RUS': {inboundBase: 48000, outboundBase: 76000, inboundTrend: 0.008, outboundTrend: 0.016},
+        'BRA': {inboundBase: 32000, outboundBase: 52000, inboundTrend: 0.011, outboundTrend: 0.013},
+        'NOR': {inboundBase: 12000, outboundBase: 7000, inboundTrend: 0.014, outboundTrend: 0.009},
+        'SWE': {inboundBase: 24000, outboundBase: 12000, inboundTrend: 0.015, outboundTrend: 0.010},
+        'FIN': {inboundBase: 8500, outboundBase: 7000, inboundTrend: 0.014, outboundTrend: 0.010},
+        'KOR': {inboundBase: 16000, outboundBase: 26000, inboundTrend: 0.016, outboundTrend: 0.013},
+        'MYS': {inboundBase: 18000, outboundBase: 26000, inboundTrend: 0.015, outboundTrend: 0.014},
+        'ZAF': {inboundBase: 15000, outboundBase: 24000, inboundTrend: 0.010, outboundTrend: 0.015},
+        'AUS': {inboundBase: 90000, outboundBase: 30000, inboundTrend: 0.018, outboundTrend: 0.012},
+        'NZL': {inboundBase: 16000, outboundBase: 14000, inboundTrend: 0.016, outboundTrend: 0.013},
+        'ARE': {inboundBase: 60000, outboundBase: 22000, inboundTrend: 0.028, outboundTrend: 0.020}
     };
 
     const legal = {};
     const illegal = {};
     const legalPerCapita = {};
     const illegalPerCapita = {};
+    const expatArrivals = {};
+    const expatDepartures = {};
 
     COUNTRIES.forEach(country => {
         const code = COUNTRY_CODES[country];
@@ -2367,8 +3172,11 @@ function generateImmigrationData() {
         illegal[country] = [];
         legalPerCapita[country] = [];
         illegalPerCapita[country] = [];
+        expatArrivals[country] = [];
+        expatDepartures[country] = [];
 
         let population = basePopulation[code];
+        const profile = expatProfile[code];
 
         YEARS.forEach((year, idx) => {
             // Immigration trends - increased after 2000, spikes around 2015-2016
@@ -2384,8 +3192,32 @@ function generateImmigrationData() {
             // Illegal immigration more volatile
             const illegalCount = Math.round(baseIllegal[code] * yearFactor * noise * random(0.7, 1.3));
 
+            let expatInFactor = 1 + idx * profile.inboundTrend;
+            let expatOutFactor = 1 + idx * profile.outboundTrend;
+            if (year >= 2008 && year <= 2009) {
+                expatInFactor *= 0.94;
+                expatOutFactor *= 0.97;
+            }
+            if (year >= 2015 && year <= 2018) {
+                expatInFactor *= 1.06;
+                expatOutFactor *= 1.03;
+            }
+            if (year === 2020) {
+                expatInFactor *= 0.78;
+                expatOutFactor *= 0.90;
+            }
+            if (year >= 2021) {
+                expatInFactor *= 1.03 + (idx * 0.002);
+                expatOutFactor *= 1.01 + (idx * 0.001);
+            }
+
+            const expatInCount = Math.round(profile.inboundBase * expatInFactor * random(0.88, 1.12));
+            const expatOutCount = Math.round(profile.outboundBase * expatOutFactor * random(0.88, 1.12));
+
             legal[country].push(legalCount);
             illegal[country].push(illegalCount);
+            expatArrivals[country].push(expatInCount);
+            expatDepartures[country].push(expatOutCount);
 
             // Calculate per capita (per 100,000 people)
             const legalPerCap = (legalCount / (population * 1000000)) * 100000;
@@ -2399,7 +3231,7 @@ function generateImmigrationData() {
         });
     });
 
-    return { legal, illegal, legalPerCapita, illegalPerCapita };
+    return { legal, illegal, legalPerCapita, illegalPerCapita, expatArrivals, expatDepartures };
 }
 
 function generateEmploymentData() {
@@ -2408,7 +3240,7 @@ function generateEmploymentData() {
         'USA': 62.8, 'CAN': 61.5, 'NOR': 64.2, 'SWE': 63.1, 'FIN': 62.5,
         'GBR': 59.8, 'FRA': 56.8, 'DEU': 60.2, 'ITA': 53.7, 'KOR': 61.8,
         'JPN': 63.3, 'CHN': 67.5, 'MYS': 58.9, 'IND': 55.2, 'ARE': 65.0,
-        'RUS': 58.9, 'ZAF': 45.2, 'BRA': 60.1, 'NZL': 59.5
+        'RUS': 58.9, 'ZAF': 45.2, 'BRA': 60.1, 'AUS': 59.9, 'NZL': 59.5
     };
 
     const employment = {};
@@ -2444,7 +3276,7 @@ function generateEmploymentData() {
                 'USA': 5.6, 'CAN': 8.1, 'NOR': 3.2, 'SWE': 1.9, 'FIN': 3.1,
                 'GBR': 6.9, 'FRA': 8.9, 'DEU': 4.8, 'ITA': 9.1, 'KOR': 2.4,
                 'JPN': 2.1, 'CHN': 2.5, 'MYS': 4.5, 'IND': 2.3, 'ARE': 2.0,
-                'RUS': 5.2, 'ZAF': 16.5, 'BRA': 4.3, 'NZL': 6.2
+                'RUS': 5.2, 'ZAF': 16.5, 'BRA': 4.3, 'AUS': 6.9, 'NZL': 6.2
             }[code];
 
             let unempRate = baseUnemp;
@@ -2469,7 +3301,7 @@ function generateSalaryData() {
         'USA': 28960, 'CAN': 26500, 'NOR': 28500, 'SWE': 27200, 'FIN': 26800,
         'GBR': 23400, 'FRA': 24800, 'DEU': 26200, 'ITA': 22100, 'KOR': 15800,
         'JPN': 31500, 'CHN': 1150, 'MYS': 5200, 'IND': 980, 'ARE': 32000,
-        'RUS': 4200, 'ZAF': 4800, 'BRA': 8500, 'NZL': 25600
+        'RUS': 4200, 'ZAF': 4800, 'BRA': 8500, 'AUS': 25500, 'NZL': 25600
     };
 
     const data = {};
@@ -2518,6 +3350,7 @@ function generateCostOfLivingData() {
         'RUS': {food: 110, rent: 150, house: 35000, electricity: 30, gas: 0.35, car: 7000},
         'ZAF': {food: 140, rent: 180, house: 28000, electricity: 40, gas: 0.75, car: 8500},
         'BRA': {food: 160, rent: 200, house: 32000, electricity: 45, gas: 0.80, car: 9500},
+        'AUS': {food: 300, rent: 440, house: 115000, electricity: 72, gas: 0.88, car: 17000},
         'NZL': {food: 295, rent: 430, house: 105000, electricity: 68, gas: 0.92, car: 16500}
     };
 
@@ -2571,7 +3404,7 @@ function generateHealthcareData() {
         'USA': 3000, 'CAN': 1500, 'NOR': 2200, 'SWE': 1900, 'FIN': 1800,
         'GBR': 1200, 'FRA': 1400, 'DEU': 1600, 'ITA': 1300, 'KOR': 800,
         'JPN': 1800, 'CHN': 400, 'MYS': 600, 'IND': 200, 'ARE': 2500,
-        'RUS': 600, 'ZAF': 500, 'BRA': 800, 'NZL': 1700
+        'RUS': 600, 'ZAF': 500, 'BRA': 800, 'AUS': 1400, 'NZL': 1700
     };
 
     const data = {};
@@ -2594,14 +3427,14 @@ function generateTradeData() {
         'USA': 393, 'CAN': 128, 'NOR': 45, 'SWE': 68, 'FIN': 32,
         'GBR': 185, 'FRA': 216, 'DEU': 421, 'ITA': 170, 'KOR': 65,
         'JPN': 287, 'CHN': 62, 'MYS': 29, 'IND': 18, 'ARE': 25,
-        'RUS': 68, 'ZAF': 23, 'BRA': 31, 'NZL': 12
+        'RUS': 68, 'ZAF': 23, 'BRA': 31, 'AUS': 42, 'NZL': 12
     };
 
     const baseImports = {
         'USA': 517, 'CAN': 116, 'NOR': 38, 'SWE': 62, 'FIN': 28,
         'GBR': 224, 'FRA': 234, 'DEU': 346, 'ITA': 182, 'KOR': 71,
         'JPN': 235, 'CHN': 53, 'MYS': 35, 'IND': 24, 'ARE': 18,
-        'RUS': 58, 'ZAF': 19, 'BRA': 22, 'NZL': 11
+        'RUS': 58, 'ZAF': 19, 'BRA': 22, 'AUS': 44, 'NZL': 11
     };
 
     const exports = {};
@@ -2655,30 +3488,32 @@ function generateTradeData() {
 function generateSocialIndicators() {
     // More accurate 1990 baseline values
     const baseValues = {
-        'USA': {homeOwn: 63.9, age: 32.9, edu: 77.6, violence: 9.4, literacy: 97.0, genderEq: 0.72, happiness: 7.3, politicalFree: 8.5},
-        'CAN': {homeOwn: 62.8, age: 33.5, edu: 82.5, violence: 2.4, literacy: 97.5, genderEq: 0.75, happiness: 7.4, politicalFree: 9.2},
-        'NOR': {homeOwn: 75.0, age: 35.2, edu: 88.5, violence: 1.2, literacy: 99.0, genderEq: 0.85, happiness: 7.6, politicalFree: 9.8},
-        'SWE': {homeOwn: 60.0, age: 37.8, edu: 89.2, violence: 1.0, literacy: 99.0, genderEq: 0.82, happiness: 7.5, politicalFree: 9.5},
-        'FIN': {homeOwn: 72.0, age: 36.1, edu: 87.8, violence: 1.5, literacy: 99.0, genderEq: 0.83, happiness: 7.8, politicalFree: 9.7},
-        'GBR': {homeOwn: 67.0, age: 35.7, edu: 78.3, violence: 1.1, literacy: 98.0, genderEq: 0.74, happiness: 7.1, politicalFree: 8.8},
-        'FRA': {homeOwn: 54.3, age: 37.2, edu: 73.8, violence: 1.6, literacy: 97.0, genderEq: 0.75, happiness: 6.9, politicalFree: 8.7},
-        'DEU': {homeOwn: 38.6, age: 39.3, edu: 83.2, violence: 1.2, literacy: 98.5, genderEq: 0.78, happiness: 7.2, politicalFree: 9.1},
-        'ITA': {homeOwn: 67.8, age: 38.9, edu: 68.5, violence: 1.8, literacy: 96.5, genderEq: 0.69, happiness: 6.8, politicalFree: 8.2},
-        'KOR': {homeOwn: 55.0, age: 29.8, edu: 85.2, violence: 1.8, literacy: 97.0, genderEq: 0.65, happiness: 6.2, politicalFree: 7.8},
-        'JPN': {homeOwn: 59.8, age: 41.2, edu: 90.2, violence: 0.5, literacy: 99.0, genderEq: 0.68, happiness: 6.1, politicalFree: 8.4},
-        'CHN': {homeOwn: 18.0, age: 27.4, edu: 65.5, violence: 2.1, literacy: 78.0, genderEq: 0.68, happiness: 5.8, politicalFree: 3.2},
-        'MYS': {homeOwn: 45.0, age: 24.2, edu: 72.8, violence: 2.8, literacy: 88.0, genderEq: 0.67, happiness: 6.3, politicalFree: 6.8},
-        'IND': {homeOwn: 82.0, age: 22.8, edu: 48.2, violence: 3.4, literacy: 52.0, genderEq: 0.55, happiness: 4.8, politicalFree: 7.2},
-        'ARE': {homeOwn: 85.0, age: 25.5, edu: 78.9, violence: 1.2, literacy: 90.0, genderEq: 0.62, happiness: 6.8, politicalFree: 2.8},
-        'RUS': {homeOwn: 53.0, age: 34.9, edu: 87.5, violence: 14.3, literacy: 98.0, genderEq: 0.71, happiness: 5.9, politicalFree: 4.5},
-        'ZAF': {homeOwn: 68.0, age: 23.1, edu: 55.2, violence: 25.5, literacy: 76.0, genderEq: 0.63, happiness: 5.1, politicalFree: 7.8},
-        'BRA': {homeOwn: 72.0, age: 26.8, edu: 62.1, violence: 22.8, literacy: 83.0, genderEq: 0.68, happiness: 6.4, politicalFree: 7.9},
-        'NZL': {homeOwn: 65.0, age: 31.5, edu: 79.8, violence: 1.8, literacy: 98.0, genderEq: 0.79, happiness: 7.3, politicalFree: 9.6}
+        'USA': {homeOwn: 63.9, age: 32.9, edu: 77.6, violence: 9.4, literacy: 97.0, genderEq: 0.72, dei: 58, happiness: 7.3, politicalFree: 8.5, freeSpeech: 7.6, legacyMediaRating: 6.3, newMediaRating: 2.1, newMediaShare: 4},
+        'CAN': {homeOwn: 62.8, age: 33.5, edu: 82.5, violence: 2.4, literacy: 97.5, genderEq: 0.75, dei: 62, happiness: 7.4, politicalFree: 9.2, freeSpeech: 8.8, legacyMediaRating: 7.1, newMediaRating: 2.0, newMediaShare: 3},
+        'NOR': {homeOwn: 75.0, age: 35.2, edu: 88.5, violence: 1.2, literacy: 99.0, genderEq: 0.85, dei: 71, happiness: 7.6, politicalFree: 9.8, freeSpeech: 9.5, legacyMediaRating: 7.9, newMediaRating: 2.2, newMediaShare: 2},
+        'SWE': {homeOwn: 60.0, age: 37.8, edu: 89.2, violence: 1.0, literacy: 99.0, genderEq: 0.82, dei: 72, happiness: 7.5, politicalFree: 9.5, freeSpeech: 9.3, legacyMediaRating: 7.6, newMediaRating: 2.3, newMediaShare: 3},
+        'FIN': {homeOwn: 72.0, age: 36.1, edu: 87.8, violence: 1.5, literacy: 99.0, genderEq: 0.83, dei: 69, happiness: 7.8, politicalFree: 9.7, freeSpeech: 9.4, legacyMediaRating: 8.0, newMediaRating: 2.4, newMediaShare: 2},
+        'GBR': {homeOwn: 67.0, age: 35.7, edu: 78.3, violence: 1.1, literacy: 98.0, genderEq: 0.74, dei: 58, happiness: 7.1, politicalFree: 8.8, freeSpeech: 8.4, legacyMediaRating: 6.8, newMediaRating: 2.2, newMediaShare: 3},
+        'FRA': {homeOwn: 54.3, age: 37.2, edu: 73.8, violence: 1.6, literacy: 97.0, genderEq: 0.75, dei: 56, happiness: 6.9, politicalFree: 8.7, freeSpeech: 8.0, legacyMediaRating: 6.5, newMediaRating: 2.0, newMediaShare: 3},
+        'DEU': {homeOwn: 38.6, age: 39.3, edu: 83.2, violence: 1.2, literacy: 98.5, genderEq: 0.78, dei: 61, happiness: 7.2, politicalFree: 9.1, freeSpeech: 8.9, legacyMediaRating: 7.2, newMediaRating: 2.2, newMediaShare: 3},
+        'ITA': {homeOwn: 67.8, age: 38.9, edu: 68.5, violence: 1.8, literacy: 96.5, genderEq: 0.69, dei: 50, happiness: 6.8, politicalFree: 8.2, freeSpeech: 7.4, legacyMediaRating: 6.0, newMediaRating: 2.0, newMediaShare: 3},
+        'KOR': {homeOwn: 55.0, age: 29.8, edu: 85.2, violence: 1.8, literacy: 97.0, genderEq: 0.65, dei: 47, happiness: 6.2, politicalFree: 7.8, freeSpeech: 7.2, legacyMediaRating: 5.9, newMediaRating: 2.1, newMediaShare: 4},
+        'JPN': {homeOwn: 59.8, age: 41.2, edu: 90.2, violence: 0.5, literacy: 99.0, genderEq: 0.68, dei: 49, happiness: 6.1, politicalFree: 8.4, freeSpeech: 7.9, legacyMediaRating: 6.7, newMediaRating: 2.1, newMediaShare: 3},
+        'CHN': {homeOwn: 18.0, age: 27.4, edu: 65.5, violence: 2.1, literacy: 78.0, genderEq: 0.68, dei: 35, happiness: 5.8, politicalFree: 3.2, freeSpeech: 1.8, legacyMediaRating: 6.1, newMediaRating: 2.4, newMediaShare: 1},
+        'MYS': {homeOwn: 45.0, age: 24.2, edu: 72.8, violence: 2.8, literacy: 88.0, genderEq: 0.67, dei: 46, happiness: 6.3, politicalFree: 6.8, freeSpeech: 6.0, legacyMediaRating: 6.0, newMediaRating: 2.2, newMediaShare: 3},
+        'IND': {homeOwn: 82.0, age: 22.8, edu: 48.2, violence: 3.4, literacy: 52.0, genderEq: 0.55, dei: 39, happiness: 4.8, politicalFree: 7.2, freeSpeech: 6.9, legacyMediaRating: 5.8, newMediaRating: 2.3, newMediaShare: 2},
+        'ARE': {homeOwn: 85.0, age: 25.5, edu: 78.9, violence: 1.2, literacy: 90.0, genderEq: 0.62, dei: 33, happiness: 6.8, politicalFree: 2.8, freeSpeech: 2.5, legacyMediaRating: 5.9, newMediaRating: 2.1, newMediaShare: 2},
+        'RUS': {homeOwn: 53.0, age: 34.9, edu: 87.5, violence: 14.3, literacy: 98.0, genderEq: 0.71, dei: 38, happiness: 5.9, politicalFree: 4.5, freeSpeech: 3.4, legacyMediaRating: 5.5, newMediaRating: 2.1, newMediaShare: 2},
+        'ZAF': {homeOwn: 68.0, age: 23.1, edu: 55.2, violence: 25.5, literacy: 76.0, genderEq: 0.63, dei: 49, happiness: 5.1, politicalFree: 7.8, freeSpeech: 7.0, legacyMediaRating: 5.4, newMediaRating: 2.2, newMediaShare: 2},
+        'BRA': {homeOwn: 72.0, age: 26.8, edu: 62.1, violence: 22.8, literacy: 83.0, genderEq: 0.68, dei: 47, happiness: 6.4, politicalFree: 7.9, freeSpeech: 7.1, legacyMediaRating: 5.7, newMediaRating: 2.2, newMediaShare: 2},
+        'AUS': {homeOwn: 69.0, age: 31.7, edu: 80.5, violence: 2.0, literacy: 99.0, genderEq: 0.77, dei: 61, happiness: 7.2, politicalFree: 9.4, freeSpeech: 9.0, legacyMediaRating: 7.2, newMediaRating: 2.3, newMediaShare: 3},
+        'NZL': {homeOwn: 65.0, age: 31.5, edu: 79.8, violence: 1.8, literacy: 98.0, genderEq: 0.79, dei: 63, happiness: 7.3, politicalFree: 9.6, freeSpeech: 9.1, legacyMediaRating: 7.4, newMediaRating: 2.3, newMediaShare: 3}
     };
 
     const result = {
         homeownership: {}, age: {}, education: {}, violence: {},
-        literacy: {}, genderEquality: {}, happiness: {}, politicalFreedom: {}
+        literacy: {}, genderEquality: {}, dei: {}, happiness: {}, politicalFreedom: {},
+        freeSpeech: {}, legacyMediaRating: {}, newMediaRating: {}, legacyMediaShare: {}, newMediaShare: {}
     };
 
     COUNTRIES.forEach(country => {
@@ -2691,8 +3526,14 @@ function generateSocialIndicators() {
         result.violence[country] = [];
         result.literacy[country] = [];
         result.genderEquality[country] = [];
+        result.dei[country] = [];
         result.happiness[country] = [];
         result.politicalFreedom[country] = [];
+        result.freeSpeech[country] = [];
+        result.legacyMediaRating[country] = [];
+        result.newMediaRating[country] = [];
+        result.legacyMediaShare[country] = [];
+        result.newMediaShare[country] = [];
 
         YEARS.forEach((year, idx) => {
             // Homeownership trends (declining in many Western countries)
@@ -2745,6 +3586,15 @@ function generateSocialIndicators() {
             let genderEq = values.genderEq + idx * genderTrend * random(0.95, 1.05);
             genderEq = Math.min(0.95, genderEq);
 
+            let deiTrend = 0.35;
+            if (code === 'NOR' || code === 'SWE' || code === 'FIN' || code === 'CAN' || code === 'AUS' || code === 'NZL') deiTrend = 0.45;
+            else if (code === 'CHN' || code === 'ARE' || code === 'RUS') deiTrend = 0.15;
+            else if (code === 'IND' || code === 'MYS' || code === 'BRA' || code === 'ZAF') deiTrend = 0.28;
+            if (year >= 2015 && (code === 'USA' || code === 'GBR' || code === 'FRA' || code === 'ITA')) deiTrend *= 0.80;
+            if (year >= 2020 && (code === 'USA' || code === 'CAN' || code === 'GBR' || code === 'AUS' || code === 'NZL')) deiTrend += 0.08;
+            let dei = values.dei + idx * deiTrend * random(0.97, 1.03);
+            dei = Math.max(25, Math.min(92, dei));
+
             // Happiness - mixed trends, generally stable with some improvements
             let happinessTrend = 0.01; // Slight improvement
             if (code === 'CHN') happinessTrend = 0.02; // Improving in China
@@ -2763,14 +3613,63 @@ function generateSocialIndicators() {
             let politicalFree = values.politicalFree + idx * politicalTrend * random(0.95, 1.05);
             politicalFree = Math.max(1.0, Math.min(9.8, politicalFree));
 
+            let freeSpeechTrend = 0.01;
+            if (code === 'CHN') freeSpeechTrend = -0.02;
+            else if (code === 'RUS') freeSpeechTrend = -0.04;
+            else if (code === 'ARE') freeSpeechTrend = -0.01;
+            else if (code === 'KOR' || code === 'ZAF') freeSpeechTrend = 0.02;
+            let freeSpeech = values.freeSpeech + idx * freeSpeechTrend * random(0.96, 1.04);
+            freeSpeech = Math.max(1.0, Math.min(9.8, freeSpeech));
+
+            let legacyMediaTrend = year < 2005 ? -0.01 : -0.03;
+            if (code === 'NOR' || code === 'FIN' || code === 'SWE') legacyMediaTrend = year < 2005 ? 0.0 : -0.015;
+            else if (code === 'CHN') legacyMediaTrend = 0.005;
+            let legacyMediaRating = values.legacyMediaRating + idx * legacyMediaTrend * random(0.97, 1.03);
+            legacyMediaRating = Math.max(2.5, Math.min(8.5, legacyMediaRating));
+
+            let newMediaRating = values.newMediaRating;
+            if (year < 1995) {
+                newMediaRating += idx * 0.01;
+            } else if (year < 2010) {
+                newMediaRating += (year - 1995) * 0.14;
+            } else if (year < 2018) {
+                newMediaRating += (2010 - 1995) * 0.14 + (year - 2010) * 0.05;
+            } else {
+                newMediaRating += (2010 - 1995) * 0.14 + (2018 - 2010) * 0.05 - (year - 2018) * 0.03;
+            }
+            if (code === 'CHN' || code === 'IND' || code === 'BRA') newMediaRating += 0.25;
+            if (code === 'USA' || code === 'GBR') newMediaRating -= 0.10;
+            newMediaRating = Math.max(1.5, Math.min(7.8, newMediaRating * random(0.96, 1.04)));
+
+            let newMediaShare = values.newMediaShare;
+            if (year < 1995) {
+                newMediaShare += idx * 0.2;
+            } else if (year < 2005) {
+                newMediaShare += (1995 - 1970) * 0.2 + (year - 1995) * 2.0;
+            } else if (year < 2015) {
+                newMediaShare += (1995 - 1970) * 0.2 + (2005 - 1995) * 2.0 + (year - 2005) * 2.8;
+            } else {
+                newMediaShare += (1995 - 1970) * 0.2 + (2005 - 1995) * 2.0 + (2015 - 2005) * 2.8 + (year - 2015) * 1.4;
+            }
+            if (code === 'IND' || code === 'CHN' || code === 'MYS') newMediaShare += 5;
+            else if (code === 'NOR' || code === 'FIN') newMediaShare -= 4;
+            newMediaShare = Math.max(1, Math.min(88, newMediaShare * random(0.97, 1.03)));
+            const legacyMediaShare = Math.max(12, Math.min(99, 100 - newMediaShare));
+
             result.homeownership[country].push(parseFloat(homeOwn.toFixed(1)));
             result.age[country].push(parseFloat(age.toFixed(1)));
             result.education[country].push(parseFloat(edu.toFixed(1)));
             result.violence[country].push(parseFloat(Math.max(0.3, violence).toFixed(2)));
             result.literacy[country].push(parseFloat(literacy.toFixed(1)));
             result.genderEquality[country].push(parseFloat(genderEq.toFixed(3)));
+            result.dei[country].push(parseFloat(dei.toFixed(1)));
             result.happiness[country].push(parseFloat(happiness.toFixed(1)));
             result.politicalFreedom[country].push(parseFloat(politicalFree.toFixed(1)));
+            result.freeSpeech[country].push(parseFloat(freeSpeech.toFixed(1)));
+            result.legacyMediaRating[country].push(parseFloat(legacyMediaRating.toFixed(1)));
+            result.newMediaRating[country].push(parseFloat(newMediaRating.toFixed(1)));
+            result.legacyMediaShare[country].push(parseFloat(legacyMediaShare.toFixed(1)));
+            result.newMediaShare[country].push(parseFloat(newMediaShare.toFixed(1)));
         });
     });
 
@@ -2780,30 +3679,31 @@ function generateSocialIndicators() {
 function generateDemographicsData() {
     // More accurate 1990 baseline values for demographic indicators
     const baseValues = {
-        'USA': {birthRate: 16.7, deathRate: 8.5, lifeExpectancy: 75.4, fertilityRate: 2.08, infantMortality: 9.2},
-        'CAN': {birthRate: 15.5, deathRate: 7.2, lifeExpectancy: 77.2, fertilityRate: 1.92, infantMortality: 6.8},
-        'NOR': {birthRate: 13.8, deathRate: 10.1, lifeExpectancy: 77.8, fertilityRate: 1.85, infantMortality: 6.2},
-        'SWE': {birthRate: 14.5, deathRate: 10.9, lifeExpectancy: 78.1, fertilityRate: 2.13, infantMortality: 5.8},
-        'FIN': {birthRate: 13.2, deathRate: 9.8, lifeExpectancy: 76.9, fertilityRate: 1.78, infantMortality: 5.6},
-        'GBR': {birthRate: 13.9, deathRate: 11.2, lifeExpectancy: 75.9, fertilityRate: 1.83, infantMortality: 7.9},
-        'FRA': {birthRate: 13.4, deathRate: 9.1, lifeExpectancy: 77.8, fertilityRate: 1.78, infantMortality: 7.3},
-        'DEU': {birthRate: 11.5, deathRate: 11.6, lifeExpectancy: 75.9, fertilityRate: 1.45, infantMortality: 7.0},
-        'ITA': {birthRate: 9.7, deathRate: 9.6, lifeExpectancy: 77.7, fertilityRate: 1.27, infantMortality: 8.2},
-        'KOR': {birthRate: 15.2, deathRate: 5.8, lifeExpectancy: 71.8, fertilityRate: 1.57, infantMortality: 20.3},
-        'JPN': {birthRate: 9.4, deathRate: 6.7, lifeExpectancy: 79.1, fertilityRate: 1.57, infantMortality: 4.3},
-        'CHN': {birthRate: 21.1, deathRate: 6.7, lifeExpectancy: 70.0, fertilityRate: 2.87, infantMortality: 33.0},
-        'MYS': {birthRate: 26.8, deathRate: 4.9, lifeExpectancy: 72.1, fertilityRate: 3.42, infantMortality: 15.2},
-        'IND': {birthRate: 30.5, deathRate: 9.8, lifeExpectancy: 57.7, fertilityRate: 4.27, infantMortality: 80.0},
-        'ARE': {birthRate: 23.4, deathRate: 3.2, lifeExpectancy: 73.8, fertilityRate: 4.12, infantMortality: 12.5},
-        'RUS': {birthRate: 13.4, deathRate: 11.2, lifeExpectancy: 69.2, fertilityRate: 1.89, infantMortality: 17.0},
-        'ZAF': {birthRate: 31.2, deathRate: 12.1, lifeExpectancy: 63.5, fertilityRate: 4.23, infantMortality: 45.6},
-        'BRA': {birthRate: 23.8, deathRate: 6.9, lifeExpectancy: 67.2, fertilityRate: 2.89, infantMortality: 47.1},
-        'NZL': {birthRate: 17.8, deathRate: 8.1, lifeExpectancy: 76.5, fertilityRate: 2.14, infantMortality: 8.9}
+        'USA': {birthRate: 16.7, deathRate: 8.5, lifeExpectancy: 75.4, fertilityRate: 2.08, abortionRate: 27.0, infantMortality: 9.2},
+        'CAN': {birthRate: 15.5, deathRate: 7.2, lifeExpectancy: 77.2, fertilityRate: 1.92, abortionRate: 18.0, infantMortality: 6.8},
+        'NOR': {birthRate: 13.8, deathRate: 10.1, lifeExpectancy: 77.8, fertilityRate: 1.85, abortionRate: 16.0, infantMortality: 6.2},
+        'SWE': {birthRate: 14.5, deathRate: 10.9, lifeExpectancy: 78.1, fertilityRate: 2.13, abortionRate: 20.0, infantMortality: 5.8},
+        'FIN': {birthRate: 13.2, deathRate: 9.8, lifeExpectancy: 76.9, fertilityRate: 1.78, abortionRate: 15.0, infantMortality: 5.6},
+        'GBR': {birthRate: 13.9, deathRate: 11.2, lifeExpectancy: 75.9, fertilityRate: 1.83, abortionRate: 17.0, infantMortality: 7.9},
+        'FRA': {birthRate: 13.4, deathRate: 9.1, lifeExpectancy: 77.8, fertilityRate: 1.78, abortionRate: 14.0, infantMortality: 7.3},
+        'DEU': {birthRate: 11.5, deathRate: 11.6, lifeExpectancy: 75.9, fertilityRate: 1.45, abortionRate: 10.0, infantMortality: 7.0},
+        'ITA': {birthRate: 9.7, deathRate: 9.6, lifeExpectancy: 77.7, fertilityRate: 1.27, abortionRate: 14.0, infantMortality: 8.2},
+        'KOR': {birthRate: 15.2, deathRate: 5.8, lifeExpectancy: 71.8, fertilityRate: 1.57, abortionRate: 12.0, infantMortality: 20.3},
+        'JPN': {birthRate: 9.4, deathRate: 6.7, lifeExpectancy: 79.1, fertilityRate: 1.57, abortionRate: 13.0, infantMortality: 4.3},
+        'CHN': {birthRate: 21.1, deathRate: 6.7, lifeExpectancy: 70.0, fertilityRate: 2.87, abortionRate: 33.0, infantMortality: 33.0},
+        'MYS': {birthRate: 26.8, deathRate: 4.9, lifeExpectancy: 72.1, fertilityRate: 3.42, abortionRate: 4.0, infantMortality: 15.2},
+        'IND': {birthRate: 30.5, deathRate: 9.8, lifeExpectancy: 57.7, fertilityRate: 4.27, abortionRate: 6.0, infantMortality: 80.0},
+        'ARE': {birthRate: 23.4, deathRate: 3.2, lifeExpectancy: 73.8, fertilityRate: 4.12, abortionRate: 1.5, infantMortality: 12.5},
+        'RUS': {birthRate: 13.4, deathRate: 11.2, lifeExpectancy: 69.2, fertilityRate: 1.89, abortionRate: 95.0, infantMortality: 17.0},
+        'ZAF': {birthRate: 31.2, deathRate: 12.1, lifeExpectancy: 63.5, fertilityRate: 4.23, abortionRate: 7.0, infantMortality: 45.6},
+        'BRA': {birthRate: 23.8, deathRate: 6.9, lifeExpectancy: 67.2, fertilityRate: 2.89, abortionRate: 17.0, infantMortality: 47.1},
+        'AUS': {birthRate: 15.4, deathRate: 6.9, lifeExpectancy: 76.9, fertilityRate: 1.86, abortionRate: 19.0, infantMortality: 8.1},
+        'NZL': {birthRate: 17.8, deathRate: 8.1, lifeExpectancy: 76.5, fertilityRate: 2.14, abortionRate: 14.0, infantMortality: 8.9}
     };
 
     const result = {
         birthRate: {}, deathRate: {}, lifeExpectancy: {},
-        fertilityRate: {}, infantMortality: {}
+        fertilityRate: {}, abortionRate: {}, infantMortality: {}
     };
 
     COUNTRIES.forEach(country => {
@@ -2814,6 +3714,7 @@ function generateDemographicsData() {
         result.deathRate[country] = [];
         result.lifeExpectancy[country] = [];
         result.fertilityRate[country] = [];
+        result.abortionRate[country] = [];
         result.infantMortality[country] = [];
 
         YEARS.forEach((year, idx) => {
@@ -2852,6 +3753,18 @@ function generateDemographicsData() {
             let fertRate = values.fertilityRate + idx * fertTrend * random(0.95, 1.05);
             fertRate = Math.max(0.8, Math.min(7, fertRate));
 
+            let abortionTrend = -0.18;
+            if (code === 'RUS') abortionTrend = -1.7;
+            else if (code === 'CHN') abortionTrend = year < 2015 ? -0.40 : -0.12;
+            else if (code === 'USA') abortionTrend = -0.16;
+            else if (code === 'KOR') abortionTrend = -0.25;
+            else if (code === 'ZAF') abortionTrend = year < 2000 ? 0.15 : -0.08;
+            else if (code === 'ARE' || code === 'MYS' || code === 'IND') abortionTrend = -0.03;
+
+            let abortionRate = values.abortionRate + idx * abortionTrend * random(0.94, 1.06);
+            if (year === 2020) abortionRate *= 0.96;
+            abortionRate = Math.max(0.5, Math.min(120, abortionRate));
+
             // Infant mortality - rapidly declining
             let infantTrend = -0.35; // 0.35 per year decline
             if (code === 'CHN') infantTrend = -0.8; // Rapid improvement
@@ -2865,6 +3778,7 @@ function generateDemographicsData() {
             result.deathRate[country].push(parseFloat(deathRate.toFixed(1)));
             result.lifeExpectancy[country].push(parseFloat(lifeExp.toFixed(1)));
             result.fertilityRate[country].push(parseFloat(fertRate.toFixed(2)));
+            result.abortionRate[country].push(parseFloat(abortionRate.toFixed(1)));
             result.infantMortality[country].push(parseFloat(infantMort.toFixed(1)));
         });
     });
@@ -2893,6 +3807,7 @@ function generateHealthData() {
         'RUS': {obesity: 19.7, smoking: 37.0, diabetes: 3.8, mentalHealth: 22.1},
         'ZAF': {obesity: 8.9, smoking: 18.2, diabetes: 4.5, mentalHealth: 16.8},
         'BRA': {obesity: 6.8, smoking: 15.8, diabetes: 3.2, mentalHealth: 13.9},
+        'AUS': {obesity: 10.8, smoking: 27.0, diabetes: 3.6, mentalHealth: 14.4},
         'NZL': {obesity: 12.5, smoking: 21.8, diabetes: 3.8, mentalHealth: 15.2}
     };
 
@@ -2974,6 +3889,7 @@ function generateEnvironmentData() {
         'RUS': {co2Emissions: 15.8, renewableEnergy: 2.1, forestCoverage: 49.4, waterQuality: 71.8},
         'ZAF': {co2Emissions: 8.9, renewableEnergy: 0.5, forestCoverage: 7.6, waterQuality: 65.2},
         'BRA': {co2Emissions: 1.2, renewableEnergy: 85.0, forestCoverage: 65.0, waterQuality: 68.5},
+        'AUS': {co2Emissions: 16.2, renewableEnergy: 7.0, forestCoverage: 17.0, waterQuality: 82.0},
         'NZL': {co2Emissions: 7.2, renewableEnergy: 65.0, forestCoverage: 38.6, waterQuality: 83.5}
     };
 
@@ -3057,6 +3973,7 @@ function generateTechnologyData() {
         'RUS': {internetUsers: 0.0, mobilePhones: 0.1, broadbandSpeed: 0.012, rndInvestment: 1.9},
         'ZAF': {internetUsers: 0.0, mobilePhones: 0.8, broadbandSpeed: 0.008, rndInvestment: 0.5},
         'BRA': {internetUsers: 0.0, mobilePhones: 1.2, broadbandSpeed: 0.010, rndInvestment: 0.9},
+        'AUS': {internetUsers: 0.3, mobilePhones: 6.2, broadbandSpeed: 0.040, rndInvestment: 1.6},
         'NZL': {internetUsers: 0.1, mobilePhones: 6.8, broadbandSpeed: 0.035, rndInvestment: 1.3}
     };
 
@@ -3124,29 +4041,30 @@ function generateTechnologyData() {
 
 function generateAdditionalIndicators() {
     const baseValues = {
-        'USA': {foodbank: 500, capitalGain: 15000, valuation: 100},
-        'CAN': {foodbank: 200, capitalGain: 8000, valuation: 50},
-        'NOR': {foodbank: 180, capitalGain: 12000, valuation: 75},
-        'SWE': {foodbank: 160, capitalGain: 11000, valuation: 80},
-        'FIN': {foodbank: 140, capitalGain: 9500, valuation: 65},
-        'GBR': {foodbank: 300, capitalGain: 10000, valuation: 60},
-        'FRA': {foodbank: 250, capitalGain: 9000, valuation: 55},
-        'DEU': {foodbank: 280, capitalGain: 11000, valuation: 70},
-        'ITA': {foodbank: 220, capitalGain: 7000, valuation: 40},
-        'KOR': {foodbank: 120, capitalGain: 8500, valuation: 45},
-        'JPN': {foodbank: 150, capitalGain: 12000, valuation: 80},
-        'CHN': {foodbank: 100, capitalGain: 2000, valuation: 20},
-        'MYS': {foodbank: 90, capitalGain: 3500, valuation: 25},
-        'IND': {foodbank: 80, capitalGain: 1000, valuation: 15},
-        'ARE': {foodbank: 50, capitalGain: 18000, valuation: 90},
-        'RUS': {foodbank: 180, capitalGain: 3000, valuation: 25},
-        'ZAF': {foodbank: 220, capitalGain: 4500, valuation: 30},
-        'BRA': {foodbank: 190, capitalGain: 5500, valuation: 35},
-        'NZL': {foodbank: 170, capitalGain: 10500, valuation: 55}
+        'USA': {foodbank: 500, capitalGain: 15000, valuation: 100, productivity: 100},
+        'CAN': {foodbank: 200, capitalGain: 8000, valuation: 50, productivity: 100},
+        'NOR': {foodbank: 180, capitalGain: 12000, valuation: 75, productivity: 100},
+        'SWE': {foodbank: 160, capitalGain: 11000, valuation: 80, productivity: 100},
+        'FIN': {foodbank: 140, capitalGain: 9500, valuation: 65, productivity: 100},
+        'GBR': {foodbank: 300, capitalGain: 10000, valuation: 60, productivity: 100},
+        'FRA': {foodbank: 250, capitalGain: 9000, valuation: 55, productivity: 100},
+        'DEU': {foodbank: 280, capitalGain: 11000, valuation: 70, productivity: 100},
+        'ITA': {foodbank: 220, capitalGain: 7000, valuation: 40, productivity: 100},
+        'KOR': {foodbank: 120, capitalGain: 8500, valuation: 45, productivity: 100},
+        'JPN': {foodbank: 150, capitalGain: 12000, valuation: 80, productivity: 100},
+        'CHN': {foodbank: 100, capitalGain: 2000, valuation: 20, productivity: 100},
+        'MYS': {foodbank: 90, capitalGain: 3500, valuation: 25, productivity: 100},
+        'IND': {foodbank: 80, capitalGain: 1000, valuation: 15, productivity: 100},
+        'ARE': {foodbank: 50, capitalGain: 18000, valuation: 90, productivity: 100},
+        'RUS': {foodbank: 180, capitalGain: 3000, valuation: 25, productivity: 100},
+        'ZAF': {foodbank: 220, capitalGain: 4500, valuation: 30, productivity: 100},
+        'BRA': {foodbank: 190, capitalGain: 5500, valuation: 35, productivity: 100},
+        'AUS': {foodbank: 160, capitalGain: 11000, valuation: 58, productivity: 100},
+        'NZL': {foodbank: 170, capitalGain: 10500, valuation: 55, productivity: 100}
     };
 
     const result = {
-        foodbank: {}, capitalGain: {}, valuation: {}
+        foodbank: {}, capitalGain: {}, valuation: {}, productivity: {}
     };
 
     COUNTRIES.forEach(country => {
@@ -3156,6 +4074,7 @@ function generateAdditionalIndicators() {
         result.foodbank[country] = [];
         result.capitalGain[country] = [];
         result.valuation[country] = [];
+        result.productivity[country] = [];
 
         YEARS.forEach((year, idx) => {
             result.foodbank[country].push(parseFloat((values.foodbank * Math.pow(1.03, idx) * random(0.9, 1.1)).toFixed(1)));
@@ -3165,6 +4084,320 @@ function generateAdditionalIndicators() {
             result.capitalGain[country].push(Math.round(values.capitalGain * Math.pow(capGainMult, idx) * random(0.85, 1.15)));
 
             result.valuation[country].push(parseFloat((values.valuation * Math.pow(1.06, idx) * random(0.9, 1.1)).toFixed(1)));
+
+            let productivityGrowth = 1.018;
+            if (code === 'CHN') productivityGrowth = year < 2010 ? 1.050 : 1.028;
+            else if (code === 'KOR') productivityGrowth = year < 2005 ? 1.036 : 1.020;
+            else if (code === 'IND') productivityGrowth = year < 2012 ? 1.032 : 1.022;
+            else if (code === 'JPN') productivityGrowth = year < 1995 ? 1.022 : 1.008;
+            else if (code === 'ITA') productivityGrowth = year < 2000 ? 1.016 : 1.005;
+            if (year === 2009) productivityGrowth *= 0.97;
+            if (year === 2020) productivityGrowth *= 0.96;
+
+            const previous = idx === 0 ? values.productivity : result.productivity[country][idx - 1];
+            result.productivity[country].push(parseFloat((previous * productivityGrowth * random(0.99, 1.01)).toFixed(1)));
+        });
+    });
+
+    return result;
+}
+
+function generateQualityOfLifeData() {
+    const baseValues = {
+        'United States': {qol: 73, hdi: 0.860, gini: 40.1, corruption: 75},
+        'Canada':        {qol: 74, hdi: 0.862, gini: 31.5, corruption: 78},
+        'Norway':        {qol: 83, hdi: 0.849, gini: 25.0, corruption: 88},
+        'Sweden':        {qol: 82, hdi: 0.853, gini: 21.6, corruption: 87},
+        'Finland':       {qol: 80, hdi: 0.831, gini: 22.7, corruption: 89},
+        'United Kingdom':{qol: 72, hdi: 0.834, gini: 32.5, corruption: 77},
+        'France':        {qol: 71, hdi: 0.825, gini: 29.9, corruption: 68},
+        'Germany':       {qol: 74, hdi: 0.821, gini: 28.3, corruption: 79},
+        'Italy':         {qol: 68, hdi: 0.800, gini: 30.7, corruption: 55},
+        'South Korea':   {qol: 55, hdi: 0.733, gini: 30.5, corruption: 42},
+        'Japan':         {qol: 70, hdi: 0.858, gini: 30.8, corruption: 72},
+        'China':         {qol: 35, hdi: 0.502, gini: 32.4, corruption: 30},
+        'Malaysia':      {qol: 52, hdi: 0.627, gini: 47.5, corruption: 45},
+        'India':         {qol: 28, hdi: 0.430, gini: 31.5, corruption: 28},
+        'United Arab Emirates': {qol: 60, hdi: 0.690, gini: 32.0, corruption: 55},
+        'Russia':        {qol: 48, hdi: 0.729, gini: 28.9, corruption: 25},
+        'South Africa':  {qol: 40, hdi: 0.618, gini: 59.3, corruption: 48},
+        'Brazil':        {qol: 45, hdi: 0.608, gini: 60.5, corruption: 38},
+        'Australia':     {qol: 74, hdi: 0.862, gini: 30.9, corruption: 82},
+        'New Zealand':   {qol: 76, hdi: 0.855, gini: 29.8, corruption: 89}
+    };
+
+    const result = { qol: {}, hdi: {}, gini: {}, corruption: {} };
+
+    COUNTRIES.forEach(country => {
+        const code = COUNTRY_CODES[country];
+        const base = baseValues[country];
+        Object.keys(result).forEach(k => { result[k][country] = []; });
+
+        YEARS.forEach((year, idx) => {
+            let qolTrend = 0.15;
+            if (code === 'CHN') qolTrend = 0.40;
+            else if (code === 'IND') qolTrend = 0.30;
+            else if (code === 'KOR') qolTrend = 0.35;
+            else if (code === 'ARE') qolTrend = 0.45;
+            else if (code === 'MYS') qolTrend = 0.28;
+            let qolShock = (year === 2020) ? -2 : 0;
+            let qol = base.qol + idx * qolTrend + qolShock;
+            qol = Math.max(20, Math.min(95, qol));
+
+            let hdiTrend = 0.004;
+            if (code === 'CHN') hdiTrend = 0.008;
+            else if (code === 'IND') hdiTrend = 0.007;
+            else if (code === 'KOR') hdiTrend = 0.006;
+            else if (code === 'NOR' || code === 'SWE') hdiTrend = 0.002;
+            let hdi = base.hdi + idx * hdiTrend * random(0.95, 1.05);
+            hdi = Math.max(0.3, Math.min(0.98, hdi));
+
+            let giniTrend = 0.0;
+            if (code === 'CHN') giniTrend = 0.20;
+            else if (code === 'USA') giniTrend = 0.10;
+            else if (code === 'RUS') giniTrend = year < 2000 ? 0.50 : -0.10;
+            else if (code === 'BRA') giniTrend = -0.10;
+            else if (code === 'ZAF') giniTrend = 0.05;
+            let gini = base.gini + idx * giniTrend * random(0.95, 1.05);
+            gini = Math.max(20, Math.min(70, gini));
+
+            let corruptTrend = 0.15;
+            if (code === 'CHN') corruptTrend = 0.10;
+            else if (code === 'RUS') corruptTrend = year < 2000 ? -0.30 : 0.02;
+            else if (code === 'KOR') corruptTrend = 0.30;
+            else if (code === 'ARE') corruptTrend = 0.35;
+            else if (code === 'ITA') corruptTrend = 0.05;
+            let corruption = base.corruption + idx * corruptTrend * random(0.9, 1.1);
+            corruption = Math.max(10, Math.min(96, corruption));
+
+            result.qol[country].push(parseFloat(qol.toFixed(1)));
+            result.hdi[country].push(parseFloat(hdi.toFixed(3)));
+            result.gini[country].push(parseFloat(gini.toFixed(1)));
+            result.corruption[country].push(parseFloat(corruption.toFixed(1)));
+        });
+    });
+    return result;
+}
+
+function generateHealthAccessData() {
+    const baseValues = {
+        'United States': {waitTime: 3,  physicians: 2.3, beds: 5.2},
+        'Canada':        {waitTime: 12, physicians: 2.1, beds: 7.1},
+        'Norway':        {waitTime: 11, physicians: 2.8, beds: 4.8},
+        'Sweden':        {waitTime: 10, physicians: 3.2, beds: 5.5},
+        'Finland':       {waitTime: 9,  physicians: 2.4, beds: 4.2},
+        'United Kingdom':{waitTime: 15, physicians: 1.6, beds: 5.0},
+        'France':        {waitTime: 6,  physicians: 2.7, beds: 10.1},
+        'Germany':       {waitTime: 5,  physicians: 2.9, beds: 10.8},
+        'Italy':         {waitTime: 8,  physicians: 2.2, beds: 8.2},
+        'South Korea':   {waitTime: 4,  physicians: 1.1, beds: 2.5},
+        'Japan':         {waitTime: 4,  physicians: 1.7, beds: 13.5},
+        'China':         {waitTime: 6,  physicians: 1.5, beds: 2.8},
+        'Malaysia':      {waitTime: 8,  physicians: 0.4, beds: 1.8},
+        'India':         {waitTime: 4,  physicians: 0.4, beds: 0.7},
+        'United Arab Emirates': {waitTime: 4, physicians: 1.2, beds: 1.8},
+        'Russia':        {waitTime: 7,  physicians: 4.2, beds: 13.1},
+        'South Africa':  {waitTime: 12, physicians: 0.7, beds: 2.5},
+        'Brazil':        {waitTime: 8,  physicians: 1.1, beds: 3.5},
+        'Australia':     {waitTime: 10, physicians: 2.2, beds: 6.8},
+        'New Zealand':   {waitTime: 14, physicians: 2.1, beds: 7.2}
+    };
+
+    const result = { waitTime: {}, physicians: {}, beds: {} };
+
+    COUNTRIES.forEach(country => {
+        const code = COUNTRY_CODES[country];
+        const base = baseValues[country];
+        Object.keys(result).forEach(k => { result[k][country] = []; });
+
+        YEARS.forEach((year, idx) => {
+            // Wait times — generally rising under public systems; COVID backlog spike
+            let waitTime;
+            const covidExtra = (year === 2020) ? 4 : (year === 2021) ? 8 : (year > 2021 ? Math.max(0, 8 - (year - 2021) * 2.5) : 0);
+            if (code === 'GBR') {
+                waitTime = base.waitTime + idx * 0.18 + covidExtra * 1.8;
+            } else if (code === 'CAN' || code === 'AUS' || code === 'NZL') {
+                waitTime = base.waitTime + idx * 0.15 + covidExtra * 1.2;
+            } else if (code === 'USA') {
+                waitTime = base.waitTime + idx * 0.02 + covidExtra * 0.5;
+            } else {
+                waitTime = base.waitTime + idx * 0.05 + covidExtra * 0.8;
+            }
+            waitTime = Math.max(1.5, Math.min(50, waitTime)) * random(0.92, 1.08);
+
+            // Physicians per 1000 — generally rising; Russia declining from Soviet high
+            let physTrend = 0.020;
+            if (code === 'KOR') physTrend = 0.040;
+            else if (code === 'CHN') physTrend = 0.030;
+            else if (code === 'IND') physTrend = 0.012;
+            else if (code === 'RUS') physTrend = -0.018;
+            else if (code === 'ARE') physTrend = 0.035;
+            let physicians = base.physicians + idx * physTrend * random(0.95, 1.05);
+            physicians = Math.max(0.2, Math.min(9, physicians));
+
+            // Hospital beds per 1000 — declining in most OECD; growing in Korea/China
+            let bedTrend = -0.035;
+            if (code === 'KOR') bedTrend = 0.18;
+            else if (code === 'CHN') bedTrend = 0.09;
+            else if (code === 'JPN') bedTrend = -0.06;
+            else if (code === 'RUS') bedTrend = -0.08;
+            let beds = base.beds + idx * bedTrend * random(0.95, 1.05);
+            beds = Math.max(0.5, Math.min(16, beds));
+
+            result.waitTime[country].push(parseFloat(waitTime.toFixed(1)));
+            result.physicians[country].push(parseFloat(physicians.toFixed(2)));
+            result.beds[country].push(parseFloat(beds.toFixed(1)));
+        });
+    });
+    return result;
+}
+
+function generateReligionData() {
+    // 1990 baseline religious composition (%)
+    const base = {
+        'United States':    {christian: 88.0, muslim: 1.0,  hindu: 0.5,  buddhist: 0.5,  secular: 8.0},
+        'Canada':           {christian: 83.0, muslim: 1.2,  hindu: 1.0,  buddhist: 1.0,  secular: 12.0},
+        'Norway':           {christian: 93.0, muslim: 1.8,  hindu: 0.1,  buddhist: 0.3,  secular: 4.0},
+        'Sweden':           {christian: 89.0, muslim: 2.2,  hindu: 0.3,  buddhist: 0.3,  secular: 7.5},
+        'Finland':          {christian: 92.0, muslim: 0.5,  hindu: 0.1,  buddhist: 0.2,  secular: 6.5},
+        'United Kingdom':   {christian: 74.0, muslim: 3.2,  hindu: 1.2,  buddhist: 0.5,  secular: 19.0},
+        'France':           {christian: 77.0, muslim: 7.5,  hindu: 0.8,  buddhist: 0.9,  secular: 12.5},
+        'Germany':          {christian: 72.0, muslim: 4.2,  hindu: 0.3,  buddhist: 0.3,  secular: 22.0},
+        'Italy':            {christian: 90.0, muslim: 1.5,  hindu: 0.2,  buddhist: 0.3,  secular: 7.5},
+        'South Korea':      {christian: 22.0, muslim: 0.2,  hindu: 0.1,  buddhist: 23.0, secular: 52.0},
+        'Japan':            {christian: 2.0,  muslim: 0.2,  hindu: 0.1,  buddhist: 36.0, secular: 59.0},
+        'China':            {christian: 4.0,  muslim: 2.0,  hindu: 0.1,  buddhist: 18.0, secular: 73.0},
+        'Malaysia':         {christian: 9.0,  muslim: 61.0, hindu: 7.0,  buddhist: 19.0, secular: 2.0},
+        'India':            {christian: 2.5,  muslim: 12.0, hindu: 81.0, buddhist: 0.8,  secular: 3.0},
+        'United Arab Emirates': {christian: 12.0, muslim: 83.0, hindu: 3.0, buddhist: 0.5, secular: 1.0},
+        'Russia':           {christian: 68.0, muslim: 10.0, hindu: 0.1,  buddhist: 0.5,  secular: 20.0},
+        'South Africa':     {christian: 78.0, muslim: 2.0,  hindu: 1.8,  buddhist: 0.2,  secular: 15.0},
+        'Brazil':           {christian: 91.0, muslim: 0.1,  hindu: 0.2,  buddhist: 0.2,  secular: 7.0},
+        'Australia':        {christian: 74.0, muslim: 1.1,  hindu: 0.5,  buddhist: 1.0,  secular: 21.5},
+        'New Zealand':      {christian: 75.0, muslim: 0.6,  hindu: 1.8,  buddhist: 1.5,  secular: 19.0}
+    };
+
+    // Percentage-point change per year
+    const trends = {
+        'United States':    {christian: -0.30, muslim: +0.02, hindu: +0.01, buddhist: 0,     secular: +0.28},
+        'Canada':           {christian: -0.32, muslim: +0.04, hindu: +0.03, buddhist: 0,     secular: +0.25},
+        'Norway':           {christian: -0.46, muslim: +0.06, hindu: 0,     buddhist: 0,     secular: +0.40},
+        'Sweden':           {christian: -0.46, muslim: +0.06, hindu: 0,     buddhist: 0,     secular: +0.40},
+        'Finland':          {christian: -0.41, muslim: +0.03, hindu: 0,     buddhist: 0,     secular: +0.38},
+        'United Kingdom':   {christian: -0.42, muslim: +0.05, hindu: +0.02, buddhist: 0,     secular: +0.35},
+        'France':           {christian: -0.33, muslim: +0.04, hindu: +0.01, buddhist: 0,     secular: +0.28},
+        'Germany':          {christian: -0.34, muslim: +0.04, hindu: 0,     buddhist: 0,     secular: +0.30},
+        'Italy':            {christian: -0.26, muslim: +0.04, hindu: +0.01, buddhist: 0,     secular: +0.22},
+        'South Korea':      {christian: +0.10, muslim: 0,     hindu: 0,     buddhist: -0.18, secular: +0.06},
+        'Japan':            {christian: 0,     muslim: 0,     hindu: 0,     buddhist: -0.05, secular: +0.05},
+        'China':            {christian: +0.05, muslim: 0,     hindu: 0,     buddhist: -0.05, secular: +0.02},
+        'Malaysia':         {christian: -0.01, muslim: +0.02, hindu: -0.01, buddhist: -0.01, secular: 0},
+        'India':            {christian: 0,     muslim: +0.02, hindu: -0.02, buddhist: 0,     secular: 0},
+        'United Arab Emirates': {christian: -0.06, muslim: +0.05, hindu: +0.01, buddhist: 0, secular: 0},
+        'Russia':           {christian: -0.08, muslim: +0.03, hindu: 0,     buddhist: 0,     secular: +0.05},
+        'South Africa':     {christian: -0.11, muslim: +0.01, hindu: 0,     buddhist: 0,     secular: +0.10},
+        'Brazil':           {christian: -0.12, muslim: 0,     hindu: 0,     buddhist: 0,     secular: +0.12},
+        'Australia':        {christian: -0.42, muslim: +0.05, hindu: +0.03, buddhist: +0.01, secular: +0.33},
+        'New Zealand':      {christian: -0.40, muslim: +0.03, hindu: +0.03, buddhist: 0,     secular: +0.35}
+    };
+
+    const result = { christian: {}, muslim: {}, hindu: {}, buddhist: {}, secular: {}, other: {} };
+
+    COUNTRIES.forEach(country => {
+        Object.keys(result).forEach(k => { result[k][country] = []; });
+        const b = base[country] || {christian: 50, muslim: 5, hindu: 5, buddhist: 5, secular: 30};
+        const t = trends[country] || {};
+
+        YEARS.forEach((year, idx) => {
+            let christian = b.christian + idx * (t.christian || 0) * random(0.92, 1.08);
+            let muslim    = b.muslim   + idx * (t.muslim   || 0) * random(0.85, 1.15);
+            let hindu     = b.hindu    + idx * (t.hindu    || 0) * random(0.9, 1.1);
+            let buddhist  = b.buddhist + idx * (t.buddhist || 0) * random(0.95, 1.05);
+            let secular   = b.secular  + idx * (t.secular  || 0) * random(0.92, 1.08);
+
+            christian = Math.max(0.5, Math.min(97, christian));
+            muslim    = Math.max(0.1, Math.min(97, muslim));
+            hindu     = Math.max(0.1, Math.min(90, hindu));
+            buddhist  = Math.max(0.1, Math.min(50, buddhist));
+            secular   = Math.max(0.5, Math.min(85, secular));
+            let other = Math.max(0.1, 100 - christian - muslim - hindu - buddhist - secular);
+
+            const total = christian + muslim + hindu + buddhist + secular + other;
+            const f = 100 / total;
+            result.christian[country].push(parseFloat((christian * f).toFixed(1)));
+            result.muslim[country].push(parseFloat((muslim * f).toFixed(1)));
+            result.hindu[country].push(parseFloat((hindu * f).toFixed(1)));
+            result.buddhist[country].push(parseFloat((buddhist * f).toFixed(1)));
+            result.secular[country].push(parseFloat((secular * f).toFixed(1)));
+            result.other[country].push(parseFloat((other * f).toFixed(1)));
+        });
+    });
+    return result;
+}
+
+function generateTelecomData() {
+    // Monthly phone contract (USD, 1970 baseline — landline era; transitions to mobile)
+    const phoneBase = {
+        USA: 12, CAN: 10, NOR: 14, SWE:  8, FIN:  7, GBR: 10, FRA:  6, DEU: 11, ITA:  9,
+        KOR:  5, JPN: 14, CHN:  1, MYS:  3, IND: 0.5, ARE:  7, RUS: 1.5, ZAF:  4, BRA:  3, AUS: 10, NZL: 10
+    };
+    // Monthly internet contract at 1993 launch (dial-up era, USD)
+    const internetStart = {
+        USA: 18, CAN: 16, NOR: 18, SWE: 17, FIN: 17, GBR: 15, FRA: 14, DEU: 15, ITA: 12,
+        KOR: 14, JPN: 16, CHN:  5, MYS:  8, IND:  3, ARE: 12, RUS:  7, ZAF:  9, BRA: 10, AUS: 16, NZL: 15
+    };
+    // Monthly TV / cable subscription (USD, 1970 baseline)
+    const tvBase = {
+        USA:  4.0, CAN:  3.5, NOR:  1.8, SWE:  1.8, FIN:  1.5, GBR:  2.0, FRA:  1.5, DEU:  1.2, ITA:  1.2,
+        KOR:  0.8, JPN:  3.0, CHN:  0.4, MYS:  0.8, IND:  0.3, ARE:  2.0, RUS:  0.5, ZAF:  1.0, BRA:  1.5, AUS:  2.0, NZL:  1.8
+    };
+
+    const result = { phone: {}, internet: {}, tv: {} };
+
+    COUNTRIES.forEach(country => {
+        const code = COUNTRY_CODES[country];
+        result.phone[country]    = [];
+        result.internet[country] = [];
+        result.tv[country]       = [];
+
+        let phoneVal    = phoneBase[code];
+        let tvVal       = tvBase[code];
+        let internetVal = 0;
+
+        YEARS.forEach((year, idx) => {
+            // --- Phone contract ---
+            // Landline era: slow growth; mobile rollout: rapid ARPU rise; saturation: flat/competitive markets ease
+            let phoneRate;
+            if (year < 1990)      phoneRate = 1.025;
+            else if (year < 1998) phoneRate = 1.040;
+            else if (year < 2010) phoneRate = 1.060; // smartphone + data plan era
+            else if (year < 2018) phoneRate = (code === 'FRA' || code === 'FIN' || code === 'SWE') ? 0.990 : 1.009;
+            else                  phoneRate = 1.018; // 5G / data capacity premium
+            phoneVal *= phoneRate;
+            result.phone[country].push(Math.round(phoneVal * random(0.92, 1.08)));
+
+            // --- Internet contract (non-existent before 1993, then dial-up -> broadband -> fibre) ---
+            let internetPush;
+            if (year < 1993) {
+                internetPush = 0;
+            } else if (year === 1993) {
+                internetVal  = internetStart[code];
+                internetPush = Math.round(internetVal * random(0.90, 1.10));
+            } else {
+                const iRate  = year < 2003 ? 1.075 :
+                               year < 2015 ? 1.020 : 1.010;
+                internetVal *= iRate;
+                internetPush = Math.round(internetVal * random(0.90, 1.10));
+            }
+            result.internet[country].push(internetPush);
+
+            // --- TV / streaming subscription ---
+            const tvRate = year < 1980 ? 1.060 :
+                           year < 1990 ? 1.065 :
+                           year < 2000 ? 1.055 :
+                           year < 2015 ? 1.050 : 1.045;
+            tvVal *= tvRate;
+            result.tv[country].push(Math.round(tvVal * random(0.92, 1.08)));
         });
     });
 
@@ -3172,8 +4405,10 @@ function generateAdditionalIndicators() {
 }
 
 function buildSyntheticData() {
+    const gdp = generateGDPData();
+
     return {
-        gdp: generateGDPData(),
+        gdp: gdp,
         gdpPerCapita: generateGDPPerCapita(),
         immigration: generateImmigrationData(),
         employment: generateEmploymentData(),
@@ -3186,7 +4421,12 @@ function buildSyntheticData() {
         health: generateHealthData(),
         environment: generateEnvironmentData(),
         technology: generateTechnologyData(),
-        additional: generateAdditionalIndicators()
+        additional: generateAdditionalIndicators(),
+        qualityOfLife: generateQualityOfLifeData(),
+        healthAccess: generateHealthAccessData(),
+        religion: generateReligionData(),
+        telecom: generateTelecomData(),
+        military: generateMilitarySpendingData(gdp)
     };
 }
 
@@ -3354,7 +4594,38 @@ function applyWdiAccuracyBadges(wdiMergeSucceeded) {
         { id: 'mobilePhonesChart', keys: ['mob'] },
         { id: 'rndInvestmentChart', keys: ['rnd'] },
         { id: 'legalImmigrationPerCapitaChart', mode: 'popOnly' },
-        { id: 'illegalImmigrationPerCapitaChart', mode: 'popOnly' }
+        { id: 'illegalImmigrationPerCapitaChart', mode: 'popOnly' },
+        { id: 'expatArrivalsChart', keys: [] },
+        { id: 'expatDeparturesChart', keys: [] },
+        { id: 'deiChart', keys: [] },
+        { id: 'abortionRateChart', keys: [] },
+        { id: 'qolIndexChart',     keys: [] },
+        { id: 'qolHappinessChart', keys: [] },
+        { id: 'hdiChart',          keys: [] },
+        { id: 'giniChart',         keys: [] },
+        { id: 'corruptionChart',   keys: [] },
+        { id: 'qolPoliticalChart', keys: [] },
+        { id: 'surgeryWaitChart',  keys: [] },
+        { id: 'physiciansChart',   keys: [] },
+        { id: 'hospitalBedsChart', keys: [] },
+        { id: 'qolHealthcareChart', keys: ['healthPc'] },
+        { id: 'christianChart',    keys: [] },
+        { id: 'muslimChart',       keys: [] },
+        { id: 'secularChart',      keys: [] },
+        { id: 'hinduBuddhistChart',keys: [] },
+        { id: 'phoneContractChart',   keys: [] },
+        { id: 'internetContractChart',keys: [] },
+        { id: 'tvContractChart',      keys: [] },
+        { id: 'telecomBundleChart',   keys: [] },
+        { id: 'militaryBudgetChart',  keys: [] },
+        { id: 'militaryShareChart',   keys: [] },
+        { id: 'militaryPerCapitaChart', keys: [] },
+        { id: 'productivityChart', keys: [] },
+        { id: 'freeSpeechChart', keys: [] },
+        { id: 'legacyMediaRatingChart', keys: [] },
+        { id: 'newMediaRatingChart', keys: [] },
+        { id: 'legacyMediaShareChart', keys: [] },
+        { id: 'newMediaShareChart', keys: [] }
     ];
     var loaded = window.__wdiIndicatorLoaded || {};
 
@@ -3477,9 +4748,60 @@ function onLayoutResize() {
 updateChartDimensions();
 applyChartEventPairingClasses();
 
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function getChartsForContextBlock(block) {
+    const source = block.previousElementSibling;
+    if (!source) return [];
+
+    return Array.from(source.querySelectorAll('.chart-container')).map(container => {
+        const titleNode = container.querySelector('.chart-title span');
+        const badgeNode = container.querySelector('.accuracy-badge');
+        return {
+            title: titleNode ? titleNode.textContent.trim() : '',
+            accuracy: badgeNode ? badgeNode.textContent.trim() : ''
+        };
+    }).filter(item => item.title);
+}
+
+function buildEventSpeculationGuide(block) {
+    const charts = getChartsForContextBlock(block);
+    const titles = charts.map(item => item.title);
+    const titleSummary = titles.length ? titles.join(' + ') : 'the chart(s) above';
+    const accuracySummary = Array.from(new Set(charts.map(item => item.accuracy).filter(Boolean))).join(', ');
+    const levelHint = accuracySummary
+        ? `Accuracy labels here: <strong>${escapeHtml(accuracySummary)}</strong>. Use direction, timing, and gaps more confidently than exact point values.`
+        : 'Read the shape first: trend, turning points, and whether the lines confirm or contradict each other.';
+
+    return `
+        <p class="event-speculation__focus">Use this box to interpret <span class="event-speculation__metrics">${escapeHtml(titleSummary)}</span>. Start with the long-run direction, then check whether the lines turn at the same time, and only then infer a story.</p>
+        <div class="event-speculation__guide">
+            <div class="event-speculation__panel">
+                <p class="event-speculation__panel-title">Look For</p>
+                <p class="event-speculation__panel-text">Shared breaks, widening gaps, or a line that changes direction while the other stays flat. Those patterns usually matter more than minor year-to-year wiggles.</p>
+            </div>
+            <div class="event-speculation__panel">
+                <p class="event-speculation__panel-title">Read It As</p>
+                <p class="event-speculation__panel-text">When multiple series move together, a common driver is plausible. When they diverge, the useful question is what changed in productivity, policy, prices, demographics, or measurement.</p>
+            </div>
+            <div class="event-speculation__panel">
+                <p class="event-speculation__panel-title">Do Not Overread</p>
+                <p class="event-speculation__panel-text">${levelHint}</p>
+            </div>
+        </div>
+    `;
+}
+
 function injectEventSpeculationBlocks() {
     const head = '<h4 class="event-speculation__title"><i class="material-icons tiny" style="vertical-align:middle;">psychology</i> Reading the trend (logic)</h4>';
-    const note = '<p class="event-speculation__note">Speculative readings from how the lines move together—not verified news. Tags mark whether a story would be reassuring or worrying <em>if</em> the usual mechanism applied; confounders can invalidate them.</p>';
+    const note = '<p class="event-speculation__note">Treat these as interpretation aids, not conclusions. They are most useful for understanding what a pattern would usually mean and what counter-pattern should make you hesitate.</p>';
     const lists = [
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>If GDP, GDP per capita, GNI per capita, and employment fall and rebound in sync, a shared macro demand shock is a natural explanation; long-run separation suggests productivity, demographics, or data definition drift.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Coordinated recovery across tiles points to broad repair, not one broken dial while the rest hide weakness.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Strong GDP growth with flat employment rates is consistent with jobless or polarized expansion.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Rising life expectancy while birth rates ease fits a textbook mortality-then-fertility transition rather than a sudden health collapse.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Rent or pump prices climbing without income tiles moving the same way implies a squeeze on real budgets even when longevity looks fine.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Modelled rent and gas can echo oil and CPI history; treat divergence from WDI health series as a hint about nominal vs real stress, not proof of medical harm.</li></ul>`,
@@ -3489,19 +4811,23 @@ function injectEventSpeculationBlocks() {
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Large cumulative GDP gains paired with big life-expectancy gains support a “growth plus public health” joint progress narrative over the horizon.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Rising CO₂ over the same window is logically consistent with energy-hungry growth unless policy and technology decouple the two.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Endpoints depend on start-year conditions; the same slope looks “miraculous” or “weak” if the base year was crisis-depressed.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>When total GDP and GDP per capita move in parallel, population growth is probably not the whole story behind level shifts.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Per-capita outpacing aggregate implies falling headwinds from demographics or rising output per worker.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Aggregate GDP up while per-capita stalls is consistent with population-heavy growth with limited productivity catch-up.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Modelled capital-gains and valuation lines illustrate risk-on / risk-off shape; amplitude should not be read as literal market truth.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Joint peaks suggest a unified exuberance episode; orderly descent implies valuation normalization rather than a broken series.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Gains collapsing while valuations stay elevated can imply future earnings need to catch up—or a lingering bubble metric.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Defense budgets often move in regimes, not smooth cycles: Cold War burden, peace-dividend cuts, then rearmament after clear security shocks. A rising burden share with flat GDP means states are reprioritizing fiscal space, not just getting richer.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Budget levels rising while the GDP share stays contained suggests nominal growth is absorbing rearmament without a dramatic fiscal squeeze.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Per-capita defense spending surging alongside a sharply rising GDP share usually means an acute threat environment or emergency procurement cycle, not routine modernization.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Productivity can rise even when employment is flat: the mechanism is better capital, software, organization, or sector mix. When output per worker stalls despite heavy tech spending, diffusion or management quality is the likely bottleneck.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Productivity rising faster than wages and employment at least means the economy is getting more efficient; it creates room for future income gains if bargaining and competition work.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>GDP growth with no productivity follow-through often signals credit, commodities, or asset-price support rather than durable efficiency improvement.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Employment-to-population rising with unemployment falling matches the intuitive labour-market tightening story.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Unemployment falling while employment rates also fall is classic participation decline—statistically “better” unemployment, worse utilization.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>ILO-modelled series smooth national quirks; cross-country gaps may reflect definitions as much as true job quality.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Steady GNI per capita uplift with stable employment suggests productivity, terms of trade, or remittance inflows lifting national income.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Atlas GNI can rise because of commodity prices or a weak domestic currency valuation—median workers need not feel it.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>This is macro income per capita, not employer pay slips; flat wages with rising GNI are logically possible.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Food and shelter costs climbing in tandem points to broad inflation or nominal pass-through squeezing real consumption.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Divergence—rent up, food flat—hints at housing supply or credit conditions rather than a global harvest shock.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Both series cooling together after a spike supports disinflation reaching essentials, not just asset markets.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Housing cost stress alongside rising power bills fits cost-of-living pressure for utility-heavy or poorly insulated housing stocks.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Cheaper wholesale power with flat housing costs can happen if rents are sticky or owner-equivalent measures dominate.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Both easing together suggests relief on household recurring bills after an energy or credit shock.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Pump prices and vehicle costs often move with energy and manufacturing cycles but cars also embed chips, rates, and currency.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Joint surges imply mobility and ownership get pricier in the same window—double hit to household transport budgets.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Falling fuel with stable car prices can mean pure commodity relief rather than demand collapse (which would also crush car sales).</li></ul>`,
+            `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Phone costs rise through the mobile transition then plateau or fall in competitive markets; countries with few operators stay expensive. Internet costs tend to fall as infrastructure marginal cost drops.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Both phone and internet costs easing together signals effective competition policy or regulatory intervention forcing wholesale network access.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Phone costs rising while internet stays flat can imply oligopoly capture of the mobile segment, common where spectrum is held by 2-3 incumbents.</li></ul>`,
+            `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>The TV bundle total reflects the superposition of cord-cutting and operator pricing power; the telecom bundle chart shows headline household connectivity spend regardless of how many services compose it.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Bundle total falling from a peak hints at genuine cord-cutting savings or regulatory pressure forcing pricing discipline on incumbents.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Rising bundle total alongside stagnant wages is regressive — connectivity became essential infrastructure but its costs did not track productivity gains.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Rising health expenditure per capita with flat or falling food-bank proxy could mean treatment expansion without rising distress—at least in this toy pairing.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Both climbing may signal simultaneous fiscal effort and rising need; spending alone does not prove outcomes improved.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Food-bank series is illustrative; infer direction of stress only weakly from its slope.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Higher median age with falling homeownership can mean pricey cities and delayed purchase—or aging renters by choice; the chart cannot distinguish.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Ownership down during credit tightening is consistent with wealth shocks locking younger cohorts out.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Ownership rebounding as age rises can reflect lifecycle buying even if headline averages looked weak mid-career.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Secondary enrollment climbing while literacy is already flat near the top suggests approaching saturation—good problem to have.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Enrollment up with literacy stagnant could imply quantity without learning, or changing cohort definitions (gross &gt; 100% mechanics).</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Literacy and enrollment measure different margins; decades-long gaps between them are normal during expansion phases.</li></ul>`,
-        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Parallel uptrends in gender-equality and happiness proxies fit an inclusion-and-wellbeing narrative—if the indices are independent enough.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Happiness sliding while equality metrics rise hints that other stressors (inflation, security) dominate reported life satisfaction.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Both series are modelled composites; correlation may partly reflect construction, not lived experience.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>DEI and gender-equality proxies rising alongside happiness suggests inclusion is being felt socially, not just written into law or policy.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>DEI and equality improving while happiness stalls can mean inflation, insecurity, or polarization is overwhelming gains in representation and access.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>These are modelled composites; overlap is expected because representation, rights, and belonging are correlated, but they are not the same construct.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Political freedom rising while violence metrics fall matches the stylized liberalization-and-security story.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Freedom scores improving while violence rises can follow formal rights without order—electoral openings amid conflict.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Modelled indices can jump on coding rule changes; treat sharp steps as potentially methodological.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Falling births with slowly rising crude death rates often reflect aging after the fertility transition, not necessarily higher age-specific mortality.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Sudden death-rate spikes with flat births point to wars, epidemics, or health-system collapse—not gradual aging.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Both birth and death rates declining together supports broad demographic modernization with larger cohorts aging through.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Longer life with fewer children per woman is the standard development-transition pairing in cross-country data.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Very low fertility without life-expectancy gains flags postponement, policy constraints, or economic precarity rather than classic transition.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Life expectancy is a stock outcome; fertility responds to forward-looking expectations—divergence for a decade is common.</li></ul>`,
-        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>A sustained downward slope in infant mortality supports scaling basics—vaccines, neonatal care, sanitation—even when other health issues persist.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Plateau at a low level can mean inequality pockets or measurement floors while the national average looks “good enough.”</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>One bad year after steady decline warrants checking shocks; smooth lines will hide discrete crises.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Infant mortality falling while abortion rates also drift down can be consistent with better contraception, prenatal care, and fewer unsafe pregnancies overall.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Official abortion rates falling while infant mortality or maternal stress stays high may reflect access restrictions, underreporting, or substitution toward unsafe pathways rather than improved reproductive health.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Abortion policy, contraception, and neonatal care affect different stages of reproductive health, so the two lines need not move together year by year.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Smoking down while obesity up fits risk substitution and calorie abundance; both falling would be an unusually strong public-health win.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Both rising would contradict the usual prevention narrative—worth questioning the model or a genuine dual epidemic.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Parallel declines support broad lifestyle or policy shifts hitting multiple risk factors.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Diabetes prevalence tracking obesity supports metabolic plausibility; mental-health indices move with survey design and salience as much as true incidence.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Spikes aligned across both could reflect a common stressor (e.g. economic shock) hitting body and mind—or correlated modelling noise.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Diabetes flattening while mental-health metrics worsen might mean clinical control improved even as reported distress rose.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Renewable share rising while CO₂ per capita bends down supports partial decoupling of energy from emissions intensity.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Renewables up with CO₂ still up implies the fossil baseline and activity growth overpowered green market share gains.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Per-capita CO₂ can fall via imports offshoring heavy industry—apparent domestic progress with externalized emissions.</li></ul>`,
@@ -3511,14 +4837,23 @@ function injectEventSpeculationBlocks() {
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Exports and imports usually co-move in open economies; widening gap between them flags rebalancing, prices, or shocks to one side.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Parallel expansion supports deepening integration and synchronized global cycles rather than one-sided closure.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Both collapsing together is the classic synchronized trade collapse signature of a global recession.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Trade balance is an accounting residual; surpluses can mean high savings, weak investment, or commodity rents—not automatic “winning.”</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Persistent surplus with rising exports can signal competitive manufacturing or favorable terms of trade for a stretch.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Large deficits funding productive investment can outperform surpluses born of suppressed consumption—sign alone is weak welfare guidance.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Legal and irregular flows use different definitions; parallel spikes suggest a common pressure wave, divergence suggests policy bottlenecks.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Irregular rising while legal flat may mean quotas stayed tight as pressure grew—backlogs and riskier routes.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Legal up without irregular spiking can mean orderly expansion of regular channels absorbing demand.</li></ul>`,
-        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Per-capita rates divide by population; the same absolute inflow looks enormous for small countries—geometry, not necessarily openness.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Spikes in per-capita irregular flow with calm totals elsewhere can still mean border stress for small states that averages hide.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Stable per-capita legal inflows imply integration pace matched demographic scale—less overload narrative than raw counts suggest.</li></ul>`
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Per-capita rates divide by population; the same absolute inflow looks enormous for small countries—geometry, not necessarily openness.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Spikes in per-capita irregular flow with calm totals elsewhere can still mean border stress for small states that averages hide.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Stable per-capita legal inflows imply integration pace matched demographic scale—less overload narrative than raw counts suggest.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>QoL and happiness indices measure different things: QoL bundles objective services while happiness is self-reported. They can diverge when material standards improve but social trust or autonomy erodes.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Both rising together suggests development benefiting citizens at multiple levels—incomes, services, and subjective wellbeing.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>QoL up while happiness flat or falling is a warning signal about inequality, work stress, or social fragmentation that the composite misses.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>HDI and Gini measure orthogonal things: HDI captures average attainment; Gini measures dispersion within the country. High HDI with high Gini means average progress with a wide gap between the top and bottom.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>HDI rising while Gini falls signals inclusive development—the characteristic pattern of successful East Asian industrializers in their early decades.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>HDI rising while Gini rises means the gains are concentrated; average life expectancy may look good while lower half incomes stagnate.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Corruption and freedom indices are both slow-moving and subject to geopolitical coding bias. Sharp year-to-year jumps often reflect methodology changes or analyst reassessment, not sudden regime shifts.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Corruption score improving alongside political freedom gain supports a broadly liberalising trajectory—common in post-transition economies that sustain reform over a decade.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Freedom scores rising while corruption stays high can indicate electoral openings without rule-of-law enforcement—votes without accountability.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Free speech and media trust are related but not identical. Open systems can still have low trust when audiences fragment; controlled systems can show stable trust scores because dissenting voices are excluded from measurement and public reach.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Free speech holding high while both legacy and new-media trust remain stable suggests a resilient information system rather than simple gatekeeping.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Trust collapsing in both old and new media while speech remains open often points to polarization, elite credibility loss, or platform-driven noise overwhelming verification norms.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Legacy and new-media market shares should rotate in opposite directions over the long run as attention, ads, and distribution migrate. The speed of the crossover says more about smartphone diffusion and platform power than about content quality alone.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>A gradual rather than abrupt legacy decline suggests incumbents adapted digitally instead of collapsing into local-news deserts.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>New-media share exploding while trust falls is the classic low-friction, low-verification environment where reach outpaces editorial safeguards.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Wait times are a system-level ratio signal: capacity divided by demand. Rising wait times do not mean worse individual outcomes if triage prioritises acute cases; they do mean more deferred care and patient burden.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Physician density rising while wait times stabilise suggests supply caught up with population pressure—the goal of workforce planning programs.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Wait times spiking while physician numbers are flat (as during COVID backlogs) is exactly the chronic undercapacity scenario that strains life outcomes for elective conditions.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Bed counts are a legacy metric—many high-bed countries inherited Soviet or mid-century hospital-based care models. The OECD trend toward outpatient and day-surgery reduces beds purposefully, not just through austerity.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Spending per capita rising while beds fall can mean efficient substitution (outpatient, primary care) rather than simple cuts.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Beds declining faster than spending grows, with no countervailing outpatient expansion, signals genuine capacity contraction that leaves surge capacity (e.g. pandemic) very thin.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Christian share trends primarily reflect two forces: secularisation (people leaving religion) and net migration composition. In Western Europe both push in the same direction; in sub-Saharan Africa Christianity is expanding rapidly.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Gradual shifts suggest organic demographic change rather than coerced conversion or ethnic cleansing—peaceful pluralism in transition.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Rapid share changes within a decade may politicise religious identity and feed inter-communal tension where institutions are weak.</li></ul>`,
+        `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>The "secular" category mixes genuine irreligion with culturally affiliated non-practitioners. Nordic "secular" numbers remain high while Buddhist and folk practices persist in Japan and Korea under the same rubric.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Rising secular share correlated with rising gender equality and tolerance indices fits a liberalisation narrative, though causation runs both ways.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Rapid secularisation without parallel growth in civic institutions can erode social cohesion that religious networks once provided—community, charity, mental health support.</li></ul>`
     ];
     document.querySelectorAll('.historical-context--below-chart').forEach((block, i) => {
         if (block.querySelector('.event-speculation')) return;
         const wrap = document.createElement('div');
         wrap.className = 'event-speculation';
         wrap.setAttribute('aria-label', 'Speculative interpretation of the chart');
-        wrap.innerHTML = head + note + (lists[i] || lists[lists.length - 1]);
+        wrap.innerHTML = head + note + buildEventSpeculationGuide(block) + (lists[i] || lists[lists.length - 1]);
         block.appendChild(wrap);
     });
 }
@@ -3703,6 +5038,22 @@ function initializeAllCharts() {
         getChartData(DATA.additional.valuation),
         getChartOptions('Company Valuation Index', 'Index'));
 
+    createChart('militaryBudgetChart',
+        getChartData(DATA.military.budget),
+        getChartOptions('Military Expenditure', 'USD bn'));
+
+    createChart('militaryShareChart',
+        getChartData(DATA.military.share),
+        getChartOptions('Military Expenditure', '% of GDP'));
+
+    createChart('militaryPerCapitaChart',
+        getChartData(DATA.military.perCapita),
+        getChartOptions('Military Expenditure Per Capita', 'USD/person'));
+
+    createChart('productivityChart',
+        getChartData(DATA.additional.productivity),
+        getChartOptions('Labour Productivity Index', 'Index (1990 = 100)'));
+
     // Employment charts
     createChart('employmentChart',
         getChartData(DATA.employment.employment),
@@ -3741,6 +5092,29 @@ function initializeAllCharts() {
         getChartData(DATA.costOfLiving.car),
         getChartOptions('Car Costs', 'USD'));
 
+    // Telecom charts
+    createChart('phoneContractChart',
+        getChartData(DATA.telecom.phone),
+        getChartOptions('Monthly Phone Contract', 'USD/month'));
+
+    createChart('internetContractChart',
+        getChartData(DATA.telecom.internet),
+        getChartOptions('Monthly Broadband / Internet Contract', 'USD/month'));
+
+    createChart('tvContractChart',
+        getChartData(DATA.telecom.tv),
+        getChartOptions('Monthly TV / Streaming Subscription', 'USD/month'));
+
+    const telecomBundleInitData = {};
+    selectedCountries.forEach(country => {
+        telecomBundleInitData[country] = DATA.telecom.phone[country].map((p, i) =>
+            p + DATA.telecom.internet[country][i] + DATA.telecom.tv[country][i]
+        );
+    });
+    createChart('telecomBundleChart',
+        getChartData(telecomBundleInitData),
+        getChartOptions('Total Telecom Bundle (Phone + Internet + TV)', 'USD/month'));
+
     // Social charts
     createChart('healthcareChart',
         getChartData(DATA.healthcare),
@@ -3769,6 +5143,10 @@ function initializeAllCharts() {
     createChart('genderEqualityChart',
         getChartData(DATA.social.genderEquality),
         getChartOptions('Gender Equality Index', 'Index (0-1)'));
+
+    createChart('deiChart',
+        getChartData(DATA.social.dei),
+        getChartOptions('DEI Index', 'Score (0-100)'));
 
     createChart('happinessChart',
         getChartData(DATA.social.happiness),
@@ -3819,6 +5197,10 @@ function initializeAllCharts() {
         getChartData(DATA.demographics.fertilityRate),
         getChartOptions('Fertility Rate', 'Children per woman'));
 
+    createChart('abortionRateChart',
+        getChartData(DATA.demographics.abortionRate),
+        getChartOptions('Abortion Rate', 'Per 1,000 women ages 15-44'));
+
     createChart('infantMortalityChart',
         getChartData(DATA.demographics.infantMortality),
         getChartOptions('Infant Mortality Rate', 'Per 1000 live births'));
@@ -3839,6 +5221,14 @@ function initializeAllCharts() {
     createChart('illegalImmigrationPerCapitaChart',
         getChartData(DATA.immigration.illegalPerCapita),
         getChartOptions('Illegal Immigration Per Capita', 'Per 100k people'));
+
+    createChart('expatArrivalsChart',
+        getChartData(DATA.immigration.expatArrivals),
+        getChartOptions('Expat Arrivals', 'People'));
+
+    createChart('expatDeparturesChart',
+        getChartData(DATA.immigration.expatDepartures),
+        getChartOptions('Expat Departures', 'People'));
 
     // Health charts
     createChart('obesityChart',
@@ -3890,6 +5280,92 @@ function initializeAllCharts() {
     createChart('rndInvestmentChart',
         getChartData(DATA.technology.rndInvestment),
         getChartOptions('R&D Investment', '% of GDP'));
+
+    // Quality of Life charts
+    createChart('qolIndexChart',
+        getChartData(DATA.qualityOfLife.qol),
+        getChartOptions('Quality of Life Index', 'Score (0–100)'));
+
+    createChart('qolHappinessChart',
+        getChartData(DATA.social.happiness),
+        getChartOptions('Happiness Index (World Happiness Report basis)', 'Score (0–10)'));
+
+    createChart('hdiChart',
+        getChartData(DATA.qualityOfLife.hdi),
+        getChartOptions('Human Development Index', 'HDI (0–1)'));
+
+    createChart('giniChart',
+        getChartData(DATA.qualityOfLife.gini),
+        getChartOptions('Gini Coefficient – Income Inequality', 'Gini (0 = equal, 100 = unequal)'));
+
+    createChart('corruptionChart',
+        getChartData(DATA.qualityOfLife.corruption),
+        getChartOptions('Corruption Perception Index', 'Score (0–100, higher = cleaner)'));
+
+    createChart('qolPoliticalChart',
+        getChartData(DATA.social.politicalFreedom),
+        getChartOptions('Political Freedom Index', 'Score (0–10)'));
+
+    createChart('freeSpeechChart',
+        getChartData(DATA.social.freeSpeech),
+        getChartOptions('Free Speech Rating', 'Score (0–10)'));
+
+    createChart('legacyMediaRatingChart',
+        getChartData(DATA.social.legacyMediaRating),
+        getChartOptions('Legacy Media Trust Rating', 'Score (0–10)'));
+
+    createChart('newMediaRatingChart',
+        getChartData(DATA.social.newMediaRating),
+        getChartOptions('New Media Trust Rating', 'Score (0–10)'));
+
+    createChart('legacyMediaShareChart',
+        getChartData(DATA.social.legacyMediaShare),
+        getChartOptions('Legacy Media Market Share', 'Share (%)'));
+
+    createChart('newMediaShareChart',
+        getChartData(DATA.social.newMediaShare),
+        getChartOptions('New Media Market Share', 'Share (%)'));
+
+    // Health access charts
+    createChart('surgeryWaitChart',
+        getChartData(DATA.healthAccess.waitTime),
+        getChartOptions('Median Elective Surgery Wait Time', 'Weeks'));
+
+    createChart('physiciansChart',
+        getChartData(DATA.healthAccess.physicians),
+        getChartOptions('Physicians per 1,000 People', 'Physicians / 1k'));
+
+    createChart('hospitalBedsChart',
+        getChartData(DATA.healthAccess.beds),
+        getChartOptions('Hospital Beds per 1,000 People', 'Beds / 1k'));
+
+    createChart('qolHealthcareChart',
+        getChartData(DATA.healthcare),
+        getChartOptions('Healthcare Expenditure per Capita', 'USD / year'));
+
+    // Religion charts
+    createChart('christianChart',
+        getChartData(DATA.religion.christian),
+        getChartOptions('Christian Population Share', '% of population'));
+
+    createChart('muslimChart',
+        getChartData(DATA.religion.muslim),
+        getChartOptions('Muslim Population Share', '% of population'));
+
+    createChart('secularChart',
+        getChartData(DATA.religion.secular),
+        getChartOptions('Secular / Unaffiliated Share', '% of population'));
+
+    // Hindu+Buddhist combined series
+    const hinduBuddhistData = {};
+    selectedCountries.forEach(country => {
+        hinduBuddhistData[country] = DATA.religion.hindu[country].map((h, i) =>
+            parseFloat((h + DATA.religion.buddhist[country][i]).toFixed(1))
+        );
+    });
+    createChart('hinduBuddhistChart',
+        getChartData(hinduBuddhistData),
+        getChartOptions('Hindu + Buddhist Share', '% of population'));
 }
 
 function updateAllCharts() {
@@ -3914,6 +5390,26 @@ function updateAllCharts() {
     if (charts['valuationChart']) {
         charts['valuationChart'].data = getChartData(DATA.additional.valuation);
         charts['valuationChart'].update();
+    }
+
+    if (charts['militaryBudgetChart']) {
+        charts['militaryBudgetChart'].data = getChartData(DATA.military.budget);
+        charts['militaryBudgetChart'].update();
+    }
+
+    if (charts['militaryShareChart']) {
+        charts['militaryShareChart'].data = getChartData(DATA.military.share);
+        charts['militaryShareChart'].update();
+    }
+
+    if (charts['militaryPerCapitaChart']) {
+        charts['militaryPerCapitaChart'].data = getChartData(DATA.military.perCapita);
+        charts['militaryPerCapitaChart'].update();
+    }
+
+    if (charts['productivityChart']) {
+        charts['productivityChart'].data = getChartData(DATA.additional.productivity);
+        charts['productivityChart'].update();
     }
 
     // Update employment charts
@@ -3963,6 +5459,33 @@ function updateAllCharts() {
         charts['carChart'].update();
     }
 
+    // Update Telecom charts
+    if (charts['phoneContractChart']) {
+        charts['phoneContractChart'].data = getChartData(DATA.telecom.phone);
+        charts['phoneContractChart'].update();
+    }
+
+    if (charts['internetContractChart']) {
+        charts['internetContractChart'].data = getChartData(DATA.telecom.internet);
+        charts['internetContractChart'].update();
+    }
+
+    if (charts['tvContractChart']) {
+        charts['tvContractChart'].data = getChartData(DATA.telecom.tv);
+        charts['tvContractChart'].update();
+    }
+
+    if (charts['telecomBundleChart']) {
+        const telecomBundleUpd = {};
+        selectedCountries.forEach(country => {
+            telecomBundleUpd[country] = DATA.telecom.phone[country].map((p, i) =>
+                p + DATA.telecom.internet[country][i] + DATA.telecom.tv[country][i]
+            );
+        });
+        charts['telecomBundleChart'].data = getChartData(telecomBundleUpd);
+        charts['telecomBundleChart'].update();
+    }
+
     // Update social charts
     if (charts['healthcareChart']) {
         charts['healthcareChart'].data = getChartData(DATA.healthcare);
@@ -3997,6 +5520,11 @@ function updateAllCharts() {
     if (charts['genderEqualityChart']) {
         charts['genderEqualityChart'].data = getChartData(DATA.social.genderEquality);
         charts['genderEqualityChart'].update();
+    }
+
+    if (charts['deiChart']) {
+        charts['deiChart'].data = getChartData(DATA.social.dei);
+        charts['deiChart'].update();
     }
 
     if (charts['happinessChart']) {
@@ -4057,6 +5585,11 @@ function updateAllCharts() {
         charts['fertilityRateChart'].update();
     }
 
+    if (charts['abortionRateChart']) {
+        charts['abortionRateChart'].data = getChartData(DATA.demographics.abortionRate);
+        charts['abortionRateChart'].update();
+    }
+
     if (charts['infantMortalityChart']) {
         charts['infantMortalityChart'].data = getChartData(DATA.demographics.infantMortality);
         charts['infantMortalityChart'].update();
@@ -4081,6 +5614,16 @@ function updateAllCharts() {
     if (charts['illegalImmigrationPerCapitaChart']) {
         charts['illegalImmigrationPerCapitaChart'].data = getChartData(DATA.immigration.illegalPerCapita);
         charts['illegalImmigrationPerCapitaChart'].update();
+    }
+
+    if (charts['expatArrivalsChart']) {
+        charts['expatArrivalsChart'].data = getChartData(DATA.immigration.expatArrivals);
+        charts['expatArrivalsChart'].update();
+    }
+
+    if (charts['expatDeparturesChart']) {
+        charts['expatDeparturesChart'].data = getChartData(DATA.immigration.expatDepartures);
+        charts['expatDeparturesChart'].update();
     }
 
     // Update health charts
@@ -4144,6 +5687,110 @@ function updateAllCharts() {
     if (charts['rndInvestmentChart']) {
         charts['rndInvestmentChart'].data = getChartData(DATA.technology.rndInvestment);
         charts['rndInvestmentChart'].update();
+    }
+
+    // Update Quality of Life charts
+    if (charts['qolIndexChart']) {
+        charts['qolIndexChart'].data = getChartData(DATA.qualityOfLife.qol);
+        charts['qolIndexChart'].update();
+    }
+
+    if (charts['qolHappinessChart']) {
+        charts['qolHappinessChart'].data = getChartData(DATA.social.happiness);
+        charts['qolHappinessChart'].update();
+    }
+
+    if (charts['hdiChart']) {
+        charts['hdiChart'].data = getChartData(DATA.qualityOfLife.hdi);
+        charts['hdiChart'].update();
+    }
+
+    if (charts['giniChart']) {
+        charts['giniChart'].data = getChartData(DATA.qualityOfLife.gini);
+        charts['giniChart'].update();
+    }
+
+    if (charts['corruptionChart']) {
+        charts['corruptionChart'].data = getChartData(DATA.qualityOfLife.corruption);
+        charts['corruptionChart'].update();
+    }
+
+    if (charts['qolPoliticalChart']) {
+        charts['qolPoliticalChart'].data = getChartData(DATA.social.politicalFreedom);
+        charts['qolPoliticalChart'].update();
+    }
+
+    if (charts['freeSpeechChart']) {
+        charts['freeSpeechChart'].data = getChartData(DATA.social.freeSpeech);
+        charts['freeSpeechChart'].update();
+    }
+
+    if (charts['legacyMediaRatingChart']) {
+        charts['legacyMediaRatingChart'].data = getChartData(DATA.social.legacyMediaRating);
+        charts['legacyMediaRatingChart'].update();
+    }
+
+    if (charts['newMediaRatingChart']) {
+        charts['newMediaRatingChart'].data = getChartData(DATA.social.newMediaRating);
+        charts['newMediaRatingChart'].update();
+    }
+
+    if (charts['legacyMediaShareChart']) {
+        charts['legacyMediaShareChart'].data = getChartData(DATA.social.legacyMediaShare);
+        charts['legacyMediaShareChart'].update();
+    }
+
+    if (charts['newMediaShareChart']) {
+        charts['newMediaShareChart'].data = getChartData(DATA.social.newMediaShare);
+        charts['newMediaShareChart'].update();
+    }
+
+    // Update Health Access charts
+    if (charts['surgeryWaitChart']) {
+        charts['surgeryWaitChart'].data = getChartData(DATA.healthAccess.waitTime);
+        charts['surgeryWaitChart'].update();
+    }
+
+    if (charts['physiciansChart']) {
+        charts['physiciansChart'].data = getChartData(DATA.healthAccess.physicians);
+        charts['physiciansChart'].update();
+    }
+
+    if (charts['hospitalBedsChart']) {
+        charts['hospitalBedsChart'].data = getChartData(DATA.healthAccess.beds);
+        charts['hospitalBedsChart'].update();
+    }
+
+    if (charts['qolHealthcareChart']) {
+        charts['qolHealthcareChart'].data = getChartData(DATA.healthcare);
+        charts['qolHealthcareChart'].update();
+    }
+
+    // Update Religion charts
+    if (charts['christianChart']) {
+        charts['christianChart'].data = getChartData(DATA.religion.christian);
+        charts['christianChart'].update();
+    }
+
+    if (charts['muslimChart']) {
+        charts['muslimChart'].data = getChartData(DATA.religion.muslim);
+        charts['muslimChart'].update();
+    }
+
+    if (charts['secularChart']) {
+        charts['secularChart'].data = getChartData(DATA.religion.secular);
+        charts['secularChart'].update();
+    }
+
+    if (charts['hinduBuddhistChart']) {
+        const hinduBuddhistData = {};
+        selectedCountries.forEach(country => {
+            hinduBuddhistData[country] = DATA.religion.hindu[country].map((h, i) =>
+                parseFloat((h + DATA.religion.buddhist[country][i]).toFixed(1))
+            );
+        });
+        charts['hinduBuddhistChart'].data = getChartData(hinduBuddhistData);
+        charts['hinduBuddhistChart'].update();
     }
 
     // Update statistics summary

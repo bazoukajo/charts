@@ -2,6 +2,10 @@
 
 An interactive HTML dashboard comparing economic, social, demographic, health, environmental, technology, trade, and migration indicators across many countries. The UI uses Materialize and Chart.js.
 
+## Screenshot
+
+![Dashboard screenshot](docs/dashboard-screenshot-2026-04-10.png)
+
 ## Countries
 
 Selectable chips include (among others): United States, Canada, United Kingdom, France, Germany, Italy, Japan, Norway, Sweden, Finland, South Korea, China, India, Russia, Brazil, Malaysia, UAE, South Africa, New Zealand, and more—see the country row on the page for the full list.
@@ -25,8 +29,8 @@ Default selection is typically **United States, Canada, United Kingdom, China** 
 ## How to run
 
 1. Clone or copy this folder.
-2. Start a local server in the project directory, for example:  
-   `python -m http.server 8765`  
+2. Start a local server in the project directory, for example:
+   `python -m http.server 8765`
    Then open `http://127.0.0.1:8765/` and choose `index.html` if needed.
 3. Select countries with the chips and explore the tabs. Hover charts for values.
 
