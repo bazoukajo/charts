@@ -4,7 +4,9 @@ An interactive HTML dashboard comparing economic, social, demographic, health, e
 
 ## Screenshot
 
-![Dashboard screenshot](docs/dashboard-screenshot-2026-04-10.png)
+Dark theme (default). The preview is a **fixed viewport** (about 1440×1520px)—not the full scrolling page—so the README stays readable. It shows the country selector, tab bar, **Economic** tab’s first chart row (GDP and GDP per capita), and the **GDP & income per capita (WDI)** context card that belongs with those charts.
+
+![Dashboard screenshot](dashboard-screenshot.png)
 
 ## Countries
 
@@ -23,7 +25,7 @@ Default selection is typically **United States, Canada, United Kingdom, China** 
 - **Tabs:** Economic, Jobs, Costs, Social, Population, Health, Environment, Tech, Trade, Migration.
 - **KPI summary**, **year-over-year** tiles, **long-horizon** summaries, and a **comparison table** (latest year).
 - **Historical context** under charts (dated episodes) plus a **“Reading the trend (logic)”** block: speculative, logic-only readings from how series move together—not news verification.
-- **Dark / light** theme toggle (preference stored in `localStorage`).
+- **Dark / light** theme toggle; **dark is the default** (preference stored in `localStorage`).
 - **Responsive** layout; chart sizing adjusts with country count and viewport.
 
 ## How to run
@@ -38,10 +40,11 @@ Default selection is typically **United States, Canada, United Kingdom, China** 
 
 ```
 Charts/
-├── index.html    # Main dashboard (inline styles & app script)
-├── shortcuts.html # Optional: developer keyboard shortcuts reference (standalone)
-├── README.md     # This file
-└── .gitignore    # Ignores IDE/OS noise and common local artifacts
+├── index.html              # Main dashboard (inline styles & app script)
+├── shortcuts.html          # Optional: developer keyboard shortcuts reference (standalone)
+├── dashboard-screenshot.png  # README preview: dark theme, first Economic section (viewport crop)
+├── README.md               # This file
+└── .gitignore              # Ignores IDE/OS noise and common local artifacts
 ```
 
 ## License / use

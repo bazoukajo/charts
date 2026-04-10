@@ -521,14 +521,24 @@
             display: none;
         }
 
-        /* Wider horizontal separation between the two l6 charts on large screens (row-gap only affects stacked layout) */
-        @media only screen and (min-width: 993px) {
-            .container .row.chart-row--above-events:has(> .col.l6:nth-child(2):last-child) > .col.s12.l6:first-child {
-                padding-right: calc(0.75rem + var(--chart-row-inner-gap));
-            }
+        /*
+         * Materialize sets margin-left:auto on .col.l6/.col.s12. In a flex row with gap, two 50%-width
+         * columns wrap; each line then has a single item and margin-left:auto shoves charts to the right.
+         * Reset margins and let flex share width (pairs or triples). KPI rows keep the float grid — excluded.
+         */
+        .container .row.chart-row--above-events:not(.chart-row--above-events--kpi) > .col {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            width: auto !important;
+            box-sizing: border-box;
+            flex: 1 1 0;
+            min-width: 0;
+        }
 
-            .container .row.chart-row--above-events:has(> .col.l6:nth-child(2):last-child) > .col.s12.l6:nth-child(2) {
-                padding-left: calc(0.75rem + var(--chart-row-inner-gap));
+        @media only screen and (max-width: 992px) {
+            .container .row.chart-row--above-events:not(.chart-row--above-events--kpi) > .col {
+                flex: 1 1 100%;
+                max-width: 100%;
             }
         }
 
@@ -566,6 +576,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
+            gap: 6px 10px;
             background-color: transparent;
             margin-bottom: 0px;
             min-height: 48px;
@@ -575,7 +586,7 @@
 
         .tabs .tab {
             flex: 0 0 auto;
-            min-width: 120px;
+            min-width: 112px;
             margin: 0px;
             height: 48px;
             line-height: 48px;
@@ -686,11 +697,11 @@
         }
     </style>
 </head>
-<body>
+<body class="dark-theme">
     <!-- Theme Toggle -->
     <div class="theme-header">
         <a href="#" class="theme-toggle" onclick="toggleTheme(); return false;">
-            <i class="material-icons" id="theme-icon">dark_mode</i>
+            <i class="material-icons" id="theme-icon">light_mode</i>
         </a>
     </div>
 
@@ -2795,9 +2806,12 @@
 
     <!-- Theme Toggle Script -->
     <script>
-        // Check for saved theme preference or default to light mode
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        if (currentTheme === 'dark') {
+        // Saved preference, or default dark (first visit / cleared storage)
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if (currentTheme === 'light') {
+            document.body.classList.remove('dark-theme');
+            document.getElementById('theme-icon').textContent = 'dark_mode';
+        } else {
             document.body.classList.add('dark-theme');
             document.getElementById('theme-icon').textContent = 'light_mode';
         }
@@ -4689,18 +4703,38 @@ function updateChartDimensions() {
     });
 
     const manyCountries = selectedCountries.length > 5;
-    const isSmallScreen = window.innerWidth < 768;
+    const isSmallScreen = window.innerWidth < 993;
 
-    document.querySelectorAll('.col').forEach(col => {
-        if (col.classList.contains('s12') && col.classList.contains('l6')) {
-            if (manyCountries || isSmallScreen) {
-                col.className = 'col s12';
-            }
-        } else if (col.classList.contains('s12') && !col.classList.contains('l6')) {
-            if (!manyCountries && !isSmallScreen) {
-                col.className = 'col s12 l6';
-            }
+    document.querySelectorAll('.container .row').forEach(row => {
+        const chartCols = Array.from(row.querySelectorAll(':scope > .col')).filter(col =>
+            col.querySelector(':scope > .chart-container')
+        );
+        if (!chartCols.length) return;
+
+        if (chartCols.length === 1) {
+            chartCols[0].className = 'col s12';
+            return;
         }
+
+        if (chartCols.length === 2) {
+            const cls = manyCountries || isSmallScreen ? 'col s12' : 'col s12 l6';
+            chartCols.forEach(col => {
+                col.className = cls;
+            });
+            return;
+        }
+
+        if (chartCols.length === 3) {
+            const cls = manyCountries || isSmallScreen ? 'col s12' : 'col s12 l4';
+            chartCols.forEach(col => {
+                col.className = cls;
+            });
+            return;
+        }
+
+        chartCols.forEach(col => {
+            col.className = 'col s12';
+        });
     });
 }
 
