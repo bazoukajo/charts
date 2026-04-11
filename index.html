@@ -73,23 +73,70 @@
             color: var(--accent-color) !important;
         }
 
-        .theme-toggle {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
-        }
-
-        .theme-toggle:hover {
-            background-color: rgba(102, 126, 234, 0.1);
-        }
-
         .theme-header {
             position: fixed;
             top: 0;
             right: 0;
             z-index: 1000;
             padding: 10px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Shared size + style for language + theme controls */
+        .theme-header .header-action-btn {
+            box-sizing: border-box;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            min-height: 40px;
+            padding: 0;
+            margin: 0;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background-color: var(--bg-secondary);
+            color: var(--accent-color);
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+        }
+
+        .theme-header .header-action-btn:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.35);
+        }
+
+        body.dark-theme .theme-header .header-action-btn {
+            color: #a8b5ff;
+        }
+
+        body.dark-theme .theme-header .header-action-btn:hover {
+            background-color: rgba(168, 181, 255, 0.12);
+            border-color: rgba(168, 181, 255, 0.35);
+        }
+
+        .theme-header .header-action-btn .material-icons {
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        .theme-header .header-action-btn #lang-toggle-label {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            line-height: 1;
+            user-select: none;
+        }
+
+        .theme-header .header-action-btn:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
         }
 
         .header-section {
@@ -130,14 +177,19 @@
             min-height: 280px;
         }
 
-        /* Paired rows/cards get classes from applyChartEventPairingClasses() — avoids :has() gaps & drops forced min-height */
-        .container .row.chart-row--above-events .chart-container {
+        /* Paired rows: keep a floor height for real charts so flex never collapses the plot area */
+        .container .row.chart-row--above-events .chart-container:has(> canvas) {
+            min-height: 300px;
+        }
+
+        .container .row.chart-row--above-events .chart-container:not(:has(> canvas)) {
             min-height: 0;
         }
 
         .chart-container > canvas {
             width: 100% !important;
             max-width: 100%;
+            max-height: none; /* height set in JS; vh caps elsewhere clipped the plot */
             display: block;
         }
 
@@ -210,7 +262,7 @@
         .section-header {
             background: var(--bg-secondary);
             padding: 15px 20px;
-            margin: var(--section-vspace) 0;
+            margin: var(--section-vspace) 0.75rem;
             border-radius: 8px;
             box-shadow: var(--shadow);
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -224,7 +276,7 @@
         }
 
         .country-selector {
-            margin: var(--section-vspace) 0;
+            margin: var(--section-vspace) 0.75rem;
         }
 
         .country-selector .chart-container {
@@ -273,14 +325,6 @@
             border-color: var(--accent-color);
         }
 
-        canvas {
-            max-height: min(504px, 49vh);
-        }
-
-        .row .col.s12.l6 canvas {
-            max-height: min(476px, 46vh);
-        }
-
         /* KPI / chart columns: at least ~30% width on large screens (l4 = 33.33%) */
         #statisticsSummary .row > .col,
         .container .row > .col:has(> .chart-container) {
@@ -316,19 +360,19 @@
         }
 
         .data-provenance {
-            font-size: 0.9rem;
+            font-size: 0.72rem;
             color: var(--text-secondary);
-            line-height: 1.5;
-            margin: var(--section-vspace) 0;
-            padding: 12px 16px;
+            line-height: 1.4;
+            margin: var(--section-vspace) 0.75rem;
+            padding: 12px 20px;
             background: var(--bg-secondary);
             border-radius: 8px;
             border-left: 4px solid var(--accent-color);
         }
 
         .historical-context {
-            margin: 0;
-            padding: 20px 22px;
+            margin: 0 0.75rem;
+            padding: 20px;
             background: var(--bg-secondary);
             border-radius: 8px;
             box-shadow: var(--shadow);
@@ -558,6 +602,10 @@
             min-height: 0;
         }
 
+        .container .chart-container.chart-container--above-events:has(> canvas) {
+            min-height: 300px;
+        }
+
         .container .chart-container.chart-container--above-events .chart-title {
             margin-bottom: 10px;
             padding-bottom: 6px;
@@ -576,42 +624,82 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
-            gap: 6px 10px;
-            background-color: transparent;
-            margin-bottom: 0px;
-            min-height: 48px;
+            gap: 6px 8px;
+            background: var(--bg-primary);
+            margin: 0 0.75rem 12px;
+            min-height: auto;
             height: auto;
-            padding: 0;
+            padding: 8px 0 8px 0;
+            overflow: visible;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
         }
 
         .tabs .tab {
             flex: 0 0 auto;
-            min-width: 112px;
-            margin: 0px;
-            height: 48px;
-            line-height: 48px;
+            min-width: 0;
+            margin: 0;
+            height: auto;
+            line-height: normal;
+            overflow: visible;
         }
 
         .tabs .tab a {
-            color: var(--accent-color);
-            white-space: normal;
-            text-align: center;
-            display: block;
-            height: 48px;
-            line-height: 48px;
-            padding: 0 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            height: auto;
+            line-height: normal;
+            padding: 7px 14px;
             margin: 0;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            text-align: center;
+            color: var(--text-secondary) !important;
+            background: var(--bg-secondary);
+            border: 1.5px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            transition: all 0.18s ease;
+            text-decoration: none;
         }
 
+        /* Hover — greyscale lift */
         .tabs .tab a:hover {
-            color: var(--accent-hover);
-            background-color: transparent;
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.09) !important;
+            color: #ffffff !important;
+            border-color: rgba(255, 255, 255, 0.50) !important;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.30);
         }
 
+        /* Active — inverted pill: white bg + dark text for maximum contrast */
         .tabs .tab a.active {
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--accent-color);
-            background-color: transparent;
+            font-weight: 700 !important;
+            background: #ffffff !important;
+            color: #111111 !important;
+            border-color: #ffffff !important;
+            border-width: 2px !important;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18) !important;
+        }
+
+        /* Light theme overrides */
+        body:not(.dark-theme) .tabs .tab a:hover {
+            background: rgba(0, 0, 0, 0.08) !important;
+            color: #111111 !important;
+            border-color: rgba(0, 0, 0, 0.40) !important;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+        }
+        body:not(.dark-theme) .tabs .tab a.active {
+            background: #1a1a1a !important;
+            color: #ffffff !important;
+            border-color: #1a1a1a !important;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.15) !important;
         }
 
         .tabs .indicator {
@@ -695,37 +783,46 @@
         .trend-value {
             font-size: 1.8rem;
         }
+
+        /* Statistics summary and text interpretation panels are not chart content — hide them */
+        #statisticsSummary {
+            display: none !important;
+        }
+
     </style>
 </head>
 <body class="dark-theme">
     <!-- Theme Toggle -->
     <div class="theme-header">
-        <a href="#" class="theme-toggle" onclick="toggleTheme(); return false;">
+        <a href="#" id="lang-toggle" class="header-action-btn" onclick="if(window.DashboardI18n)DashboardI18n.toggleLocale(); return false;" title="Switch language">
+            <span id="lang-toggle-label">EN</span>
+        </a>
+        <a href="#" class="header-action-btn" onclick="toggleTheme(); return false;" title="Toggle light/dark theme" aria-label="Toggle theme">
             <i class="material-icons" id="theme-icon">light_mode</i>
         </a>
     </div>
 
     <!-- Main Content -->
     <div class="container">
+        <p class="data-provenance" id="dataProvenanceNote">
+            <strong>Data sources:</strong> On load, the page requests <a href="https://data.worldbank.org/" target="_blank" rel="noopener">World Bank World Development Indicators</a> (WDI) and merges: GDP (current US$), GDP per capita, GNI per capita (Atlas), current health expenditure per capita, secondary school enrollment (gross), goods &amp; services exports/imports, unemployment, employment-to-population (15+, ILO modelled), life expectancy, crude birth/death rates, fertility, infant mortality, CO2 per capita, renewable share, forest area, adult literacy, internet users, mobile subscriptions per 100 people, R&amp;D % of GDP, and population (for immigration-per-capita denominators). Trade balance is computed as exports minus imports from those series. Remaining charts use deterministic modelled series. WDI gaps are forward/backward-filled within each series. Chart pills update after merge: <strong>High (WDI)</strong> when the live indicator loaded; <strong>Partial WDI</strong> if the request failed for that series. <strong>If you open this file as <code>file://</code>, the browser may block the API</strong>, but the dashboard still works using built-in deterministic data (no backend required). Illegal migration and composite "indices" here are not official cross-country statistics.
+        </p>
+
         <!-- Country Selector -->
         <div class="country-selector">
             <div class="chart-container">
                 <div class="chart-title">
                     <i class="material-icons left">public</i>
-                    Select Countries to Compare
+                    <span data-i18n="country.selectTitle">Select Countries to Compare</span>
                 </div>
                 <div id="countryChips"></div>
             </div>
         </div>
 
-        <p class="data-provenance" id="dataProvenanceNote">
-            <strong>Data sources:</strong> On load, the page requests <a href="https://data.worldbank.org/" target="_blank" rel="noopener">World Bank World Development Indicators</a> (WDI) and merges: GDP (current US$), GDP per capita, GNI per capita (Atlas), current health expenditure per capita, secondary school enrollment (gross), goods &amp; services exports/imports, unemployment, employment-to-population (15+, ILO modelled), life expectancy, crude birth/death rates, fertility, infant mortality, CO₂ per capita, renewable share, forest area, adult literacy, internet users, mobile subscriptions per 100 people, R&amp;D % of GDP, and population (for immigration-per-capita denominators). Trade balance is computed as exports minus imports from those series. Remaining charts use deterministic modelled series. WDI gaps are forward/backward-filled within each series. Chart pills update after merge: <strong>High (WDI)</strong> when the live indicator loaded; <strong>Partial WDI</strong> if the request failed for that series. <strong>If you open this file as <code>file://</code>, the browser may block the API</strong>—use a local HTTP server (e.g. VS Code Live Server) so WDI can load. Illegal migration and composite “indices” here are not official cross-country statistics.
-        </p>
-
         <!-- Statistics Summary Section -->
         <div id="statisticsSummary" style="display: none;">
             <div class="section-header">
-                <h2><i class="material-icons left">assessment</i>Key Statistics Summary (Latest Year 2026)</h2>
+                <h2><i class="material-icons left">assessment</i><span data-i18n="sec.statsSummary">Key Statistics Summary (Latest Year 2026)</span></h2>
             </div>
 
             <div class="row">
@@ -733,7 +830,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">attach_money</i>
                         <h3 id="stat-gdp-avg">-</h3>
-                        <p>Average GDP (Trillion USD)</p>
+                        <p data-i18n="stats.avgGdp">Average GDP (Trillion USD)</p>
                         <small id="stat-gdp-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -741,7 +838,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">payments</i>
                         <h3 id="stat-gdppc-avg">-</h3>
-                        <p>Average GDP Per Capita (USD)</p>
+                        <p data-i18n="stats.avgGdppc">Average GDP Per Capita (USD)</p>
                         <small id="stat-gdppc-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -749,7 +846,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">work</i>
                         <h3 id="stat-employment-avg">-</h3>
-                        <p>Employment to population 15+ (%)</p>
+                        <p data-i18n="stats.empl">Employment to population 15+ (%)</p>
                         <small id="stat-employment-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -757,7 +854,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">trending_up</i>
                         <h3 id="stat-salary-avg">-</h3>
-                        <p>Average GNI per capita (USD, WDI)</p>
+                        <p data-i18n="stats.gni">Average GNI per capita (USD, WDI)</p>
                         <small id="stat-salary-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -790,7 +887,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">favorite</i>
                         <h3 id="stat-life-avg">-</h3>
-                        <p>Average Life Expectancy (years)</p>
+                        <p data-i18n="stats.life">Average Life Expectancy (years)</p>
                         <small id="stat-life-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -798,7 +895,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">child_care</i>
                         <h3 id="stat-birth-avg">-</h3>
-                        <p>Average Birth Rate (per 1000)</p>
+                        <p data-i18n="stats.birth">Average Birth Rate (per 1000)</p>
                         <small id="stat-birth-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -806,7 +903,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">home</i>
                         <h3 id="stat-rent-avg">-</h3>
-                        <p>Average Monthly Rent (USD)</p>
+                        <p data-i18n="stats.rent">Average Monthly Rent (USD)</p>
                         <small id="stat-rent-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -814,7 +911,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">local_gas_station</i>
                         <h3 id="stat-gas-avg">-</h3>
-                        <p>Average Gas Price (USD/L)</p>
+                        <p data-i18n="stats.gas">Average Gas Price (USD/L)</p>
                         <small id="stat-gas-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -846,7 +943,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">nature</i>
                         <h3 id="stat-co2-avg">-</h3>
-                        <p>Average CO2 Emissions (tons/capita)</p>
+                        <p data-i18n="stats.co2">Average CO2 Emissions (tons/capita)</p>
                         <small id="stat-co2-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -854,7 +951,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">school</i>
                         <h3 id="stat-edu-avg">-</h3>
-                        <p>Average Education Level (%)</p>
+                        <p data-i18n="stats.edu">Average Education Level (%)</p>
                         <small id="stat-edu-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -862,7 +959,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">local_shipping</i>
                         <h3 id="stat-trade-avg">-</h3>
-                        <p>Average Trade Balance (B USD)</p>
+                        <p data-i18n="stats.tradeB">Average Trade Balance (B USD)</p>
                         <small id="stat-trade-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -870,7 +967,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">wifi</i>
                         <h3 id="stat-internet-avg">-</h3>
-                        <p>Average Internet Users (%)</p>
+                        <p data-i18n="stats.internet">Average Internet Users (%)</p>
                         <small id="stat-internet-range" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -900,36 +997,36 @@
 
             <!-- Year-over-Year Growth Comparison -->
             <div class="section-header">
-                <h2><i class="material-icons left">show_chart</i>Year-over-Year Changes (2025 → 2026)</h2>
+                <h2><i class="material-icons left">show_chart</i><span data-i18n="sec.yoy">Year-over-Year Changes (2025 → 2026)</span></h2>
             </div>
 
             <div class="row">
                 <div class="col s12 m6 l4">
                     <div class="stats-card">
                         <h3 id="growth-gdp" style="font-size: 2rem;">-</h3>
-                        <p>GDP Growth</p>
-                        <small style="color: var(--text-secondary);">Average across selected countries</small>
+                        <p data-i18n="stats.cardGdpGrowth">GDP Growth</p>
+                        <small style="color: var(--text-secondary);" data-i18n="stats.cardAvgAcross">Average across selected countries</small>
                     </div>
                 </div>
                 <div class="col s12 m6 l4">
                     <div class="stats-card">
                         <h3 id="growth-employment" style="font-size: 2rem;">-</h3>
-                        <p>Employment Rate Change</p>
-                        <small style="color: var(--text-secondary);">Average across selected countries</small>
+                        <p data-i18n="stats.cardEmpChange">Employment Rate Change</p>
+                        <small style="color: var(--text-secondary);" data-i18n="stats.cardAvgAcross">Average across selected countries</small>
                     </div>
                 </div>
                 <div class="col s12 m6 l4">
                     <div class="stats-card">
                         <h3 id="growth-salary" style="font-size: 2rem;">-</h3>
-                        <p>GNI per capita growth</p>
-                        <small style="color: var(--text-secondary);">Average across selected countries</small>
+                        <p data-i18n="stats.cardGniGrowth">GNI per capita growth</p>
+                        <small style="color: var(--text-secondary);" data-i18n="stats.cardAvgAcross">Average across selected countries</small>
                     </div>
                 </div>
                 <div class="col s12 m6 l4">
                     <div class="stats-card">
                         <h3 id="growth-co2" style="font-size: 2rem;">-</h3>
-                        <p>CO2 Emissions Change</p>
-                        <small style="color: var(--text-secondary);">Average across selected countries</small>
+                        <p data-i18n="stats.cardCo2Change">CO2 Emissions Change</p>
+                        <small style="color: var(--text-secondary);" data-i18n="stats.cardAvgAcross">Average across selected countries</small>
                     </div>
                 </div>
             </div>
@@ -957,7 +1054,7 @@
 
             <!-- Detailed Country Comparison Table -->
             <div class="section-header">
-                <h2><i class="material-icons left">table_chart</i>Detailed Country Comparison (2026)</h2>
+                <h2><i class="material-icons left">table_chart</i><span data-i18n="sec.comparison">Detailed Country Comparison (2026)</span></h2>
             </div>
 
             <div class="chart-container" style="overflow-x: auto;">
@@ -1004,7 +1101,7 @@
 
             <!-- Historical Trends Summary -->
             <div class="section-header">
-                <h2><i class="material-icons left">timeline</i>Long-term Trends (1970 → 2026)</h2>
+                <h2><i class="material-icons left">timeline</i><span data-i18n="sec.trends">Long-term Trends (1970 → 2026)</span></h2>
             </div>
 
             <div class="row">
@@ -1012,7 +1109,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">trending_up</i>
                         <h3 id="trend-gdp-change" style="font-size: 1.8rem;">-</h3>
-                        <p>Total GDP Growth Since 1970</p>
+                        <p data-i18n="stats.trendGdp">Total GDP Growth Since 1970</p>
                         <small id="trend-gdp-details" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -1020,7 +1117,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">groups</i>
                         <h3 id="trend-life-change" style="font-size: 1.8rem;">-</h3>
-                        <p>Life Expectancy Increase</p>
+                        <p data-i18n="stats.trendLifeIncrease">Life Expectancy Increase</p>
                         <small id="trend-life-details" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -1028,7 +1125,7 @@
                     <div class="stats-card">
                         <i class="material-icons" style="font-size: 2rem; color: var(--accent-color);">nature_people</i>
                         <h3 id="trend-co2-change" style="font-size: 1.8rem;">-</h3>
-                        <p>CO2 Emissions Change</p>
+                        <p data-i18n="stats.trendCo2">CO2 Emissions Change</p>
                         <small id="trend-co2-details" style="color: var(--text-secondary); font-size: 0.85rem;">-</small>
                     </div>
                 </div>
@@ -1060,23 +1157,23 @@
 
         <!-- Tabs for different categories -->
         <ul class="tabs">
-            <li class="tab"><a class="active" href="#tab-economic">Economic</a></li>
-            <li class="tab"><a href="#tab-employment">Jobs</a></li>
-            <li class="tab"><a href="#tab-costs">Costs</a></li>
-            <li class="tab"><a href="#tab-social">Social</a></li>
-            <li class="tab"><a href="#tab-demographics">Population</a></li>
-            <li class="tab"><a href="#tab-health">Health</a></li>
-            <li class="tab"><a href="#tab-environment">Environment</a></li>
-            <li class="tab"><a href="#tab-technology">Tech</a></li>
-            <li class="tab"><a href="#tab-trade">Trade</a></li>
-            <li class="tab"><a href="#tab-immigration">Migration</a></li>
-            <li class="tab"><a href="#tab-wellbeing">Quality of Life</a></li>
+            <li class="tab"><a class="active" href="#tab-economic" data-i18n="tab.economic">Economic</a></li>
+            <li class="tab"><a href="#tab-employment" data-i18n="tab.employment">Jobs</a></li>
+            <li class="tab"><a href="#tab-costs" data-i18n="tab.costs">Costs</a></li>
+            <li class="tab"><a href="#tab-social" data-i18n="tab.social">Social</a></li>
+            <li class="tab"><a href="#tab-demographics" data-i18n="tab.demographics">Population</a></li>
+            <li class="tab"><a href="#tab-health" data-i18n="tab.health">Health</a></li>
+            <li class="tab"><a href="#tab-environment" data-i18n="tab.environment">Environment</a></li>
+            <li class="tab"><a href="#tab-technology" data-i18n="tab.technology">Tech</a></li>
+            <li class="tab"><a href="#tab-trade" data-i18n="tab.trade">Trade</a></li>
+            <li class="tab"><a href="#tab-immigration" data-i18n="tab.immigration">Migration</a></li>
+            <li class="tab"><a href="#tab-wellbeing" data-i18n="tab.wellbeing">Quality of Life</a></li>
         </ul>
 
         <!-- Economic Tab -->
         <div id="tab-economic">
             <div class="section-header">
-                <h2><i class="material-icons left">trending_up</i>Economic Indicators</h2>
+                <h2><i class="material-icons left">trending_up</i><span data-i18n="sec.economic">Economic Indicators</span></h2>
             </div>
 
             <div class="row">
@@ -1171,7 +1268,7 @@
             </div>
 
             <div class="section-header">
-                <h2><i class="material-icons left">security</i>Military Spending</h2>
+                <h2><i class="material-icons left">security</i><span data-i18n="sec.military">Military Spending</span></h2>
             </div>
 
             <div class="row">
@@ -1264,7 +1361,7 @@
         <!-- Employment Tab -->
         <div id="tab-employment">
             <div class="section-header">
-                <h2><i class="material-icons left">work</i>Employment & Salary</h2>
+                <h2><i class="material-icons left">work</i><span data-i18n="sec.employment">Employment & Salary</span></h2>
             </div>
 
             <div class="row">
@@ -1350,7 +1447,7 @@
         <!-- Cost of Living Tab -->
         <div id="tab-costs">
             <div class="section-header">
-                <h2><i class="material-icons left">attach_money</i>Cost of Living</h2>
+                <h2><i class="material-icons left">attach_money</i><span data-i18n="sec.costs">Cost of Living</span></h2>
             </div>
 
             <div class="row">
@@ -1480,7 +1577,7 @@
             </div>
 
             <div class="section-header">
-                <h2><i class="material-icons left">smartphone</i>Telecom &amp; Connectivity Costs</h2>
+                <h2><i class="material-icons left">smartphone</i><span data-i18n="sec.telecom">Telecom &amp; Connectivity Costs</span></h2>
             </div>
 
             <div class="row">
@@ -1571,7 +1668,7 @@
         <!-- Social Tab -->
         <div id="tab-social">
             <div class="section-header">
-                <h2><i class="material-icons left">people</i>Social Indicators</h2>
+                <h2><i class="material-icons left">people</i><span data-i18n="sec.social">Social Indicators</span></h2>
             </div>
 
             <div class="row">
@@ -1797,7 +1894,7 @@
         <!-- Demographics Tab -->
         <div id="tab-demographics">
             <div class="section-header">
-                <h2><i class="material-icons left">analytics</i>Demographic Indicators</h2>
+                <h2><i class="material-icons left">analytics</i><span data-i18n="sec.demographics">Demographic Indicators</span></h2>
             </div>
 
             <div class="row">
@@ -1931,7 +2028,7 @@
         <!-- Health Tab -->
         <div id="tab-health">
             <div class="section-header">
-                <h2><i class="material-icons left">local_hospital</i>Health Indicators</h2>
+                <h2><i class="material-icons left">local_hospital</i><span data-i18n="sec.health">Health Indicators</span></h2>
             </div>
 
             <div class="row">
@@ -2022,7 +2119,7 @@
         <!-- Environment Tab -->
         <div id="tab-environment">
             <div class="section-header">
-                <h2><i class="material-icons left">nature</i>Environmental Indicators</h2>
+                <h2><i class="material-icons left">nature</i><span data-i18n="sec.environment">Environmental Indicators</span></h2>
             </div>
 
             <div class="row">
@@ -2113,7 +2210,7 @@
         <!-- Technology Tab -->
         <div id="tab-technology">
             <div class="section-header">
-                <h2><i class="material-icons left">devices</i>Technology Adoption</h2>
+                <h2><i class="material-icons left">devices</i><span data-i18n="sec.technology">Technology Adoption</span></h2>
             </div>
 
             <div class="row">
@@ -2204,7 +2301,7 @@
         <!-- Trade Tab -->
         <div id="tab-trade">
             <div class="section-header">
-                <h2><i class="material-icons left">local_shipping</i>International Trade</h2>
+                <h2><i class="material-icons left">local_shipping</i><span data-i18n="sec.trade">International Trade</span></h2>
             </div>
 
             <div class="row">
@@ -2289,7 +2386,7 @@
         <!-- Immigration Tab -->
         <div id="tab-immigration">
             <div class="section-header">
-                <h2><i class="material-icons left">flight_land</i>Immigration</h2>
+                <h2><i class="material-icons left">flight_land</i><span data-i18n="sec.immigration">Immigration</span></h2>
             </div>
 
             <div class="row">
@@ -2401,7 +2498,7 @@
         <!-- Quality of Life Tab -->
         <div id="tab-wellbeing">
             <div class="section-header">
-                <h2><i class="material-icons left">sentiment_satisfied</i>Quality of Life &amp; Social Progress</h2>
+                <h2><i class="material-icons left">sentiment_satisfied</i><span data-i18n="sec.wellbeing">Quality of Life &amp; Social Progress</span></h2>
             </div>
 
             <div class="row">
@@ -2409,7 +2506,7 @@
                     <div class="chart-container">
                         <div class="chart-title">
                             <span>Quality of Life Index (0–100)</span>
-                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                            <span class="accuracy-badge accuracy-low">Low Accuracy — Modelled</span>
                         </div>
                         <canvas id="qolIndexChart"></canvas>
                     </div>
@@ -2418,7 +2515,7 @@
                     <div class="chart-container">
                         <div class="chart-title">
                             <span>Happiness Index (0–10, World Happiness Report basis)</span>
-                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                            <span class="accuracy-badge accuracy-low">Low Accuracy — WHR data begins 2012</span>
                         </div>
                         <canvas id="qolHappinessChart"></canvas>
                     </div>
@@ -2427,7 +2524,7 @@
 
             <div class="historical-context historical-context--below-chart">
                 <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Quality of Life &amp; Happiness</h3>
-                <p class="event-intro">Composite QoL indices bundle income, health, safety, and services; the World Happiness Report scores are based on Gallup "life-ladder" surveys. Both improve with sustained development but can diverge during crises.</p>
+                <p class="event-intro"><strong>Data caveat:</strong> Composite QoL indices (Numbeo et al.) and the World Happiness Report only exist from the 2000s and 2012 respectively. Values shown before those dates are <em>backward extrapolations</em> based on known 1990 anchors and country-specific trends — they are illustrative, not sourced. Both measures improve with sustained development but diverge sharply during crises.</p>
                 <div class="event-columns">
                     <div>
                         <h4 class="event-good-h">Drivers of improvement</h4>
@@ -2493,7 +2590,7 @@
                     <div class="chart-container">
                         <div class="chart-title">
                             <span>Corruption Perception Index (0–100, higher = cleaner)</span>
-                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                            <span class="accuracy-badge accuracy-low">Low Accuracy — CPI exists since 1995 only</span>
                         </div>
                         <canvas id="corruptionChart"></canvas>
                     </div>
@@ -2502,7 +2599,7 @@
                     <div class="chart-container">
                         <div class="chart-title">
                             <span>Political Freedom Index (0–10)</span>
-                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                            <span class="accuracy-badge accuracy-low">Low Accuracy — Modelled pre-1990</span>
                         </div>
                         <canvas id="qolPoliticalChart"></canvas>
                     </div>
@@ -2511,7 +2608,7 @@
 
             <div class="historical-context historical-context--below-chart">
                 <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Governance: Corruption &amp; Political Freedom</h3>
-                <p class="event-intro">Corruption perception scores (Transparency International basis) and political freedom (Freedom House basis) shape investment climate, public trust, and social mobility. They often move together but not always.</p>
+                <p class="event-intro"><strong>Data caveat:</strong> Transparency International's CPI only exists since 1995; Freedom House scores since 1972 with methodology changes. Pre-1995 corruption and pre-1991 political freedom values are backward-modelled estimates anchored to 1990 baselines. Soviet-bloc and revolutionary-era authoritarian floors (1970–1991) are approximated explicitly. Treat all pre-1995 governance data as illustrative.</p>
                 <div class="event-columns">
                     <div>
                         <h4 class="event-good-h">Governance improvements</h4>
@@ -2531,7 +2628,7 @@
             </div>
 
             <div class="section-header">
-                <h2><i class="material-icons left">campaign</i>Speech &amp; Media</h2>
+                <h2><i class="material-icons left">campaign</i><span data-i18n="sec.media">Speech &amp; Media</span></h2>
             </div>
 
             <div class="row">
@@ -2712,7 +2809,7 @@
             </div>
 
             <div class="section-header">
-                <h2><i class="material-icons left">church</i>Religious Composition</h2>
+                <h2><i class="material-icons left">church</i><span data-i18n="sec.religion">Religious Composition</span></h2>
             </div>
 
             <div class="row">
@@ -2839,20 +2936,24 @@
 
             Object.values(charts).forEach(chart => {
                 if (chart && chart.options) {
-                    // Update grid colors
+                    // Merge colors only — replacing whole ticks/grid objects drops Chart.js defaults and can break axes.
                     if (chart.options.scales) {
                         if (chart.options.scales.x) {
-                            chart.options.scales.x.grid = { color: gridColor };
-                            chart.options.scales.x.ticks = { color: textColor };
+                            const sx = chart.options.scales.x;
+                            sx.grid = Object.assign({}, sx.grid || {}, { color: gridColor });
+                            sx.ticks = Object.assign({}, sx.ticks || {}, { color: textColor });
+                            if (sx.title) sx.title = Object.assign({}, sx.title, { color: textColor });
                         }
                         if (chart.options.scales.y) {
-                            chart.options.scales.y.grid = { color: gridColor };
-                            chart.options.scales.y.ticks = { color: textColor };
+                            const sy = chart.options.scales.y;
+                            sy.grid = Object.assign({}, sy.grid || {}, { color: gridColor });
+                            sy.ticks = Object.assign({}, sy.ticks || {}, { color: textColor });
+                            if (sy.title) sy.title = Object.assign({}, sy.title, { color: textColor });
                         }
                     }
-                    // Update legend colors
                     if (chart.options.plugins && chart.options.plugins.legend) {
-                        chart.options.plugins.legend.labels = { color: textColor };
+                        const lab = chart.options.plugins.legend.labels;
+                        chart.options.plugins.legend.labels = Object.assign({}, lab || {}, { color: textColor });
                     }
                     chart.update();
                 }
@@ -2864,56 +2965,81 @@
     <script>
 // Data generation for all indicators (1970-2026)
 
+/* Alphabetical — avoids implying priority; chips and saved selection order follow this list. */
 const COUNTRIES = [
-    'United States', 'Canada', 'Norway', 'Sweden', 'Finland', 'United Kingdom',
-    'France', 'Germany', 'Italy', 'South Korea', 'Japan', 'China', 'Malaysia',
-    'India', 'United Arab Emirates', 'Russia', 'South Africa', 'Brazil', 'Australia', 'New Zealand'
+    'Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Cuba',
+    'Finland', 'France', 'Germany', 'India', 'Iran', 'Israel', 'Italy', 'Japan',
+    'Malaysia', 'Mexico', 'New Zealand', 'Norway', 'Romania', 'Russia',
+    'Saudi Arabia', 'Somalia', 'South Africa', 'South Korea', 'Sweden',
+    'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States',
+    'Venezuela'
 ];
 
 const COUNTRY_CODES = {
-    'United States': 'USA',
+    'Australia': 'AUS',
+    'Brazil': 'BRA',
     'Canada': 'CAN',
-    'United Kingdom': 'GBR',
+    'China': 'CHN',
+    'Finland': 'FIN',
     'France': 'FRA',
     'Germany': 'DEU',
+    'India': 'IND',
     'Italy': 'ITA',
     'Japan': 'JPN',
-    'China': 'CHN',
-    'India': 'IND',
-    'Russia': 'RUS',
-    'Brazil': 'BRA',
-    'United Arab Emirates': 'ARE',
-    'South Korea': 'KOR',
-    'Finland': 'FIN',
-    'Norway': 'NOR',
-    'Sweden': 'SWE',
-    'South Africa': 'ZAF',
     'Malaysia': 'MYS',
-    'Australia': 'AUS',
-    'New Zealand': 'NZL'
+    'New Zealand': 'NZL',
+    'Norway': 'NOR',
+    'Russia': 'RUS',
+    'South Africa': 'ZAF',
+    'South Korea': 'KOR',
+    'Sweden': 'SWE',
+    'United Arab Emirates': 'ARE',
+    'United Kingdom': 'GBR',
+    'United States': 'USA',
+    'Argentina': 'ARG',
+    'Cuba': 'CUB',
+    'Iran': 'IRN',
+    'Israel': 'ISR',
+    'Mexico': 'MEX',
+    'Romania': 'ROU',
+    'Saudi Arabia': 'SAU',
+    'Somalia': 'SOM',
+    'Ukraine': 'UKR',
+    'Venezuela': 'VEN'
 };
 
+/* Distinct hex per country (Brazil & Finland previously shared #ff9896, so lines looked like a single series). */
 const COLORS = {
-    'United States': '#1f77b4',
+    'Australia': '#8dd3c7',
+    'Brazil': '#ff9896',
     'Canada': '#ff7f0e',
-    'United Kingdom': '#2ca02c',
+    'China': '#7f7f7f',
+    'Finland': '#5254a3',
     'France': '#d62728',
     'Germany': '#9467bd',
+    'India': '#bcbd22',
     'Italy': '#8c564b',
     'Japan': '#e377c2',
-    'China': '#7f7f7f',
-    'India': '#bcbd22',
-    'Russia': '#17becf',
-    'Brazil': '#ff9896',
-    'United Arab Emirates': '#aec7e8',
-    'South Korea': '#98df8a',
-    'Finland': '#ff9896',
-    'Norway': '#c49c94',
-    'Sweden': '#f7b6d2',
-    'South Africa': '#c7c7c7',
     'Malaysia': '#dbdb8d',
-    'Australia': '#8dd3c7',
-    'New Zealand': '#9edae5'
+    'New Zealand': '#9edae5',
+    'Norway': '#c49c94',
+    'Russia': '#17becf',
+    'South Africa': '#c7c7c7',
+    'South Korea': '#98df8a',
+    'Sweden': '#f7b6d2',
+    'United Arab Emirates': '#aec7e8',
+    'United Kingdom': '#2ca02c',
+    'United States': '#1f77b4',
+    'Argentina': '#74c0fc',
+    'Cuba': '#f783ac',
+    'Iran': '#20c997',
+    'Israel': '#a9e34b',
+    'Mexico': '#ffa94d',
+    'Romania': '#e03131',
+    'Saudi Arabia': '#40c057',
+    'Somalia': '#a9a9a9',
+    'Ukraine': '#ffd43b',
+    'Venezuela': '#cc5de8'
 };
 
 const YEARS = Array.from({length: 57}, (_, i) => 1970 + i);
@@ -2924,52 +3050,91 @@ function random(min, max) {
 }
 
 function generateGDPData() {
-    // More accurate 1990 GDP values (in trillion USD)
-    const baseGDP = {
+    const baseGDP1970 = {
+        'USA': 1.074, 'CAN': 0.087, 'GBR': 0.131, 'FRA': 0.150,
+        'DEU': 0.215, 'ITA': 0.113, 'JPN': 0.211, 'CHN': 0.092,
+        'IND': 0.063, 'RUS': 0.268, 'BRA': 0.042, 'ARE': 0.002,
+        'KOR': 0.009, 'FIN': 0.013, 'NOR': 0.014, 'SWE': 0.044,
+        'ZAF': 0.018, 'MYS': 0.004, 'AUS': 0.043, 'NZL': 0.010,
+        'ARG': 0.039, 'CUB': 0.007, 'IRN': 0.011, 'ISR': 0.012,
+        'MEX': 0.038, 'ROU': 0.030, 'SAU': 0.004, 'SOM': 0.0007,
+        'UKR': 0.040, 'VEN': 0.013
+    };
+    const baseGDP1990 = {
         'USA': 5.96, 'CAN': 0.58, 'GBR': 1.09, 'FRA': 1.27,
         'DEU': 1.77, 'ITA': 1.14, 'JPN': 3.13, 'CHN': 0.36,
         'IND': 0.32, 'RUS': 0.52, 'BRA': 0.46, 'ARE': 0.04,
         'KOR': 0.28, 'FIN': 0.20, 'NOR': 0.12, 'SWE': 0.26,
-        'ZAF': 0.11, 'MYS': 0.04, 'AUS': 0.31, 'NZL': 0.05
+        'ZAF': 0.11, 'MYS': 0.04, 'AUS': 0.31, 'NZL': 0.05,
+        'ARG': 0.141, 'CUB': 0.019, 'IRN': 0.097, 'ISR': 0.061,
+        'MEX': 0.264, 'ROU': 0.038, 'SAU': 0.117, 'SOM': 0.001,
+        'UKR': 0.081, 'VEN': 0.048
     };
-
     const growthRates = {
-        'USA': 1.029, 'CAN': 1.026, 'GBR': 1.024, 'FRA': 1.022,
-        'DEU': 1.023, 'ITA': 1.015, 'JPN': 1.012, 'CHN': 1.095,
-        'IND': 1.068, 'RUS': 1.020, 'BRA': 1.035, 'ARE': 1.045,
-        'KOR': 1.065, 'FIN': 1.025, 'NOR': 1.030, 'SWE': 1.022,
-        'ZAF': 1.028, 'MYS': 1.055, 'AUS': 1.029, 'NZL': 1.025
+        'USA': 1.0454, 'CAN': 1.0385, 'GBR': 1.0316, 'FRA': 1.0246,
+        'DEU': 1.0256, 'ITA': 1.0187, 'JPN': 1.0069, 'CHN': 1.1136,
+        'IND': 1.0717, 'RUS': 1.0375, 'BRA': 1.0434, 'ARE': 1.0739,
+        'KOR': 1.0501, 'FIN': 1.0116, 'NOR': 1.0398, 'SWE': 1.0234,
+        'ZAF': 1.0343, 'MYS': 1.0706, 'AUS': 1.0490, 'NZL': 1.0423,
+        'ARG': 1.0420, 'CUB': 1.0180, 'IRN': 1.0370, 'ISR': 1.0520,
+        'MEX': 1.0440, 'ROU': 1.0480, 'SAU': 1.0560, 'SOM': 1.0120,
+        'UKR': 1.0180, 'VEN': 1.0050
     };
 
     const data = {};
     COUNTRIES.forEach(country => {
         const code = COUNTRY_CODES[country];
-        let gdp = baseGDP[code];
+        const g1 = Math.pow(baseGDP1990[code] / baseGDP1970[code], 1 / 20);
+        const g2 = growthRates[code];
         data[country] = YEARS.map((year) => {
-            let crisisAdj = 1.0;
-
-            if (year === 2008 || year === 2009) crisisAdj = 0.96;
-            if (year === 2020) crisisAdj = 0.94;
-            if (year === 1998 && code === 'RUS') crisisAdj = 0.85;
-
-            const noise = random(0.98, 1.02);
-            gdp = gdp * growthRates[code] * noise * crisisAdj;
+            let gdp;
+            if (year < 1990) {
+                gdp = baseGDP1970[code] * Math.pow(g1, year - 1970);
+                if (year === 1975 && !['CHN','IND','MYS','ARE'].includes(code)) gdp *= 0.985;
+                if (year === 1982 && ['USA','GBR','CAN'].includes(code)) gdp *= 0.988;
+                if ((year === 1997 || year === 1998) && code === 'RUS') gdp *= 0.92;
+                if (year === 1979 && code === 'IRN') gdp *= 0.78;
+                if (year >= 1980 && year <= 1988 && code === 'IRN') gdp *= 0.982;
+                if (year === 1989 && code === 'ARG') gdp *= 0.92;
+            } else {
+                gdp = baseGDP1990[code] * Math.pow(g2, year - 1990);
+                if (year === 2008 || year === 2009) gdp *= 0.96;
+                if (year === 2020) gdp *= 0.94;
+                if (year === 1998 && code === 'RUS') gdp *= 0.85;
+                if ((year === 1997 || year === 1998) && (code === 'KOR' || code === 'MYS')) gdp *= 0.88;
+                if ((year === 2014 || year === 2015) && (code === 'RUS' || code === 'BRA')) gdp *= 0.93;
+                if (year === 1994 && code === 'MEX') gdp *= 0.90;
+                if (year === 2001 && code === 'ARG') gdp *= 0.75;
+                if (year === 2002 && code === 'ARG') gdp *= 0.92;
+                if (year === 1991 && code === 'UKR') gdp *= 0.85;
+                if (year >= 1991 && year <= 1999 && code === 'UKR') gdp *= 0.975;
+                if (year === 2014 && code === 'UKR') gdp *= 0.87;
+                if (year === 2015 && code === 'UKR') gdp *= 0.91;
+                if (year === 2022 && code === 'UKR') gdp *= 0.70;
+                if (year >= 2015 && code === 'VEN') gdp *= 0.88;
+                if (year >= 2016 && code === 'VEN') gdp *= 0.82;
+                if (year >= 2017 && code === 'VEN') gdp *= 0.80;
+                if (year >= 1991 && year <= 2000 && code === 'CUB') gdp *= 0.972;
+                if (year === 1991 && code === 'ROU') gdp *= 0.90;
+                if (year >= 1991 && year <= 1993 && code === 'ROU') gdp *= 0.96;
+            }
             return parseFloat(gdp.toFixed(2));
         });
     });
-
     return data;
 }
 
 function generateMilitarySpendingData(gdpData) {
     const baseShare = {
         USA: 7.8, CAN: 2.4, NOR: 3.0, SWE: 3.2, FIN: 2.8, GBR: 5.1, FRA: 4.0, DEU: 3.0, ITA: 2.4,
-        KOR: 2.5, JPN: 1.0, CHN: 2.2, MYS: 1.8, IND: 3.7, ARE: 2.6, RUS: 11.5, ZAF: 2.7, BRA: 1.5, AUS: 2.3, NZL: 1.8
+        KOR: 2.5, JPN: 1.0, CHN: 2.2, MYS: 1.8, IND: 3.7, ARE: 2.6, RUS: 11.5, ZAF: 2.7, BRA: 1.5, AUS: 2.3, NZL: 1.8,
+        ARG: 1.8, CUB: 6.5, IRN: 6.5, ISR: 23.0, MEX: 0.8, ROU: 3.5, SAU: 12.0, SOM: 2.5, UKR: 5.0, VEN: 2.0
     };
 
     const basePopulation = {
         USA: 205, CAN: 22, NOR: 3.9, SWE: 8.1, FIN: 4.6, GBR: 55.7, FRA: 50.8, DEU: 78.1, ITA: 53.8,
-        KOR: 32.2, JPN: 104.3, CHN: 818, MYS: 10.8, IND: 555, ARE: 0.24, RUS: 130.8, ZAF: 22.4, BRA: 95.1, AUS: 17.1, NZL: 2.9
+        KOR: 32.2, JPN: 104.3, CHN: 818, MYS: 10.8, IND: 555, ARE: 0.24, RUS: 130.8, ZAF: 22.4, BRA: 95.1, AUS: 17.1, NZL: 2.9,
+        ARG: 23.4, CUB: 8.5, IRN: 28.4, ISR: 3.0, MEX: 50.7, ROU: 20.3, SAU: 5.8, SOM: 3.7, UKR: 47.1, VEN: 10.6
     };
 
     const result = {
@@ -3027,6 +3192,32 @@ function generateMilitarySpendingData(gdpData) {
             return 0.03;
         }
 
+        if (code === 'ISR') {
+            if (year < 1985) return 0.02;
+            if (year <= 2000) return -0.15;
+            return -0.05;
+        }
+        if (code === 'SAU') {
+            if (year < 1990) return 0.10;
+            if (year <= 2000) return 0.0;
+            return 0.08;
+        }
+        if (['VEN','ARG','MEX','CUB','ROU','SOM'].includes(code)) {
+            if (year < 1990) return -0.02;
+            if (year <= 2000) return -0.05;
+            return -0.02;
+        }
+        if (code === 'IRN') {
+            if (year >= 1980 && year <= 1988) return 0.30;
+            if (year < 2000) return -0.25;
+            return 0.05;
+        }
+        if (code === 'UKR') {
+            if (year < 2014) return -0.05;
+            if (year <= 2021) return 0.15;
+            return 1.50;
+        }
+
         return 0.0;
     }
 
@@ -3047,6 +3238,16 @@ function generateMilitarySpendingData(gdpData) {
         if (code === 'RUS') return year < 1990 ? 1.004 : year < 2008 ? 0.997 : 0.999;
         if (code === 'ZAF') return year < 2000 ? 1.023 : 1.015;
         if (code === 'BRA') return year < 2000 ? 1.020 : 1.011;
+        if (code === 'ARG') return year < 2000 ? 1.014 : 1.010;
+        if (code === 'CUB') return year < 1995 ? 1.010 : 1.002;
+        if (code === 'IRN') return year < 1995 ? 1.030 : 1.015;
+        if (code === 'ISR') return 1.020;
+        if (code === 'MEX') return year < 2000 ? 1.022 : 1.015;
+        if (code === 'ROU') return year < 2000 ? 1.003 : 0.997;
+        if (code === 'SAU') return year < 2005 ? 1.040 : 1.025;
+        if (code === 'SOM') return year < 2010 ? 1.030 : 1.028;
+        if (code === 'UKR') return year < 1991 ? 1.002 : 0.997;
+        if (code === 'VEN') return year < 2005 ? 1.025 : 1.018;
         return 1.006;
     }
 
@@ -3079,40 +3280,76 @@ function generateMilitarySpendingData(gdpData) {
 }
 
 function generateGDPPerCapita() {
-    // More accurate 1990 GDP per capita values (USD)
-    const baseGDPPC = {
+    const baseGDPPC1970 = {
+        'USA': 5121, 'CAN': 4040, 'GBR': 2382, 'FRA': 2948,
+        'DEU': 2783, 'ITA': 2107, 'JPN': 2027, 'CHN': 112,
+        'IND': 112, 'RUS': 1788, 'BRA': 448, 'ARE': 2259,
+        'KOR': 279, 'FIN': 2700, 'NOR': 3548, 'SWE': 4225,
+        'ZAF': 963, 'MYS': 394, 'AUS': 3371, 'NZL': 2820,
+        'ARG': 1480, 'CUB': 820, 'IRN': 470, 'ISR': 3400,
+        'MEX': 700, 'ROU': 1550, 'SAU': 560, 'SOM': 170,
+        'UKR': 870, 'VEN': 1240
+    };
+    const baseGDPPC1990 = {
         'USA': 23889, 'CAN': 21250, 'GBR': 19100, 'FRA': 22400,
         'DEU': 22300, 'ITA': 20100, 'JPN': 25400, 'CHN': 318,
         'IND': 367, 'RUS': 3485, 'BRA': 3100, 'ARE': 50000,
         'KOR': 5890, 'FIN': 23700, 'NOR': 28200, 'SWE': 26400,
-        'ZAF': 2940, 'MYS': 2340, 'AUS': 18100, 'NZL': 13600
+        'ZAF': 2940, 'MYS': 2340, 'AUS': 18100, 'NZL': 13600,
+        'ARG': 4610, 'CUB': 1860, 'IRN': 1650, 'ISR': 12800,
+        'MEX': 3020, 'ROU': 1648, 'SAU': 7200, 'SOM': 126,
+        'UKR': 1570, 'VEN': 2660
     };
-
     const growthRates = {
-        'USA': 1.023, 'CAN': 1.021, 'GBR': 1.020, 'FRA': 1.019,
-        'DEU': 1.022, 'ITA': 1.014, 'JPN': 1.013, 'CHN': 1.087,
-        'IND': 1.060, 'RUS': 1.025, 'BRA': 1.032, 'ARE': 1.035,
-        'KOR': 1.055, 'FIN': 1.022, 'NOR': 1.024, 'SWE': 1.021,
-        'ZAF': 1.028, 'MYS': 1.048, 'AUS': 1.022, 'NZL': 1.024
+        'USA': 1.0354, 'CAN': 1.0263, 'GBR': 1.0261, 'FRA': 1.0202,
+        'DEU': 1.0249, 'ITA': 1.0180, 'JPN': 1.0114, 'CHN': 1.1031,
+        'IND': 1.0561, 'RUS': 1.0397, 'BRA': 1.0336, 'ARE': 1.0027,
+        'KOR': 1.0461, 'FIN': 1.0243, 'NOR': 1.0334, 'SWE': 1.0220,
+        'ZAF': 1.0207, 'MYS': 1.0499, 'AUS': 1.0378, 'NZL': 1.0343,
+        'ARG': 1.0220, 'CUB': 1.0120, 'IRN': 1.0250, 'ISR': 1.0320,
+        'MEX': 1.0195, 'ROU': 1.0480, 'SAU': 1.0120, 'SOM': 1.0050,
+        'UKR': 1.0185, 'VEN': 0.9980
     };
 
     const data = {};
     COUNTRIES.forEach(country => {
         const code = COUNTRY_CODES[country];
-        let gdppc = baseGDPPC[code];
-        data[country] = YEARS.map((year, idx) => {
-            // Economic crisis adjustments
-            let crisisAdj = 1.0;
-            if (year === 2008 || year === 2009) crisisAdj = 0.97;
-            if (year === 2020) crisisAdj = 0.96;
-            if (year === 1998 && code === 'RUS') crisisAdj = 0.80;
-
-            const noise = random(0.98, 1.02);
-            gdppc = gdppc * growthRates[code] * noise * crisisAdj;
+        const g1 = Math.pow(baseGDPPC1990[code] / baseGDPPC1970[code], 1 / 20);
+        const g2 = growthRates[code];
+        data[country] = YEARS.map((year) => {
+            let gdppc;
+            if (year < 1990) {
+                gdppc = baseGDPPC1970[code] * Math.pow(g1, year - 1970);
+                if (year === 1975 && !['CHN','IND','MYS','ARE'].includes(code)) gdppc *= 0.985;
+                if (year === 1982 && ['USA','GBR','CAN'].includes(code)) gdppc *= 0.988;
+                if (year === 1979 && code === 'IRN') gdppc *= 0.78;
+                if (year >= 1980 && year <= 1988 && code === 'IRN') gdppc *= 0.982;
+                if (year === 1989 && code === 'ARG') gdppc *= 0.92;
+            } else {
+                gdppc = baseGDPPC1990[code] * Math.pow(g2, year - 1990);
+                if (year === 2008 || year === 2009) gdppc *= 0.97;
+                if (year === 2020) gdppc *= 0.96;
+                if (year === 1998 && code === 'RUS') gdppc *= 0.80;
+                if ((year === 1997 || year === 1998) && (code === 'KOR' || code === 'MYS')) gdppc *= 0.85;
+                if ((year === 2014 || year === 2015) && (code === 'RUS' || code === 'BRA')) gdppc *= 0.90;
+                if (year === 1994 && code === 'MEX') gdppc *= 0.90;
+                if (year === 2001 && code === 'ARG') gdppc *= 0.75;
+                if (year === 2002 && code === 'ARG') gdppc *= 0.92;
+                if (year === 1991 && code === 'UKR') gdppc *= 0.85;
+                if (year >= 1991 && year <= 1999 && code === 'UKR') gdppc *= 0.975;
+                if (year === 2014 && code === 'UKR') gdppc *= 0.87;
+                if (year === 2015 && code === 'UKR') gdppc *= 0.91;
+                if (year === 2022 && code === 'UKR') gdppc *= 0.70;
+                if (year >= 2015 && code === 'VEN') gdppc *= 0.88;
+                if (year >= 2016 && code === 'VEN') gdppc *= 0.82;
+                if (year >= 2017 && code === 'VEN') gdppc *= 0.80;
+                if (year >= 1991 && year <= 2000 && code === 'CUB') gdppc *= 0.972;
+                if (year === 1991 && code === 'ROU') gdppc *= 0.90;
+                if (year >= 1991 && year <= 1993 && code === 'ROU') gdppc *= 0.96;
+            }
             return Math.round(gdppc);
         });
     });
-
     return data;
 }
 
@@ -3123,7 +3360,9 @@ function generateImmigrationData() {
         'DEU': 842000, 'ITA': 145000, 'JPN': 35000, 'CHN': 1000,
         'IND': 500, 'RUS': 95000, 'BRA': 25000,
         'NOR': 15000, 'SWE': 40000, 'FIN': 8000, 'KOR': 5000,
-        'MYS': 20000, 'ZAF': 8000, 'AUS': 120000, 'NZL': 45000, 'ARE': 12000
+        'MYS': 20000, 'ZAF': 8000, 'AUS': 120000, 'NZL': 45000, 'ARE': 12000,
+        'ARG': 15000, 'CUB': 2000, 'IRN': 8000, 'ISR': 85000, 'MEX': 35000,
+        'ROU': 8000, 'SAU': 20000, 'SOM': 1000, 'UKR': 12000, 'VEN': 8000
     };
 
     const baseIllegal = {
@@ -3131,7 +3370,9 @@ function generateImmigrationData() {
         'DEU': 80000, 'ITA': 120000, 'JPN': 5000, 'CHN': 500,
         'IND': 200, 'RUS': 40000, 'BRA': 10000,
         'NOR': 2000, 'SWE': 5000, 'FIN': 2000, 'KOR': 2000,
-        'MYS': 8000, 'ZAF': 15000, 'AUS': 8000, 'NZL': 4000, 'ARE': 3000
+        'MYS': 8000, 'ZAF': 15000, 'AUS': 8000, 'NZL': 4000, 'ARE': 3000,
+        'ARG': 8000, 'CUB': 1000, 'IRN': 3000, 'ISR': 5000, 'MEX': 5000,
+        'ROU': 4000, 'SAU': 6000, 'SOM': 3000, 'UKR': 5000, 'VEN': 4000
     };
 
     const basePopulation = {
@@ -3139,7 +3380,9 @@ function generateImmigrationData() {
         'DEU': 79.4, 'ITA': 56.7, 'JPN': 123.5, 'CHN': 1143,
         'IND': 873.3, 'RUS': 147.9, 'BRA': 149.4, 'ARE': 2.4,
         'NOR': 4.24, 'SWE': 8.6, 'FIN': 5.0, 'KOR': 43.2,
-        'MYS': 17.5, 'ZAF': 35.2, 'AUS': 17.1, 'NZL': 3.4
+        'MYS': 17.5, 'ZAF': 35.2, 'AUS': 17.1, 'NZL': 3.4,
+        'ARG': 32.5, 'CUB': 10.6, 'IRN': 56.8, 'ISR': 4.7, 'MEX': 86.2,
+        'ROU': 23.2, 'SAU': 16.4, 'SOM': 7.0, 'UKR': 51.9, 'VEN': 19.7
     };
 
     const popGrowthRates = {
@@ -3147,7 +3390,9 @@ function generateImmigrationData() {
         'DEU': 1.0015, 'ITA': 1.0005, 'JPN': 0.9995, 'CHN': 1.0065,
         'IND': 1.0165, 'RUS': 0.9990, 'BRA': 1.0125, 'ARE': 1.0150,
         'NOR': 1.006, 'SWE': 1.0045, 'FIN': 1.0035, 'KOR': 1.008,
-        'MYS': 1.022, 'ZAF': 1.02, 'AUS': 1.012, 'NZL': 1.01
+        'MYS': 1.022, 'ZAF': 1.02, 'AUS': 1.012, 'NZL': 1.01,
+        'ARG': 1.013, 'CUB': 1.005, 'IRN': 1.020, 'ISR': 1.022, 'MEX': 1.018,
+        'ROU': 0.998, 'SAU': 1.035, 'SOM': 1.028, 'UKR': 0.995, 'VEN': 1.020
     };
 
     const expatProfile = {
@@ -3170,7 +3415,17 @@ function generateImmigrationData() {
         'ZAF': {inboundBase: 15000, outboundBase: 24000, inboundTrend: 0.010, outboundTrend: 0.015},
         'AUS': {inboundBase: 90000, outboundBase: 30000, inboundTrend: 0.018, outboundTrend: 0.012},
         'NZL': {inboundBase: 16000, outboundBase: 14000, inboundTrend: 0.016, outboundTrend: 0.013},
-        'ARE': {inboundBase: 60000, outboundBase: 22000, inboundTrend: 0.028, outboundTrend: 0.020}
+        'ARE': {inboundBase: 60000, outboundBase: 22000, inboundTrend: 0.028, outboundTrend: 0.020},
+        'ARG': {inboundBase: 18000, outboundBase: 25000, inboundTrend: 0.012, outboundTrend: 0.018},
+        'CUB': {inboundBase: 2000, outboundBase: 20000, inboundTrend: 0.005, outboundTrend: 0.025},
+        'IRN': {inboundBase: 6000, outboundBase: 35000, inboundTrend: 0.008, outboundTrend: 0.022},
+        'ISR': {inboundBase: 20000, outboundBase: 15000, inboundTrend: 0.018, outboundTrend: 0.012},
+        'MEX': {inboundBase: 28000, outboundBase: 80000, inboundTrend: 0.015, outboundTrend: 0.020},
+        'ROU': {inboundBase: 8000, outboundBase: 30000, inboundTrend: 0.010, outboundTrend: 0.030},
+        'SAU': {inboundBase: 25000, outboundBase: 8000, inboundTrend: 0.022, outboundTrend: 0.010},
+        'SOM': {inboundBase: 1000, outboundBase: 15000, inboundTrend: 0.005, outboundTrend: 0.035},
+        'UKR': {inboundBase: 10000, outboundBase: 40000, inboundTrend: 0.008, outboundTrend: 0.025},
+        'VEN': {inboundBase: 12000, outboundBase: 30000, inboundTrend: 0.008, outboundTrend: 0.030}
     };
 
     const legal = {};
@@ -3249,12 +3504,37 @@ function generateImmigrationData() {
 }
 
 function generateEmploymentData() {
-    // More realistic 1990 employment rates
-    const baseEmployment = {
+    const empBase1970 = {
+        'USA': 57.8, 'CAN': 55.6, 'NOR': 63.0, 'SWE': 67.2, 'FIN': 67.8,
+        'GBR': 62.5, 'FRA': 64.0, 'DEU': 68.2, 'ITA': 54.5, 'KOR': 58.9,
+        'JPN': 70.8, 'CHN': 73.2, 'MYS': 58.5, 'IND': 55.7, 'ARE': 63.2,
+        'RUS': 67.9, 'ZAF': 43.2, 'BRA': 55.8, 'AUS': 59.1, 'NZL': 58.9,
+        'ARG': 52.5, 'CUB': 61.8, 'IRN': 48.2, 'ISR': 52.8, 'MEX': 55.2,
+        'ROU': 68.2, 'SAU': 52.4, 'SOM': 62.0, 'UKR': 66.5, 'VEN': 57.8
+    };
+    const empBase1990 = {
         'USA': 62.8, 'CAN': 61.5, 'NOR': 64.2, 'SWE': 63.1, 'FIN': 62.5,
         'GBR': 59.8, 'FRA': 56.8, 'DEU': 60.2, 'ITA': 53.7, 'KOR': 61.8,
         'JPN': 63.3, 'CHN': 67.5, 'MYS': 58.9, 'IND': 55.2, 'ARE': 65.0,
-        'RUS': 58.9, 'ZAF': 45.2, 'BRA': 60.1, 'AUS': 59.9, 'NZL': 59.5
+        'RUS': 58.9, 'ZAF': 45.2, 'BRA': 60.1, 'AUS': 59.9, 'NZL': 59.5,
+        'ARG': 51.8, 'CUB': 58.2, 'IRN': 46.5, 'ISR': 51.8, 'MEX': 56.8,
+        'ROU': 60.2, 'SAU': 55.2, 'SOM': 58.4, 'UKR': 57.8, 'VEN': 58.5
+    };
+    const unempBase1970 = {
+        'USA': 4.9, 'CAN': 5.8, 'NOR': 0.8, 'SWE': 1.5, 'FIN': 1.9,
+        'GBR': 2.6, 'FRA': 2.5, 'DEU': 0.7, 'ITA': 5.3, 'KOR': 4.5,
+        'JPN': 1.1, 'CHN': 2.6, 'MYS': 3.0, 'IND': 2.5, 'ARE': 1.5,
+        'RUS': 1.5, 'ZAF': 12.0, 'BRA': 3.5, 'AUS': 1.6, 'NZL': 0.3,
+        'ARG': 4.5, 'CUB': 1.5, 'IRN': 5.2, 'ISR': 3.8, 'MEX': 4.2,
+        'ROU': 1.2, 'SAU': 3.8, 'SOM': 6.5, 'UKR': 1.8, 'VEN': 5.2
+    };
+    const unempBase1990 = {
+        'USA': 5.6, 'CAN': 8.1, 'NOR': 3.2, 'SWE': 1.9, 'FIN': 3.1,
+        'GBR': 6.9, 'FRA': 8.9, 'DEU': 4.8, 'ITA': 9.1, 'KOR': 2.4,
+        'JPN': 2.1, 'CHN': 2.5, 'MYS': 4.5, 'IND': 2.3, 'ARE': 2.0,
+        'RUS': 5.2, 'ZAF': 16.5, 'BRA': 4.3, 'AUS': 6.9, 'NZL': 6.2,
+        'ARG': 7.5, 'CUB': 6.0, 'IRN': 10.5, 'ISR': 9.6, 'MEX': 2.7,
+        'ROU': 3.0, 'SAU': 6.5, 'SOM': 14.0, 'UKR': 0.5, 'VEN': 10.4
     };
 
     const employment = {};
@@ -3262,84 +3542,113 @@ function generateEmploymentData() {
 
     COUNTRIES.forEach(country => {
         const code = COUNTRY_CODES[country];
+        const empAnchor1970 = empBase1970[code];
+        const empAnchor1990 = empBase1990[code];
+        const unAnchor1970 = unempBase1970[code];
+        const unAnchor1990 = unempBase1990[code];
+
         employment[country] = [];
         unemployment[country] = [];
 
-        let empRate = baseEmployment[code];
-
         YEARS.forEach((year, idx) => {
-            // More realistic trend based on economic cycles
-            let trend = 1.002;
+            let empRate, unempRate;
+            if (year < 1990) {
+                const t = (year - 1970) / 20;
+                empRate = empAnchor1970 + t * (empAnchor1990 - empAnchor1970);
+                unempRate = unAnchor1970 + t * (unAnchor1990 - unAnchor1970);
+                if (year >= 1974 && year <= 1977 && !['CHN','IND','ARE'].includes(code)) unempRate *= 1.25;
+                if (year >= 1980 && year <= 1984 && !['CHN','IND','JPN'].includes(code)) unempRate *= 1.35;
+            } else {
+                let empTrend = 1.002;
+                if (year >= 2001 && year <= 2002) empTrend = 0.98;
+                else if (year >= 2008 && year <= 2009) empTrend = 0.94;
+                else if (year >= 2010 && year < 2020) empTrend = 1.004;
+                else if (year === 2020) empTrend = 0.92;
+                else if (year > 2020) empTrend = 1.006;
 
-            // Dot-com bubble burst (2001-2002)
-            if (year >= 2001 && year <= 2002) trend = 0.98;
-            // Financial crisis (2008-2009)
-            else if (year >= 2008 && year <= 2009) trend = 0.94;
-            // Recovery (2010-2019)
-            else if (year >= 2010 && year < 2020) trend = 1.004;
-            // COVID-19 (2020)
-            else if (year === 2020) trend = 0.92;
-            // Post-COVID recovery (2021-2026)
-            else if (year > 2020) trend = 1.006;
+                const prevEmp = idx === 0 ? empAnchor1990 : employment[country][idx - 1];
+                empRate = prevEmp * empTrend;
+                empRate = Math.max(43, Math.min(75, empRate));
 
-            empRate = empRate * trend * random(0.995, 1.005);
-            empRate = Math.max(48, Math.min(70, empRate));
-
-            // Unemployment rate inversely related but not exact mirror
-            let baseUnemp = {
-                'USA': 5.6, 'CAN': 8.1, 'NOR': 3.2, 'SWE': 1.9, 'FIN': 3.1,
-                'GBR': 6.9, 'FRA': 8.9, 'DEU': 4.8, 'ITA': 9.1, 'KOR': 2.4,
-                'JPN': 2.1, 'CHN': 2.5, 'MYS': 4.5, 'IND': 2.3, 'ARE': 2.0,
-                'RUS': 5.2, 'ZAF': 16.5, 'BRA': 4.3, 'AUS': 6.9, 'NZL': 6.2
-            }[code];
-
-            let unempRate = baseUnemp;
-            if (year >= 2008 && year <= 2010) unempRate *= 1.8;
-            else if (year === 2020) unempRate *= 1.6;
-            else if (year > 2020 && year < 2023) unempRate *= 1.2;
-            else unempRate *= (1 + (idx - 18) * 0.01);
-
-            unempRate = Math.max(1.5, Math.min(15, unempRate));
+                unempRate = unAnchor1990;
+                if (year >= 2008 && year <= 2010) unempRate *= 1.8;
+                else if (year === 2020) unempRate *= 1.6;
+                else if (year > 2020 && year < 2023) unempRate *= 1.2;
+                else unempRate *= (1 + (idx - 20) * 0.005);
+                unempRate = Math.max(1.5, Math.min(18, unempRate));
+            }
 
             employment[country].push(parseFloat(empRate.toFixed(1)));
             unemployment[country].push(parseFloat(unempRate.toFixed(1)));
         });
     });
-
     return { employment, unemployment };
 }
 
 function generateSalaryData() {
-    // More realistic 1990 average annual salary baselines (USD)
-    const baseSalary = {
+    const baseSalary1970 = {
+        'USA': 4820, 'CAN': 3830, 'NOR': 3240, 'SWE': 3870, 'FIN': 2460,
+        'GBR': 2090, 'FRA': 2680, 'DEU': 2580, 'ITA': 1850, 'KOR': 260,
+        'JPN': 1920, 'CHN': 98, 'MYS': 340, 'IND': 100, 'ARE': 2200,
+        'RUS': 1680, 'ZAF': 820, 'BRA': 400, 'AUS': 3050, 'NZL': 2550,
+        'ARG': 1380, 'CUB': 750, 'IRN': 430, 'ISR': 3100,
+        'MEX': 650, 'ROU': 1400, 'SAU': 520, 'SOM': 150,
+        'UKR': 800, 'VEN': 1150
+    };
+    const baseSalary1990 = {
         'USA': 28960, 'CAN': 26500, 'NOR': 28500, 'SWE': 27200, 'FIN': 26800,
         'GBR': 23400, 'FRA': 24800, 'DEU': 26200, 'ITA': 22100, 'KOR': 15800,
         'JPN': 31500, 'CHN': 1150, 'MYS': 5200, 'IND': 980, 'ARE': 32000,
-        'RUS': 4200, 'ZAF': 4800, 'BRA': 8500, 'AUS': 25500, 'NZL': 25600
+        'RUS': 4200, 'ZAF': 4800, 'BRA': 8500, 'AUS': 25500, 'NZL': 25600,
+        'ARG': 4200, 'CUB': 1680, 'IRN': 1490, 'ISR': 11800,
+        'MEX': 2800, 'ROU': 1490, 'SAU': 6720, 'SOM': 114,
+        'UKR': 1420, 'VEN': 2430
+    };
+    const growthRates = {
+        'USA': 1.0318, 'CAN': 1.0278, 'NOR': 1.0378, 'SWE': 1.0228, 'FIN': 1.0241,
+        'GBR': 1.0261, 'FRA': 1.0202, 'DEU': 1.0252, 'ITA': 1.0172, 'KOR': 1.0461,
+        'JPN': 1.0091, 'CHN': 1.1128, 'MYS': 1.0524, 'IND': 1.0584, 'ARE': 1.0027,
+        'RUS': 1.0395, 'ZAF': 1.0207, 'BRA': 1.0336, 'AUS': 1.0378, 'NZL': 1.0343,
+        'ARG': 1.0210, 'CUB': 1.0110, 'IRN': 1.0240, 'ISR': 1.0310,
+        'MEX': 1.0185, 'ROU': 1.0470, 'SAU': 1.0115, 'SOM': 1.0045,
+        'UKR': 1.0175, 'VEN': 0.9970
     };
 
     const data = {};
     COUNTRIES.forEach(country => {
         const code = COUNTRY_CODES[country];
-        let salary = baseSalary[code];
-        data[country] = YEARS.map((year, idx) => {
-            // Salary growth varies by country and era
-            let growth = 1.028;
-
-            // Rapid growth in China and India
-            if (code === 'CHN') growth = year < 2010 ? 1.095 : 1.075;
-            else if (code === 'IND') growth = year < 2010 ? 1.080 : 1.070;
-
-            // Stagnation during crises
-            if (year >= 2008 && year <= 2010) growth *= 0.98;
-            if (year === 2020) growth *= 0.97;
-
-            const noise = random(0.98, 1.03);
-            salary = salary * growth * noise;
+        const g1 = Math.pow(baseSalary1990[code] / baseSalary1970[code], 1 / 20);
+        const g2 = growthRates[code];
+        data[country] = YEARS.map((year) => {
+            let salary;
+            if (year < 1990) {
+                salary = baseSalary1970[code] * Math.pow(g1, year - 1970);
+                if (year === 1979 && code === 'IRN') salary *= 0.78;
+                if (year >= 1980 && year <= 1988 && code === 'IRN') salary *= 0.982;
+                if (year === 1989 && code === 'ARG') salary *= 0.92;
+            } else {
+                salary = baseSalary1990[code] * Math.pow(g2, year - 1990);
+                if (year >= 2008 && year <= 2010) salary *= 0.98;
+                if (year === 2020) salary *= 0.97;
+                if ((year === 2014 || year === 2015) && (code === 'RUS' || code === 'BRA')) salary *= 0.92;
+                if (year === 1994 && code === 'MEX') salary *= 0.90;
+                if (year === 2001 && code === 'ARG') salary *= 0.75;
+                if (year === 2002 && code === 'ARG') salary *= 0.92;
+                if (year === 1991 && code === 'UKR') salary *= 0.85;
+                if (year >= 1991 && year <= 1999 && code === 'UKR') salary *= 0.975;
+                if (year === 2014 && code === 'UKR') salary *= 0.87;
+                if (year === 2015 && code === 'UKR') salary *= 0.91;
+                if (year === 2022 && code === 'UKR') salary *= 0.70;
+                if (year >= 2015 && code === 'VEN') salary *= 0.88;
+                if (year >= 2016 && code === 'VEN') salary *= 0.82;
+                if (year >= 2017 && code === 'VEN') salary *= 0.80;
+                if (year >= 1991 && year <= 2000 && code === 'CUB') salary *= 0.972;
+                if (year === 1991 && code === 'ROU') salary *= 0.90;
+                if (year >= 1991 && year <= 1993 && code === 'ROU') salary *= 0.96;
+            }
             return Math.round(salary);
         });
     });
-
     return data;
 }
 
@@ -3365,7 +3674,17 @@ function generateCostOfLivingData() {
         'ZAF': {food: 140, rent: 180, house: 28000, electricity: 40, gas: 0.75, car: 8500},
         'BRA': {food: 160, rent: 200, house: 32000, electricity: 45, gas: 0.80, car: 9500},
         'AUS': {food: 300, rent: 440, house: 115000, electricity: 72, gas: 0.88, car: 17000},
-        'NZL': {food: 295, rent: 430, house: 105000, electricity: 68, gas: 0.92, car: 16500}
+        'NZL': {food: 295, rent: 430, house: 105000, electricity: 68, gas: 0.92, car: 16500},
+        'ARG': {food: 180, rent: 220, house: 45000, electricity: 55, gas: 0.85, car: 9000},
+        'CUB': {food: 80, rent: 40, house: 8000, electricity: 20, gas: 0.50, car: 4000},
+        'IRN': {food: 120, rent: 150, house: 28000, electricity: 30, gas: 0.10, car: 6000},
+        'ISR': {food: 380, rent: 650, house: 130000, electricity: 85, gas: 1.45, car: 20000},
+        'MEX': {food: 200, rent: 250, house: 55000, electricity: 45, gas: 0.88, car: 10000},
+        'ROU': {food: 140, rent: 180, house: 38000, electricity: 55, gas: 1.10, car: 8500},
+        'SAU': {food: 220, rent: 500, house: 180000, electricity: 20, gas: 0.12, car: 18000},
+        'SOM': {food: 50, rent: 60, house: 5000, electricity: 25, gas: 0.95, car: 3000},
+        'UKR': {food: 130, rent: 160, house: 32000, electricity: 40, gas: 0.95, car: 7000},
+        'VEN': {food: 140, rent: 160, house: 30000, electricity: 10, gas: 0.01, car: 7500}
     };
 
     const result = {
@@ -3401,12 +3720,12 @@ function generateCostOfLivingData() {
             if (year >= 2000 && year <= 2008) gasMult = 1.15; // Oil price surge
             else if (year === 2020) gasMult = 0.75; // COVID price drop
 
-            result.food[country].push(Math.round(values.food * Math.pow(foodInflation, idx) * random(0.96, 1.04)));
-            result.rent[country].push(Math.round(values.rent * Math.pow(rentInflation, idx) * random(0.95, 1.05)));
-            result.housing[country].push(Math.round(values.house * Math.pow(houseInflation, idx) * houseMult * random(0.92, 1.08)));
-            result.electricity[country].push(Math.round(values.electricity * Math.pow(electricInflation, idx) * random(0.96, 1.04)));
-            result.gas[country].push(parseFloat((values.gas * Math.pow(gasInflation, idx) * gasMult * random(0.88, 1.12)).toFixed(2)));
-            result.car[country].push(Math.round(values.car * Math.pow(carInflation, idx) * random(0.96, 1.04)));
+            result.food[country].push(Math.round(values.food * Math.pow(foodInflation, idx - 20) * random(0.96, 1.04)));
+            result.rent[country].push(Math.round(values.rent * Math.pow(rentInflation, idx - 20) * random(0.95, 1.05)));
+            result.housing[country].push(Math.round(values.house * Math.pow(houseInflation, idx - 20) * houseMult * random(0.92, 1.08)));
+            result.electricity[country].push(Math.round(values.electricity * Math.pow(electricInflation, idx - 20) * random(0.96, 1.04)));
+            result.gas[country].push(parseFloat((values.gas * Math.pow(gasInflation, idx - 20) * gasMult * random(0.88, 1.12)).toFixed(2)));
+            result.car[country].push(Math.round(values.car * Math.pow(carInflation, idx - 20) * random(0.96, 1.04)));
         });
     });
 
@@ -3418,7 +3737,9 @@ function generateHealthcareData() {
         'USA': 3000, 'CAN': 1500, 'NOR': 2200, 'SWE': 1900, 'FIN': 1800,
         'GBR': 1200, 'FRA': 1400, 'DEU': 1600, 'ITA': 1300, 'KOR': 800,
         'JPN': 1800, 'CHN': 400, 'MYS': 600, 'IND': 200, 'ARE': 2500,
-        'RUS': 600, 'ZAF': 500, 'BRA': 800, 'AUS': 1400, 'NZL': 1700
+        'RUS': 600, 'ZAF': 500, 'BRA': 800, 'AUS': 1400, 'NZL': 1700,
+        'ARG': 750, 'CUB': 200, 'IRN': 120, 'ISR': 1200, 'MEX': 280,
+        'ROU': 150, 'SAU': 600, 'SOM': 15, 'UKR': 80, 'VEN': 250
     };
 
     const data = {};
@@ -3436,19 +3757,53 @@ function generateHealthcareData() {
 }
 
 function generateTradeData() {
-    // More accurate 1990 trade values (billion USD)
-    const baseExports = {
+    const baseExports1970 = {
+        'USA': 43, 'CAN': 16, 'NOR': 3.5, 'SWE': 6.8, 'FIN': 2.3,
+        'GBR': 19, 'FRA': 18, 'DEU': 34, 'ITA': 13, 'KOR': 0.8,
+        'JPN': 19, 'CHN': 2.2, 'MYS': 1.7, 'IND': 2.0, 'ARE': 0.9,
+        'RUS': 13, 'ZAF': 3.0, 'BRA': 2.7, 'AUS': 4.8, 'NZL': 1.3,
+        'ARG': 1.8, 'CUB': 1.1, 'IRN': 2.4, 'ISR': 0.8, 'MEX': 1.3,
+        'ROU': 1.9, 'SAU': 2.4, 'SOM': 0.05, 'UKR': 1.5, 'VEN': 2.4
+    };
+    const baseImports1970 = {
+        'USA': 42, 'CAN': 14, 'NOR': 4.0, 'SWE': 7.2, 'FIN': 2.4,
+        'GBR': 22, 'FRA': 20, 'DEU': 30, 'ITA': 15, 'KOR': 2.0,
+        'JPN': 16, 'CHN': 2.3, 'MYS': 1.4, 'IND': 2.5, 'ARE': 0.3,
+        'RUS': 12, 'ZAF': 2.8, 'BRA': 2.5, 'AUS': 4.4, 'NZL': 1.3,
+        'ARG': 1.7, 'CUB': 1.3, 'IRN': 1.8, 'ISR': 1.4, 'MEX': 2.5,
+        'ROU': 1.7, 'SAU': 0.8, 'SOM': 0.08, 'UKR': 1.4, 'VEN': 1.7
+    };
+    const baseExports1990 = {
         'USA': 393, 'CAN': 128, 'NOR': 45, 'SWE': 68, 'FIN': 32,
         'GBR': 185, 'FRA': 216, 'DEU': 421, 'ITA': 170, 'KOR': 65,
         'JPN': 287, 'CHN': 62, 'MYS': 29, 'IND': 18, 'ARE': 25,
-        'RUS': 68, 'ZAF': 23, 'BRA': 31, 'AUS': 42, 'NZL': 12
+        'RUS': 68, 'ZAF': 23, 'BRA': 31, 'AUS': 42, 'NZL': 12,
+        'ARG': 12.3, 'CUB': 5.4, 'IRN': 19.3, 'ISR': 11.6, 'MEX': 40.7,
+        'ROU': 5.8, 'SAU': 44.4, 'SOM': 0.16, 'UKR': 8.0, 'VEN': 17.5
     };
-
-    const baseImports = {
+    const baseImports1990 = {
         'USA': 517, 'CAN': 116, 'NOR': 38, 'SWE': 62, 'FIN': 28,
         'GBR': 224, 'FRA': 234, 'DEU': 346, 'ITA': 182, 'KOR': 71,
         'JPN': 235, 'CHN': 53, 'MYS': 35, 'IND': 24, 'ARE': 18,
-        'RUS': 58, 'ZAF': 19, 'BRA': 22, 'AUS': 44, 'NZL': 11
+        'RUS': 58, 'ZAF': 19, 'BRA': 22, 'AUS': 44, 'NZL': 11,
+        'ARG': 4.1, 'CUB': 7.4, 'IRN': 15.1, 'ISR': 15.2, 'MEX': 29.8,
+        'ROU': 9.7, 'SAU': 24.1, 'SOM': 0.35, 'UKR': 7.5, 'VEN': 6.6
+    };
+    const expGrowthRates = {
+        'USA': 1.048, 'CAN': 1.041, 'NOR': 1.038, 'SWE': 1.042, 'FIN': 1.035,
+        'GBR': 1.038, 'FRA': 1.038, 'DEU': 1.048, 'ITA': 1.040, 'KOR': 1.075,
+        'JPN': 1.034, 'CHN': 1.135, 'MYS': 1.082, 'IND': 1.095, 'ARE': 1.075,
+        'RUS': 1.048, 'ZAF': 1.042, 'BRA': 1.055, 'AUS': 1.048, 'NZL': 1.041,
+        'ARG': 1.050, 'CUB': 1.018, 'IRN': 1.038, 'ISR': 1.070, 'MEX': 1.080,
+        'ROU': 1.065, 'SAU': 1.058, 'SOM': 1.015, 'UKR': 1.042, 'VEN': 1.025
+    };
+    const impGrowthRates = {
+        'USA': 1.052, 'CAN': 1.043, 'NOR': 1.042, 'SWE': 1.044, 'FIN': 1.038,
+        'GBR': 1.040, 'FRA': 1.040, 'DEU': 1.046, 'ITA': 1.042, 'KOR': 1.078,
+        'JPN': 1.036, 'CHN': 1.140, 'MYS': 1.085, 'IND': 1.100, 'ARE': 1.085,
+        'RUS': 1.045, 'ZAF': 1.038, 'BRA': 1.052, 'AUS': 1.050, 'NZL': 1.042,
+        'ARG': 1.052, 'CUB': 1.020, 'IRN': 1.040, 'ISR': 1.072, 'MEX': 1.082,
+        'ROU': 1.068, 'SAU': 1.062, 'SOM': 1.016, 'UKR': 1.044, 'VEN': 1.022
     };
 
     const exports = {};
@@ -3456,46 +3811,33 @@ function generateTradeData() {
 
     COUNTRIES.forEach(country => {
         const code = COUNTRY_CODES[country];
+        const ge1 = Math.pow(baseExports1990[code] / baseExports1970[code], 1 / 20);
+        const gi1 = Math.pow(baseImports1990[code] / baseImports1970[code], 1 / 20);
+        const ge2 = expGrowthRates[code];
+        const gi2 = impGrowthRates[code];
+
         exports[country] = [];
         imports[country] = [];
 
-        let exp = baseExports[code];
-        let imp = baseImports[code];
-
-        YEARS.forEach((year, idx) => {
-            // Different growth rates by era and country
-            let expGrowth = 1.04;
-            let impGrowth = 1.042;
-
-            // China and India rapid growth
-            if (code === 'CHN') {
-                expGrowth = year < 2010 ? 1.15 : 1.08;
-                impGrowth = year < 2010 ? 1.14 : 1.09;
-            } else if (code === 'IND') {
-                expGrowth = year < 2010 ? 1.11 : 1.085;
-                impGrowth = year < 2010 ? 1.13 : 1.095;
+        YEARS.forEach((year) => {
+            let exp, imp;
+            if (year < 1990) {
+                exp = baseExports1970[code] * Math.pow(ge1, year - 1970);
+                imp = baseImports1970[code] * Math.pow(gi1, year - 1970);
+            } else {
+                exp = baseExports1990[code] * Math.pow(ge2, year - 1990);
+                imp = baseImports1990[code] * Math.pow(gi2, year - 1990);
+                if (year === 2009) { exp *= 0.85; imp *= 0.82; }
+                if (year === 2020) { exp *= 0.92; imp *= 0.90; }
+                if ((year === 2014 || year === 2015) && (code === 'RUS')) { exp *= 0.88; imp *= 0.70; }
+                if (year === 2022 && code === 'UKR') { exp *= 0.65; imp *= 0.60; }
+                if (year >= 2015 && code === 'VEN') { exp *= 0.88; imp *= 0.80; }
+                if (year === 2001 && code === 'ARG') { exp *= 0.88; imp *= 0.60; }
             }
-
-            // Financial crisis impact
-            if (year === 2009) {
-                expGrowth *= 0.85;
-                impGrowth *= 0.82;
-            }
-
-            // COVID impact
-            if (year === 2020) {
-                expGrowth *= 0.92;
-                impGrowth *= 0.90;
-            }
-
-            exp = exp * expGrowth * random(0.96, 1.04);
-            imp = imp * impGrowth * random(0.96, 1.04);
-
             exports[country].push(parseFloat(exp.toFixed(1)));
             imports[country].push(parseFloat(imp.toFixed(1)));
         });
     });
-
     return { exports, imports };
 }
 
@@ -3521,7 +3863,17 @@ function generateSocialIndicators() {
         'ZAF': {homeOwn: 68.0, age: 23.1, edu: 55.2, violence: 25.5, literacy: 76.0, genderEq: 0.63, dei: 49, happiness: 5.1, politicalFree: 7.8, freeSpeech: 7.0, legacyMediaRating: 5.4, newMediaRating: 2.2, newMediaShare: 2},
         'BRA': {homeOwn: 72.0, age: 26.8, edu: 62.1, violence: 22.8, literacy: 83.0, genderEq: 0.68, dei: 47, happiness: 6.4, politicalFree: 7.9, freeSpeech: 7.1, legacyMediaRating: 5.7, newMediaRating: 2.2, newMediaShare: 2},
         'AUS': {homeOwn: 69.0, age: 31.7, edu: 80.5, violence: 2.0, literacy: 99.0, genderEq: 0.77, dei: 61, happiness: 7.2, politicalFree: 9.4, freeSpeech: 9.0, legacyMediaRating: 7.2, newMediaRating: 2.3, newMediaShare: 3},
-        'NZL': {homeOwn: 65.0, age: 31.5, edu: 79.8, violence: 1.8, literacy: 98.0, genderEq: 0.79, dei: 63, happiness: 7.3, politicalFree: 9.6, freeSpeech: 9.1, legacyMediaRating: 7.4, newMediaRating: 2.3, newMediaShare: 3}
+        'NZL': {homeOwn: 65.0, age: 31.5, edu: 79.8, violence: 1.8, literacy: 98.0, genderEq: 0.79, dei: 63, happiness: 7.3, politicalFree: 9.6, freeSpeech: 9.1, legacyMediaRating: 7.4, newMediaRating: 2.3, newMediaShare: 3},
+        'ARG': {homeOwn: 75.0, age: 28.5, edu: 72.0, violence: 12.5, literacy: 96.0, genderEq: 0.68, dei: 52, happiness: 6.5, politicalFree: 7.2, freeSpeech: 7.0, legacyMediaRating: 5.8, newMediaRating: 2.1, newMediaShare: 3},
+        'CUB': {homeOwn: 85.0, age: 32.5, edu: 88.0, violence: 5.0, literacy: 96.0, genderEq: 0.72, dei: 40, happiness: 5.8, politicalFree: 2.5, freeSpeech: 1.5, legacyMediaRating: 5.5, newMediaRating: 1.8, newMediaShare: 1},
+        'IRN': {homeOwn: 72.0, age: 22.0, edu: 62.0, violence: 4.5, literacy: 72.0, genderEq: 0.52, dei: 28, happiness: 4.8, politicalFree: 2.0, freeSpeech: 1.8, legacyMediaRating: 4.5, newMediaRating: 2.0, newMediaShare: 1},
+        'ISR': {homeOwn: 72.0, age: 29.5, edu: 82.0, violence: 2.8, literacy: 96.0, genderEq: 0.73, dei: 58, happiness: 7.2, politicalFree: 7.8, freeSpeech: 7.5, legacyMediaRating: 6.8, newMediaRating: 2.2, newMediaShare: 3},
+        'MEX': {homeOwn: 78.0, age: 22.5, edu: 62.0, violence: 18.5, literacy: 88.0, genderEq: 0.62, dei: 45, happiness: 6.8, politicalFree: 6.2, freeSpeech: 5.8, legacyMediaRating: 5.5, newMediaRating: 2.1, newMediaShare: 2},
+        'ROU': {homeOwn: 96.0, age: 33.8, edu: 78.0, violence: 3.5, literacy: 97.0, genderEq: 0.70, dei: 42, happiness: 5.5, politicalFree: 5.5, freeSpeech: 6.5, legacyMediaRating: 5.8, newMediaRating: 2.0, newMediaShare: 2},
+        'SAU': {homeOwn: 60.0, age: 19.5, edu: 55.0, violence: 1.5, literacy: 78.0, genderEq: 0.45, dei: 22, happiness: 5.5, politicalFree: 1.5, freeSpeech: 1.2, legacyMediaRating: 4.8, newMediaRating: 2.0, newMediaShare: 1},
+        'SOM': {homeOwn: 45.0, age: 16.5, edu: 18.0, violence: 52.0, literacy: 20.0, genderEq: 0.38, dei: 18, happiness: 3.2, politicalFree: 1.5, freeSpeech: 1.8, legacyMediaRating: 3.5, newMediaRating: 1.8, newMediaShare: 1},
+        'UKR': {homeOwn: 92.0, age: 34.5, edu: 90.0, violence: 6.5, literacy: 99.0, genderEq: 0.72, dei: 42, happiness: 5.5, politicalFree: 5.8, freeSpeech: 6.0, legacyMediaRating: 5.8, newMediaRating: 2.0, newMediaShare: 2},
+        'VEN': {homeOwn: 70.0, age: 24.5, edu: 68.0, violence: 22.0, literacy: 90.0, genderEq: 0.65, dei: 44, happiness: 6.2, politicalFree: 6.0, freeSpeech: 5.5, legacyMediaRating: 5.5, newMediaRating: 2.1, newMediaShare: 2}
     };
 
     const result = {
@@ -3609,30 +3961,63 @@ function generateSocialIndicators() {
             let dei = values.dei + idx * deiTrend * random(0.97, 1.03);
             dei = Math.max(25, Math.min(92, dei));
 
-            // Happiness - mixed trends, generally stable with some improvements
-            let happinessTrend = 0.01; // Slight improvement
-            if (code === 'CHN') happinessTrend = 0.02; // Improving in China
-            else if (code === 'USA') happinessTrend = -0.005; // Slight decline in USA
-            else if (code === 'RUS') happinessTrend = -0.02; // Decline in Russia
+            // Happiness — base values anchored at 1990; WHR data only exists from 2012,
+            // so pre-2012 is a retrospective estimate with high uncertainty.
+            let happinessTrend = 0.01;
+            if (code === 'CHN') happinessTrend = 0.02;
+            else if (code === 'USA') happinessTrend = -0.008; // WHR score fell from ~7.3 (2012) to ~6.7 (2024)
+            else if (code === 'RUS') happinessTrend = year < 1991 ? -0.01 : (year < 2000 ? -0.04 : 0.01);
+            else if (code === 'VEN') happinessTrend = year < 2014 ? 0.01 : -0.08;
+            else if (code === 'UKR') happinessTrend = year < 1991 ? -0.01 : (year >= 2022 ? -0.15 : 0.01);
+            let happinessShock = 0;
+            if (code === 'RUS' && year >= 1991 && year <= 1994) happinessShock = -0.6; // economic collapse
+            if (code === 'UKR' && year === 2022) happinessShock = -0.8;
+            let happiness = values.happiness + (idx - 20) * happinessTrend * random(0.98, 1.02) + happinessShock;
+            happiness = Math.max(2.5, Math.min(8.5, happiness));
 
-            let happiness = values.happiness + idx * happinessTrend * random(0.98, 1.02);
-            happiness = Math.max(3.0, Math.min(8.5, happiness));
-
-            // Political Freedom - generally stable with some changes
-            let politicalTrend = 0.0; // Generally stable
-            if (code === 'CHN') politicalTrend = -0.02; // Declining in China
-            else if (code === 'ARE') politicalTrend = 0.03; // Improving in UAE
-            else if (code === 'RUS') politicalTrend = -0.05; // Declining in Russia
-
-            let politicalFree = values.politicalFree + idx * politicalTrend * random(0.95, 1.05);
+            // Political Freedom — base values anchored at 1990 (Freedom House basis).
+            // Pre-1991 Soviet-bloc and other authoritarian regimes handled explicitly.
+            let politicalTrend = 0.0;
+            if (code === 'CHN') politicalTrend = year < 1978 ? 0.0 : (year < 2012 ? 0.02 : -0.05);
+            else if (code === 'ARE') politicalTrend = 0.02;
+            else if (code === 'RUS') politicalTrend = year < 1991 ? 0.0 : (year < 2000 ? 0.15 : -0.08);
+            else if (code === 'IRN') politicalTrend = year < 1979 ? 0.0 : (year < 1990 ? -0.05 : 0.01);
+            else if (code === 'ROU') politicalTrend = year < 1990 ? 0.0 : 0.12;
+            else if (code === 'UKR') politicalTrend = year < 1991 ? 0.0 : (year >= 2022 ? -0.20 : 0.06);
+            let politicalFree;
+            // Hard-code authoritarian-era values that the linear formula cannot reproduce
+            if ((code === 'RUS' || code === 'UKR') && year < 1991) {
+                const glasnost = year >= 1986 ? (year - 1986) * 0.35 : 0;
+                politicalFree = Math.min(3.0, 1.2 + glasnost);
+            } else if (code === 'ROU' && year < 1990) {
+                politicalFree = 1.0 + (year - 1970) * 0.02; // ~1.0–1.4 under Ceaușescu
+            } else if (code === 'CHN' && year < 1978) {
+                politicalFree = 1.0 + (year - 1970) * 0.04; // Cultural Revolution era
+            } else if (code === 'IRN' && year < 1979) {
+                politicalFree = 4.5 - (year - 1970) * 0.05; // Shah era
+            } else if (code === 'IRN' && year === 1979) {
+                politicalFree = 2.2; // Revolution transition year
+            } else {
+                politicalFree = values.politicalFree + (idx - 20) * politicalTrend * random(0.95, 1.05);
+            }
             politicalFree = Math.max(1.0, Math.min(9.8, politicalFree));
 
             let freeSpeechTrend = 0.01;
-            if (code === 'CHN') freeSpeechTrend = -0.02;
-            else if (code === 'RUS') freeSpeechTrend = -0.04;
+            if (code === 'CHN') freeSpeechTrend = year < 2012 ? 0.01 : -0.04;
+            else if (code === 'RUS') freeSpeechTrend = year < 1991 ? 0.0 : (year < 2000 ? 0.10 : -0.06);
             else if (code === 'ARE') freeSpeechTrend = -0.01;
             else if (code === 'KOR' || code === 'ZAF') freeSpeechTrend = 0.02;
-            let freeSpeech = values.freeSpeech + idx * freeSpeechTrend * random(0.96, 1.04);
+            else if (code === 'IRN') freeSpeechTrend = year < 1979 ? 0.01 : -0.04;
+            let freeSpeech;
+            if ((code === 'RUS' || code === 'UKR') && year < 1991) {
+                freeSpeech = Math.min(2.5, 0.8 + (year >= 1986 ? (year - 1986) * 0.25 : 0));
+            } else if (code === 'ROU' && year < 1990) {
+                freeSpeech = 0.8 + (year - 1970) * 0.02;
+            } else if (code === 'IRN' && year < 1979) {
+                freeSpeech = 4.0;
+            } else {
+                freeSpeech = values.freeSpeech + (idx - 20) * freeSpeechTrend * random(0.96, 1.04);
+            }
             freeSpeech = Math.max(1.0, Math.min(9.8, freeSpeech));
 
             let legacyMediaTrend = year < 2005 ? -0.01 : -0.03;
@@ -3712,7 +4097,17 @@ function generateDemographicsData() {
         'ZAF': {birthRate: 31.2, deathRate: 12.1, lifeExpectancy: 63.5, fertilityRate: 4.23, abortionRate: 7.0, infantMortality: 45.6},
         'BRA': {birthRate: 23.8, deathRate: 6.9, lifeExpectancy: 67.2, fertilityRate: 2.89, abortionRate: 17.0, infantMortality: 47.1},
         'AUS': {birthRate: 15.4, deathRate: 6.9, lifeExpectancy: 76.9, fertilityRate: 1.86, abortionRate: 19.0, infantMortality: 8.1},
-        'NZL': {birthRate: 17.8, deathRate: 8.1, lifeExpectancy: 76.5, fertilityRate: 2.14, abortionRate: 14.0, infantMortality: 8.9}
+        'NZL': {birthRate: 17.8, deathRate: 8.1, lifeExpectancy: 76.5, fertilityRate: 2.14, abortionRate: 14.0, infantMortality: 8.9},
+        'ARG': {birthRate: 22.3, deathRate: 7.9, lifeExpectancy: 71.2, fertilityRate: 2.84, abortionRate: 35.0, infantMortality: 29.0},
+        'CUB': {birthRate: 17.0, deathRate: 6.8, lifeExpectancy: 74.5, fertilityRate: 1.82, abortionRate: 58.0, infantMortality: 10.7},
+        'IRN': {birthRate: 35.5, deathRate: 6.2, lifeExpectancy: 65.4, fertilityRate: 5.62, abortionRate: 8.0, infantMortality: 45.0},
+        'ISR': {birthRate: 22.1, deathRate: 6.2, lifeExpectancy: 76.5, fertilityRate: 2.78, abortionRate: 12.0, infantMortality: 9.8},
+        'MEX': {birthRate: 28.2, deathRate: 5.5, lifeExpectancy: 70.2, fertilityRate: 3.38, abortionRate: 10.0, infantMortality: 36.0},
+        'ROU': {birthRate: 13.6, deathRate: 10.6, lifeExpectancy: 69.8, fertilityRate: 1.84, abortionRate: 170.0, infantMortality: 26.9},
+        'SAU': {birthRate: 38.2, deathRate: 4.8, lifeExpectancy: 69.6, fertilityRate: 5.98, abortionRate: 1.0, infantMortality: 28.0},
+        'SOM': {birthRate: 48.5, deathRate: 18.2, lifeExpectancy: 45.2, fertilityRate: 7.52, abortionRate: 3.0, infantMortality: 120.0},
+        'UKR': {birthRate: 12.6, deathRate: 12.1, lifeExpectancy: 70.5, fertilityRate: 1.89, abortionRate: 88.0, infantMortality: 13.0},
+        'VEN': {birthRate: 28.5, deathRate: 4.9, lifeExpectancy: 71.2, fertilityRate: 3.56, abortionRate: 15.0, infantMortality: 25.0}
     };
 
     const result = {
@@ -3774,6 +4169,7 @@ function generateDemographicsData() {
             else if (code === 'KOR') abortionTrend = -0.25;
             else if (code === 'ZAF') abortionTrend = year < 2000 ? 0.15 : -0.08;
             else if (code === 'ARE' || code === 'MYS' || code === 'IND') abortionTrend = -0.03;
+            else if (code === 'ROU') abortionTrend = -3.0;
 
             let abortionRate = values.abortionRate + idx * abortionTrend * random(0.94, 1.06);
             if (year === 2020) abortionRate *= 0.96;
@@ -3822,7 +4218,17 @@ function generateHealthData() {
         'ZAF': {obesity: 8.9, smoking: 18.2, diabetes: 4.5, mentalHealth: 16.8},
         'BRA': {obesity: 6.8, smoking: 15.8, diabetes: 3.2, mentalHealth: 13.9},
         'AUS': {obesity: 10.8, smoking: 27.0, diabetes: 3.6, mentalHealth: 14.4},
-        'NZL': {obesity: 12.5, smoking: 21.8, diabetes: 3.8, mentalHealth: 15.2}
+        'NZL': {obesity: 12.5, smoking: 21.8, diabetes: 3.8, mentalHealth: 15.2},
+        'ARG': {obesity: 14.5, smoking: 40.0, diabetes: 4.8, mentalHealth: 16.5},
+        'CUB': {obesity: 11.2, smoking: 38.5, diabetes: 4.2, mentalHealth: 14.0},
+        'IRN': {obesity: 9.8, smoking: 15.2, diabetes: 5.8, mentalHealth: 13.5},
+        'ISR': {obesity: 12.5, smoking: 35.0, diabetes: 4.5, mentalHealth: 14.8},
+        'MEX': {obesity: 10.2, smoking: 25.0, diabetes: 4.8, mentalHealth: 12.5},
+        'ROU': {obesity: 8.5, smoking: 35.0, diabetes: 3.2, mentalHealth: 15.5},
+        'SAU': {obesity: 19.5, smoking: 16.0, diabetes: 10.2, mentalHealth: 14.0},
+        'SOM': {obesity: 2.5, smoking: 12.0, diabetes: 2.1, mentalHealth: 18.5},
+        'UKR': {obesity: 16.5, smoking: 40.0, diabetes: 3.5, mentalHealth: 20.0},
+        'VEN': {obesity: 13.5, smoking: 30.0, diabetes: 4.2, mentalHealth: 14.5}
     };
 
     const result = {
@@ -3904,7 +4310,17 @@ function generateEnvironmentData() {
         'ZAF': {co2Emissions: 8.9, renewableEnergy: 0.5, forestCoverage: 7.6, waterQuality: 65.2},
         'BRA': {co2Emissions: 1.2, renewableEnergy: 85.0, forestCoverage: 65.0, waterQuality: 68.5},
         'AUS': {co2Emissions: 16.2, renewableEnergy: 7.0, forestCoverage: 17.0, waterQuality: 82.0},
-        'NZL': {co2Emissions: 7.2, renewableEnergy: 65.0, forestCoverage: 38.6, waterQuality: 83.5}
+        'NZL': {co2Emissions: 7.2, renewableEnergy: 65.0, forestCoverage: 38.6, waterQuality: 83.5},
+        'ARG': {co2Emissions: 3.8, renewableEnergy: 7.2, forestCoverage: 12.5, waterQuality: 68.5},
+        'CUB': {co2Emissions: 2.8, renewableEnergy: 4.5, forestCoverage: 24.8, waterQuality: 65.2},
+        'IRN': {co2Emissions: 4.2, renewableEnergy: 1.0, forestCoverage: 7.1, waterQuality: 60.5},
+        'ISR': {co2Emissions: 7.8, renewableEnergy: 0.5, forestCoverage: 7.2, waterQuality: 72.0},
+        'MEX': {co2Emissions: 3.5, renewableEnergy: 8.5, forestCoverage: 36.0, waterQuality: 62.5},
+        'ROU': {co2Emissions: 8.2, renewableEnergy: 18.5, forestCoverage: 28.0, waterQuality: 65.0},
+        'SAU': {co2Emissions: 12.5, renewableEnergy: 0.0, forestCoverage: 1.0, waterQuality: 55.0},
+        'SOM': {co2Emissions: 0.1, renewableEnergy: 0.3, forestCoverage: 11.4, waterQuality: 28.0},
+        'UKR': {co2Emissions: 14.5, renewableEnergy: 6.8, forestCoverage: 15.9, waterQuality: 62.0},
+        'VEN': {co2Emissions: 5.8, renewableEnergy: 68.0, forestCoverage: 54.5, waterQuality: 60.0}
     };
 
     const result = {
@@ -3988,7 +4404,17 @@ function generateTechnologyData() {
         'ZAF': {internetUsers: 0.0, mobilePhones: 0.8, broadbandSpeed: 0.008, rndInvestment: 0.5},
         'BRA': {internetUsers: 0.0, mobilePhones: 1.2, broadbandSpeed: 0.010, rndInvestment: 0.9},
         'AUS': {internetUsers: 0.3, mobilePhones: 6.2, broadbandSpeed: 0.040, rndInvestment: 1.6},
-        'NZL': {internetUsers: 0.1, mobilePhones: 6.8, broadbandSpeed: 0.035, rndInvestment: 1.3}
+        'NZL': {internetUsers: 0.1, mobilePhones: 6.8, broadbandSpeed: 0.035, rndInvestment: 1.3},
+        'ARG': {internetUsers: 0.0, mobilePhones: 0.2, broadbandSpeed: 0.010, rndInvestment: 0.4},
+        'CUB': {internetUsers: 0.0, mobilePhones: 0.0, broadbandSpeed: 0.005, rndInvestment: 0.3},
+        'IRN': {internetUsers: 0.0, mobilePhones: 0.0, broadbandSpeed: 0.008, rndInvestment: 0.5},
+        'ISR': {internetUsers: 0.2, mobilePhones: 2.5, broadbandSpeed: 0.030, rndInvestment: 2.8},
+        'MEX': {internetUsers: 0.0, mobilePhones: 0.5, broadbandSpeed: 0.010, rndInvestment: 0.4},
+        'ROU': {internetUsers: 0.0, mobilePhones: 0.1, broadbandSpeed: 0.008, rndInvestment: 0.5},
+        'SAU': {internetUsers: 0.0, mobilePhones: 1.0, broadbandSpeed: 0.015, rndInvestment: 0.3},
+        'SOM': {internetUsers: 0.0, mobilePhones: 0.0, broadbandSpeed: 0.002, rndInvestment: 0.1},
+        'UKR': {internetUsers: 0.0, mobilePhones: 0.1, broadbandSpeed: 0.008, rndInvestment: 0.8},
+        'VEN': {internetUsers: 0.0, mobilePhones: 0.2, broadbandSpeed: 0.010, rndInvestment: 0.4}
     };
 
     const result = {
@@ -4074,7 +4500,17 @@ function generateAdditionalIndicators() {
         'ZAF': {foodbank: 220, capitalGain: 4500, valuation: 30, productivity: 100},
         'BRA': {foodbank: 190, capitalGain: 5500, valuation: 35, productivity: 100},
         'AUS': {foodbank: 160, capitalGain: 11000, valuation: 58, productivity: 100},
-        'NZL': {foodbank: 170, capitalGain: 10500, valuation: 55, productivity: 100}
+        'NZL': {foodbank: 170, capitalGain: 10500, valuation: 55, productivity: 100},
+        'ARG': {foodbank: 210, capitalGain: 3000, valuation: 22, productivity: 100},
+        'CUB': {foodbank: 120, capitalGain: 500, valuation: 10, productivity: 100},
+        'IRN': {foodbank: 160, capitalGain: 1500, valuation: 15, productivity: 100},
+        'ISR': {foodbank: 150, capitalGain: 9500, valuation: 60, productivity: 100},
+        'MEX': {foodbank: 200, capitalGain: 3500, valuation: 28, productivity: 100},
+        'ROU': {foodbank: 190, capitalGain: 2000, valuation: 18, productivity: 100},
+        'SAU': {foodbank: 80, capitalGain: 8000, valuation: 55, productivity: 100},
+        'SOM': {foodbank: 350, capitalGain: 200, valuation: 5, productivity: 100},
+        'UKR': {foodbank: 230, capitalGain: 1800, valuation: 15, productivity: 100},
+        'VEN': {foodbank: 280, capitalGain: 1200, valuation: 12, productivity: 100}
     };
 
     const result = {
@@ -4137,7 +4573,17 @@ function generateQualityOfLifeData() {
         'South Africa':  {qol: 40, hdi: 0.618, gini: 59.3, corruption: 48},
         'Brazil':        {qol: 45, hdi: 0.608, gini: 60.5, corruption: 38},
         'Australia':     {qol: 74, hdi: 0.862, gini: 30.9, corruption: 82},
-        'New Zealand':   {qol: 76, hdi: 0.855, gini: 29.8, corruption: 89}
+        'New Zealand':   {qol: 76, hdi: 0.855, gini: 29.8, corruption: 89},
+        'Argentina':    {qol: 52, hdi: 0.694, gini: 44.0, corruption: 32},
+        'Cuba':         {qol: 58, hdi: 0.711, gini: 38.0, corruption: 40},
+        'Iran':         {qol: 38, hdi: 0.575, gini: 40.5, corruption: 28},
+        'Israel':       {qol: 72, hdi: 0.832, gini: 34.5, corruption: 68},
+        'Mexico':       {qol: 48, hdi: 0.650, gini: 52.0, corruption: 30},
+        'Romania':      {qol: 45, hdi: 0.705, gini: 28.5, corruption: 25},
+        'Saudi Arabia': {qol: 55, hdi: 0.690, gini: 39.0, corruption: 45},
+        'Somalia':      {qol: 18, hdi: 0.250, gini: 45.0, corruption: 8},
+        'Ukraine':      {qol: 48, hdi: 0.714, gini: 25.5, corruption: 20},
+        'Venezuela':    {qol: 50, hdi: 0.672, gini: 44.0, corruption: 30}
     };
 
     const result = { qol: {}, hdi: {}, gini: {}, corruption: {} };
@@ -4148,41 +4594,79 @@ function generateQualityOfLifeData() {
         Object.keys(result).forEach(k => { result[k][country] = []; });
 
         YEARS.forEach((year, idx) => {
+            // All base values anchored at 1990 (idx=20). Use (idx-20) so growth
+            // is computed relative to the 1990 baseline, not from 1970.
+
+            // --- QoL Index ---
             let qolTrend = 0.15;
             if (code === 'CHN') qolTrend = 0.40;
             else if (code === 'IND') qolTrend = 0.30;
             else if (code === 'KOR') qolTrend = 0.35;
             else if (code === 'ARE') qolTrend = 0.45;
             else if (code === 'MYS') qolTrend = 0.28;
+            else if (code === 'ISR') qolTrend = 0.25;
+            else if (code === 'ROU') qolTrend = 0.38;
+            else if (code === 'MEX') qolTrend = 0.18;
+            else if (code === 'SAU') qolTrend = 0.35;
+            else if (code === 'SOM') qolTrend = 0.05;
+            // Crisis shocks (additive, year-specific)
             let qolShock = (year === 2020) ? -2 : 0;
-            let qol = base.qol + idx * qolTrend + qolShock;
+            if (code === 'VEN' && year >= 2014) qolShock -= Math.min(22, (year - 2013) * 3.0);
+            if (code === 'SOM' && year >= 1991 && year <= 2006) qolShock -= 5;
+            if (code === 'IRN' && year >= 1979 && year <= 1988) qolShock -= 8;
+            if (code === 'UKR' && year >= 2022) qolShock -= 14;
+            if (code === 'ARG' && year >= 2001 && year <= 2003) qolShock -= 6;
+            let qol = base.qol + (idx - 20) * qolTrend + qolShock;
             qol = Math.max(20, Math.min(95, qol));
 
-            let hdiTrend = 0.004;
-            if (code === 'CHN') hdiTrend = 0.008;
+            // --- HDI (anchored to 1990 UNDP baseline) ---
+            // Actual post-1990 growth rates (UNDP data): ~0.002/yr OECD, ~0.009/yr CHN
+            let hdiTrend = 0.002;
+            if (code === 'CHN') hdiTrend = 0.009;
             else if (code === 'IND') hdiTrend = 0.007;
-            else if (code === 'KOR') hdiTrend = 0.006;
-            else if (code === 'NOR' || code === 'SWE') hdiTrend = 0.002;
-            let hdi = base.hdi + idx * hdiTrend * random(0.95, 1.05);
-            hdi = Math.max(0.3, Math.min(0.98, hdi));
+            else if (code === 'KOR') hdiTrend = 0.005;
+            else if (code === 'NOR') hdiTrend = 0.003;
+            else if (code === 'SWE') hdiTrend = 0.003;
+            else if (code === 'MYS') hdiTrend = 0.006;
+            else if (code === 'ARE') hdiTrend = 0.006;
+            else if (code === 'ROU') hdiTrend = 0.004;
+            else if (code === 'SAU') hdiTrend = 0.005;
+            else if (code === 'SOM') hdiTrend = 0.003;
+            let hdi = base.hdi + (idx - 20) * hdiTrend * random(0.95, 1.05);
+            hdi = Math.max(0.2, Math.min(0.98, hdi));
 
+            // --- Gini (anchored to 1990) ---
             let giniTrend = 0.0;
-            if (code === 'CHN') giniTrend = 0.20;
-            else if (code === 'USA') giniTrend = 0.10;
-            else if (code === 'RUS') giniTrend = year < 2000 ? 0.50 : -0.10;
-            else if (code === 'BRA') giniTrend = -0.10;
+            if (code === 'CHN') giniTrend = 0.28;   // rose ~0.28/yr 1990→2008, then fell
+            else if (code === 'USA') giniTrend = 0.08; // slow rise since 1970s
+            else if (code === 'RUS') giniTrend = year < 2000 ? 0.50 : -0.08; // shock then partial recovery
+            else if (code === 'BRA') giniTrend = year < 2003 ? 0.0 : -0.15; // Bolsa Família compression
             else if (code === 'ZAF') giniTrend = 0.05;
-            let gini = base.gini + idx * giniTrend * random(0.95, 1.05);
+            else if (code === 'ARG') giniTrend = year >= 2001 && year <= 2003 ? 0.8 : -0.05;
+            else if (code === 'VEN') giniTrend = year < 2000 ? -0.05 : (year < 2014 ? -0.10 : 0.20);
+            let gini = base.gini + (idx - 20) * giniTrend * random(0.95, 1.05);
             gini = Math.max(20, Math.min(70, gini));
 
-            let corruptTrend = 0.15;
-            if (code === 'CHN') corruptTrend = 0.10;
-            else if (code === 'RUS') corruptTrend = year < 2000 ? -0.30 : 0.02;
-            else if (code === 'KOR') corruptTrend = 0.30;
+            // --- Corruption Perception Index (anchored to 1990; CPI exists since 1995) ---
+            // Reality check: many countries have NOT monotonically improved.
+            // Default 0.05/yr (modest improvement for developing world); specific overrides below.
+            let corruptTrend = 0.05;
+            if (code === 'CHN') corruptTrend = 0.08;
+            else if (code === 'USA') corruptTrend = -0.05; // actual CPI declined from ~76 (2000) to ~69 (2024)
+            else if (code === 'RUS') corruptTrend = year < 2000 ? -0.40 : -0.03; // oligarchic capture then stable-bad
+            else if (code === 'KOR') corruptTrend = 0.30;  // significant anti-corruption reforms
             else if (code === 'ARE') corruptTrend = 0.35;
-            else if (code === 'ITA') corruptTrend = 0.05;
-            let corruption = base.corruption + idx * corruptTrend * random(0.9, 1.1);
-            corruption = Math.max(10, Math.min(96, corruption));
+            else if (code === 'ITA') corruptTrend = 0.04;
+            else if (code === 'VEN') corruptTrend = year < 1999 ? 0.03 : -0.35; // Chávez/Maduro collapse
+            else if (code === 'ROU') corruptTrend = year < 1990 ? -0.05 : 0.22; // post-communist improvement
+            else if (code === 'SOM') corruptTrend = -0.05; // consistently lowest
+            else if (code === 'IRN') corruptTrend = year < 1979 ? 0.05 : -0.08; // revolution worsened institutions
+            let corruptShock = 0;
+            if (code === 'ROU' && year < 1990) { // override: Ceaușescu era was uniformly corrupt
+                corruptShock = base.corruption - (base.corruption + (idx - 20) * corruptTrend) - 20;
+            }
+            let corruption = base.corruption + (idx - 20) * corruptTrend * random(0.9, 1.1) + corruptShock;
+            corruption = Math.max(8, Math.min(96, corruption));
 
             result.qol[country].push(parseFloat(qol.toFixed(1)));
             result.hdi[country].push(parseFloat(hdi.toFixed(3)));
@@ -4214,7 +4698,17 @@ function generateHealthAccessData() {
         'South Africa':  {waitTime: 12, physicians: 0.7, beds: 2.5},
         'Brazil':        {waitTime: 8,  physicians: 1.1, beds: 3.5},
         'Australia':     {waitTime: 10, physicians: 2.2, beds: 6.8},
-        'New Zealand':   {waitTime: 14, physicians: 2.1, beds: 7.2}
+        'New Zealand':   {waitTime: 14, physicians: 2.1, beds: 7.2},
+        'Argentina':    {waitTime: 5,  physicians: 3.2, beds: 5.0},
+        'Cuba':         {waitTime: 6,  physicians: 5.3, beds: 5.8},
+        'Iran':         {waitTime: 7,  physicians: 0.8, beds: 1.6},
+        'Israel':       {waitTime: 5,  physicians: 3.5, beds: 2.3},
+        'Mexico':       {waitTime: 6,  physicians: 1.6, beds: 1.0},
+        'Romania':      {waitTime: 8,  physicians: 2.2, beds: 8.5},
+        'Saudi Arabia': {waitTime: 4,  physicians: 1.7, beds: 2.2},
+        'Somalia':      {waitTime: 30, physicians: 0.03, beds: 0.1},
+        'Ukraine':      {waitTime: 6,  physicians: 3.5, beds: 9.0},
+        'Venezuela':    {waitTime: 5,  physicians: 1.8, beds: 0.9}
     };
 
     const result = { waitTime: {}, physicians: {}, beds: {} };
@@ -4288,7 +4782,17 @@ function generateReligionData() {
         'South Africa':     {christian: 78.0, muslim: 2.0,  hindu: 1.8,  buddhist: 0.2,  secular: 15.0},
         'Brazil':           {christian: 91.0, muslim: 0.1,  hindu: 0.2,  buddhist: 0.2,  secular: 7.0},
         'Australia':        {christian: 74.0, muslim: 1.1,  hindu: 0.5,  buddhist: 1.0,  secular: 21.5},
-        'New Zealand':      {christian: 75.0, muslim: 0.6,  hindu: 1.8,  buddhist: 1.5,  secular: 19.0}
+        'New Zealand':      {christian: 75.0, muslim: 0.6,  hindu: 1.8,  buddhist: 1.5,  secular: 19.0},
+        'Argentina':    {christian: 90.0, muslim: 1.0,  hindu: 0.2,  buddhist: 0.2,  secular: 8.0},
+        'Cuba':         {christian: 50.0, muslim: 0.1,  hindu: 0.1,  buddhist: 0.1,  secular: 48.0},
+        'Iran':         {christian: 0.4,  muslim: 99.0, hindu: 0.1,  buddhist: 0.1,  secular: 0.4},
+        'Israel':       {christian: 2.5,  muslim: 14.0, hindu: 0.2,  buddhist: 0.2,  secular: 20.0},
+        'Mexico':       {christian: 96.0, muslim: 0.1,  hindu: 0.1,  buddhist: 0.1,  secular: 3.5},
+        'Romania':      {christian: 94.0, muslim: 1.0,  hindu: 0.1,  buddhist: 0.1,  secular: 4.5},
+        'Saudi Arabia': {christian: 4.0,  muslim: 95.0, hindu: 0.5,  buddhist: 0.2,  secular: 0.3},
+        'Somalia':      {christian: 0.1,  muslim: 99.5, hindu: 0.1,  buddhist: 0.0,  secular: 0.3},
+        'Ukraine':      {christian: 88.0, muslim: 1.5,  hindu: 0.2,  buddhist: 0.2,  secular: 10.0},
+        'Venezuela':    {christian: 92.0, muslim: 0.2,  hindu: 0.1,  buddhist: 0.1,  secular: 7.5}
     };
 
     // Percentage-point change per year
@@ -4312,7 +4816,17 @@ function generateReligionData() {
         'South Africa':     {christian: -0.11, muslim: +0.01, hindu: 0,     buddhist: 0,     secular: +0.10},
         'Brazil':           {christian: -0.12, muslim: 0,     hindu: 0,     buddhist: 0,     secular: +0.12},
         'Australia':        {christian: -0.42, muslim: +0.05, hindu: +0.03, buddhist: +0.01, secular: +0.33},
-        'New Zealand':      {christian: -0.40, muslim: +0.03, hindu: +0.03, buddhist: 0,     secular: +0.35}
+        'New Zealand':      {christian: -0.40, muslim: +0.03, hindu: +0.03, buddhist: 0,     secular: +0.35},
+        'Argentina':    {christian: -0.25, muslim: +0.01, hindu: 0,     buddhist: 0,     secular: +0.24},
+        'Cuba':         {christian: +0.10, muslim: 0,     hindu: 0,     buddhist: 0,     secular: -0.10},
+        'Iran':         {christian: 0,     muslim: -0.02, hindu: 0,     buddhist: 0,     secular: +0.02},
+        'Israel':       {christian: -0.02, muslim: +0.05, hindu: 0,     buddhist: 0,     secular: -0.02},
+        'Mexico':       {christian: -0.22, muslim: 0,     hindu: 0,     buddhist: 0,     secular: +0.22},
+        'Romania':      {christian: -0.20, muslim: 0,     hindu: 0,     buddhist: 0,     secular: +0.20},
+        'Saudi Arabia': {christian: -0.02, muslim: 0,     hindu: +0.01, buddhist: 0,     secular: +0.01},
+        'Somalia':      {christian: 0,     muslim: 0,     hindu: 0,     buddhist: 0,     secular: 0},
+        'Ukraine':      {christian: -0.15, muslim: +0.01, hindu: 0,     buddhist: 0,     secular: +0.14},
+        'Venezuela':    {christian: -0.20, muslim: 0,     hindu: 0,     buddhist: 0,     secular: +0.20}
     };
 
     const result = { christian: {}, muslim: {}, hindu: {}, buddhist: {}, secular: {}, other: {} };
@@ -4650,42 +5164,83 @@ function applyWdiAccuracyBadges(wdiMergeSucceeded) {
         var badge = container && container.querySelector('.accuracy-badge');
         if (!badge) return;
 
+        function wdiBadge(en, key) {
+            badge.dataset.i18nBadgeEn = en;
+            if (window.DashboardI18n && DashboardI18n.getLocale() === 'fr') {
+                badge.textContent = DashboardI18n.t(key);
+            } else {
+                badge.textContent = en;
+            }
+        }
+
         if (entry.mode === 'popOnly') {
             if (!wdiMergeSucceeded) {
                 badge.className = 'accuracy-badge accuracy-low';
-                badge.textContent = 'Modelled';
+                wdiBadge('Modelled', 'badge.modelled');
                 return;
             }
             var popOk = !!loaded.pop;
             badge.className = 'accuracy-badge ' + (popOk ? 'accuracy-medium' : 'accuracy-low');
-            badge.textContent = popOk ? 'Mixed (WDI pop)' : 'Modelled';
+            if (popOk) wdiBadge('Mixed (WDI pop)', 'badge.mixedWdiPop');
+            else wdiBadge('Modelled', 'badge.modelled');
             return;
         }
 
         if (!wdiMergeSucceeded || !entry.keys || !entry.keys.length) {
             badge.className = 'accuracy-badge accuracy-medium';
-            badge.textContent = 'Modelled';
+            wdiBadge('Modelled', 'badge.modelled');
             return;
         }
 
         var ok = entry.keys.every(function (k) { return loaded[k]; });
         badge.className = 'accuracy-badge ' + (ok ? 'accuracy-high' : 'accuracy-medium');
-        badge.textContent = ok ? 'High (WDI)' : 'Partial WDI';
+        if (ok) wdiBadge('High (WDI)', 'badge.highWdi');
+        else wdiBadge('Partial WDI', 'badge.partialWdi');
     });
 }
     </script>
+
+    <script src="dashboard-i18n.js"></script>
+    <script src="dashboard-i18n-fr-content.js"></script>
 
     <!-- Chart Management Script -->
     <script>
 // Chart initialization and management
 
+function getDefaultSelectedCountries() {
+    const n = COUNTRIES.length;
+    if (n <= 4) return [...COUNTRIES];
+    /* Four countries spaced across the alphabetical list (no “default = United States first”). */
+    const idx = [0, Math.floor(n / 4), Math.floor(n / 2), Math.floor((3 * n) / 4)];
+    const out = [];
+    idx.forEach(function (i) {
+        var c = COUNTRIES[i];
+        if (c && out.indexOf(c) === -1) out.push(c);
+    });
+    return out.length ? out : COUNTRIES.slice(0, 4);
+}
+
+function normalizeSelectedCountries(raw) {
+    if (!Array.isArray(raw)) return getDefaultSelectedCountries();
+    var v = raw.filter(function (c) { return typeof c === 'string' && COUNTRIES.indexOf(c) !== -1; });
+    v.sort(function (a, b) { return a.localeCompare(b, 'en'); });
+    if (v.length === 0) return getDefaultSelectedCountries();
+    return v;
+}
+
 let selectedCountries = (() => {
     try {
-        const saved = localStorage.getItem('selectedCountries');
-        return saved ? JSON.parse(saved) : ['United States', 'Canada', 'United Kingdom', 'China'];
+        var saved = localStorage.getItem('selectedCountries');
+        var parsed = saved ? JSON.parse(saved) : null;
+        var norm = normalizeSelectedCountries(parsed == null ? getDefaultSelectedCountries() : parsed);
+        var serial = JSON.stringify(norm);
+        if (serial !== saved) localStorage.setItem('selectedCountries', serial);
+        return norm;
     } catch (e) {
         console.warn('Failed to load selected countries from localStorage:', e);
-        return ['United States', 'Canada', 'United Kingdom', 'China'];
+        var d = getDefaultSelectedCountries();
+        try { localStorage.setItem('selectedCountries', JSON.stringify(d)); } catch (_) {}
+        return d;
     }
 })();
 let charts = {};
@@ -4746,6 +5301,27 @@ function resizeAllCharts() {
     });
 }
 
+var __chartResizeDebounce = null;
+function scheduleChartsReflow() {
+    if (__chartResizeDebounce) clearTimeout(__chartResizeDebounce);
+    __chartResizeDebounce = setTimeout(function () {
+        __chartResizeDebounce = null;
+        if (typeof onLayoutResize === 'function') onLayoutResize();
+    }, 80);
+}
+
+var __chartResizeObserver = null;
+function bindChartResizeObservers() {
+    if (typeof ResizeObserver === 'undefined') return;
+    if (__chartResizeObserver) return;
+    __chartResizeObserver = new ResizeObserver(function () {
+        scheduleChartsReflow();
+    });
+    document.querySelectorAll('.chart-container').forEach(function (box) {
+        if (box.querySelector(':scope > canvas[id]')) __chartResizeObserver.observe(box);
+    });
+}
+
 function applyChartEventPairingClasses() {
     document.querySelectorAll('.chart-row--above-events').forEach(el => {
         el.classList.remove('chart-row--above-events', 'chart-row--above-events--kpi');
@@ -4792,41 +5368,62 @@ function escapeHtml(value) {
 }
 
 function getChartsForContextBlock(block) {
-    const source = block.previousElementSibling;
-    if (!source) return [];
-
-    return Array.from(source.querySelectorAll('.chart-container')).map(container => {
-        const titleNode = container.querySelector('.chart-title span');
-        const badgeNode = container.querySelector('.accuracy-badge');
-        return {
-            title: titleNode ? titleNode.textContent.trim() : '',
-            accuracy: badgeNode ? badgeNode.textContent.trim() : ''
-        };
-    }).filter(item => item.title);
+    var source = block.previousElementSibling;
+    var depth = 0;
+    while (source && depth < 8) {
+        var containers = source.querySelectorAll ? source.querySelectorAll('.chart-container') : [];
+        if (containers.length) {
+            return Array.from(containers).filter(function (c) {
+                return c.querySelector('canvas[id]');
+            }).map(function (container) {
+                var canvas = container.querySelector('canvas[id]');
+                var title = '';
+                if (canvas && window.DashboardI18n && typeof DashboardI18n.t === 'function') {
+                    title = DashboardI18n.t('ct.' + canvas.id) || '';
+                }
+                if (!title) {
+                    var tn = container.querySelector('.chart-title span:not(.accuracy-badge)');
+                    title = tn ? tn.textContent.trim() : '';
+                }
+                var badgeNode = container.querySelector('.accuracy-badge');
+                return {
+                    title: title,
+                    accuracy: badgeNode ? badgeNode.textContent.trim() : ''
+                };
+            }).filter(function (item) { return item.title; });
+        }
+        source = source.previousElementSibling;
+        depth++;
+    }
+    return [];
 }
 
 function buildEventSpeculationGuide(block) {
     const charts = getChartsForContextBlock(block);
     const titles = charts.map(item => item.title);
-    const titleSummary = titles.length ? titles.join(' + ') : 'the chart(s) above';
+    const titleSummary = titles.length ? titles.join(' + ') : '';
     const accuracySummary = Array.from(new Set(charts.map(item => item.accuracy).filter(Boolean))).join(', ');
     const levelHint = accuracySummary
-        ? `Accuracy labels here: <strong>${escapeHtml(accuracySummary)}</strong>. Use direction, timing, and gaps more confidently than exact point values.`
-        : 'Read the shape first: trend, turning points, and whether the lines confirm or contradict each other.';
+        ? `${t('spec.accuracyPrefix')} <strong>${escapeHtml(accuracySummary)}</strong>. ${t('spec.accuracyHint')}`
+        : t('spec.readShape');
+
+    const focusLine = titleSummary
+        ? `<p class="event-speculation__focus">${t('spec.guideIntro')} <span class="event-speculation__metrics">${escapeHtml(titleSummary)}</span>${t('spec.guideMid')}</p>`
+        : `<p class="event-speculation__focus">${t('spec.guideNoChartTitles')}</p>`;
 
     return `
-        <p class="event-speculation__focus">Use this box to interpret <span class="event-speculation__metrics">${escapeHtml(titleSummary)}</span>. Start with the long-run direction, then check whether the lines turn at the same time, and only then infer a story.</p>
+        ${focusLine}
         <div class="event-speculation__guide">
             <div class="event-speculation__panel">
-                <p class="event-speculation__panel-title">Look For</p>
-                <p class="event-speculation__panel-text">Shared breaks, widening gaps, or a line that changes direction while the other stays flat. Those patterns usually matter more than minor year-to-year wiggles.</p>
+                <p class="event-speculation__panel-title">${t('spec.panel.look')}</p>
+                <p class="event-speculation__panel-text">${t('spec.panel.lookText')}</p>
             </div>
             <div class="event-speculation__panel">
-                <p class="event-speculation__panel-title">Read It As</p>
-                <p class="event-speculation__panel-text">When multiple series move together, a common driver is plausible. When they diverge, the useful question is what changed in productivity, policy, prices, demographics, or measurement.</p>
+                <p class="event-speculation__panel-title">${t('spec.panel.read')}</p>
+                <p class="event-speculation__panel-text">${t('spec.panel.readText')}</p>
             </div>
             <div class="event-speculation__panel">
-                <p class="event-speculation__panel-title">Do Not Overread</p>
+                <p class="event-speculation__panel-title">${t('spec.panel.caution')}</p>
                 <p class="event-speculation__panel-text">${levelHint}</p>
             </div>
         </div>
@@ -4834,8 +5431,8 @@ function buildEventSpeculationGuide(block) {
 }
 
 function injectEventSpeculationBlocks() {
-    const head = '<h4 class="event-speculation__title"><i class="material-icons tiny" style="vertical-align:middle;">psychology</i> Reading the trend (logic)</h4>';
-    const note = '<p class="event-speculation__note">Treat these as interpretation aids, not conclusions. They are most useful for understanding what a pattern would usually mean and what counter-pattern should make you hesitate.</p>';
+    const head = '<h4 class="event-speculation__title"><i class="material-icons tiny" style="vertical-align:middle;">psychology</i> ' + t('spec.head') + '</h4>';
+    const note = '<p class="event-speculation__note">' + t('spec.note') + '</p>';
     const lists = [
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>If GDP, GDP per capita, GNI per capita, and employment fall and rebound in sync, a shared macro demand shock is a natural explanation; long-run separation suggests productivity, demographics, or data definition drift.</li><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Coordinated recovery across tiles points to broad repair, not one broken dial while the rest hide weakness.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Strong GDP growth with flat employment rates is consistent with jobless or polarized expansion.</li></ul>`,
         `<ul class="event-speculation__list"><li><span class="event-speculation__tag event-speculation__tag--supports">If true, better</span>Rising life expectancy while birth rates ease fits a textbook mortality-then-fertility transition rather than a sudden health collapse.</li><li><span class="event-speculation__tag event-speculation__tag--caution">If true, worse</span>Rent or pump prices climbing without income tiles moving the same way implies a squeeze on real budgets even when longevity looks fine.</li><li><span class="event-speculation__tag event-speculation__tag--neutral">Logic</span>Modelled rent and gas can echo oil and CPI history; treat divergence from WDI health series as a hint about nominal vs real stress, not proof of medical harm.</li></ul>`,
@@ -4886,20 +5483,121 @@ function injectEventSpeculationBlocks() {
         if (block.querySelector('.event-speculation')) return;
         const wrap = document.createElement('div');
         wrap.className = 'event-speculation';
-        wrap.setAttribute('aria-label', 'Speculative interpretation of the chart');
-        wrap.innerHTML = head + note + buildEventSpeculationGuide(block) + (lists[i] || lists[lists.length - 1]);
+        wrap.setAttribute('aria-label', t('spec.head'));
+        const listHtml = (getLocale() === 'fr' && window.I18N_SPEC_LISTS_FR && window.I18N_SPEC_LISTS_FR[i])
+            ? window.I18N_SPEC_LISTS_FR[i]
+            : (lists[i] || lists[lists.length - 1]);
+        wrap.innerHTML = head + note + buildEventSpeculationGuide(block) + listHtml;
         block.appendChild(wrap);
     });
 }
 
 window.addEventListener('resize', onLayoutResize);
 
+function applyHistoricalLocaleBlocks() {
+    if (!window.__histEnSnapshot || !window.__histEnSnapshot.length) return;
+    document.querySelectorAll('.historical-context--below-chart').forEach(function (el, i) {
+        el.querySelectorAll('.event-speculation').forEach(function (x) { x.remove(); });
+        var snap = window.__histEnSnapshot[i];
+        if (snap == null) return;
+        var fr = (window.I18N_HIST_FR && window.I18N_HIST_FR[i]) ? window.I18N_HIST_FR[i] : null;
+        var useFr = typeof getLocale === 'function' && getLocale() === 'fr' && fr;
+        el.innerHTML = useFr ? fr : snap;
+    });
+}
+
+function reinjectEventSpeculationBlocks() {
+    injectEventSpeculationBlocks();
+}
+
+function applyDashboardLocale() {
+    if (!window.DashboardI18n) return;
+    document.documentElement.lang = DashboardI18n.getLocale() === 'fr' ? 'fr' : 'en';
+    document.title = DashboardI18n.t('meta.title');
+    var note = document.getElementById('dataProvenanceNote');
+    if (note) note.innerHTML = DashboardI18n.t('provenance.html');
+    DashboardI18n.applyDataI18nAttributes();
+    DashboardI18n.applyChartTitlesFromLocale();
+    DashboardI18n.applyStaticBadges();
+    var thKeys = ['table.country', 'table.gdp', 'table.gdppc', 'table.empl', 'table.gni', 'table.life', 'table.rent', 'table.co2', 'table.internet'];
+    document.querySelectorAll('#comparisonTable thead th').forEach(function (th, i) {
+        if (thKeys[i]) th.textContent = DashboardI18n.t(thKeys[i]);
+    });
+    if (typeof refreshAllChartsLocale === 'function') refreshAllChartsLocale();
+    applyHistoricalLocaleBlocks();
+    reinjectEventSpeculationBlocks();
+    DashboardI18n.refreshWdiStatusMessage();
+    if (typeof applyWdiAccuracyBadges === 'function') {
+        applyWdiAccuracyBadges(typeof window.__wdiMergeOk === 'boolean' ? window.__wdiMergeOk : false);
+    }
+    DashboardI18n.updateLangToggleUi();
+}
+
+window.applyDashboardLocale = applyDashboardLocale;
+
 // Initialize Material Design components
 document.addEventListener('DOMContentLoaded', function() {
-    injectEventSpeculationBlocks();
-    const tabs = document.querySelectorAll('.tabs');
-    M.Tabs.init(tabs);
+    window.__histEnSnapshot = [];
+    document.querySelectorAll('.historical-context--below-chart').forEach(function (el, i) {
+        __histEnSnapshot[i] = el.innerHTML.trim();
+    });
+    try { injectEventSpeculationBlocks(); } catch (e) { console.warn('injectEventSpeculationBlocks failed:', e); }
+    var tabsEl = document.querySelector('ul.tabs');
+    if (tabsEl && typeof M !== 'undefined' && M.Tabs) {
+        try {
+            M.Tabs.init(tabsEl, {
+                onShow: function (tabContent) {
+                    // Sync aria-selected on every tab change
+                    tabsEl.querySelectorAll('[role="tab"]').forEach(function (tab) {
+                        tab.setAttribute('aria-selected',
+                            tab.getAttribute('aria-controls') === tabContent.id ? 'true' : 'false');
+                    });
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
+                            if (typeof scheduleChartsReflow === 'function') scheduleChartsReflow();
+                            setTimeout(function () {
+                                if (typeof onLayoutResize === 'function') onLayoutResize();
+                            }, 150);
+                        });
+                    });
+                }
+            });
+        } catch (tabErr) {
+            console.warn('Materialize tabs init failed:', tabErr);
+        }
+    }
+    // Wire ARIA roles for keyboard/screen-reader accessibility
+    (function () {
+        if (!tabsEl) return;
+        tabsEl.setAttribute('role', 'tablist');
+        tabsEl.querySelectorAll('li.tab').forEach(function (li) {
+            li.setAttribute('role', 'presentation');
+            var a = li.querySelector('a');
+            if (!a) return;
+            var targetId = (a.getAttribute('href') || '').replace('#', '');
+            if (!targetId) return;
+            var btnId = 'tab-btn-' + targetId;
+            a.setAttribute('role', 'tab');
+            a.setAttribute('id', btnId);
+            a.setAttribute('aria-selected', a.classList.contains('active') ? 'true' : 'false');
+            a.setAttribute('aria-controls', targetId);
+            var panel = document.getElementById(targetId);
+            if (panel) {
+                panel.setAttribute('role', 'tabpanel');
+                panel.setAttribute('aria-labelledby', btnId);
+                panel.setAttribute('tabindex', '0');
+            }
+        });
+    }());
     createCountryChips();
+
+    // Initialize charts immediately with synthetic data so the page is never blank
+    initializeAllCharts();
+    updateChartDimensions();
+    applyChartEventPairingClasses();
+    resizeAllCharts();
+    applyDashboardLocale();
+    if (typeof bindChartResizeObservers === 'function') bindChartResizeObservers();
 
     (async function () {
         const note = document.getElementById('dataProvenanceNote');
@@ -4907,21 +5605,35 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             await mergeWorldBankIntoData();
             wdiOk = true;
+            window.__wdiMergeOk = true;
             if (note) {
-                note.insertAdjacentHTML('beforeend', ' <strong id="wbLiveStatus" style="color:#2e7d32;">World Bank WDI merged successfully.</strong>');
+                note.insertAdjacentHTML('beforeend', ' <strong id="wbLiveStatus" style="color:#2e7d32;">' + t('wdi.ok') + '</strong>');
             }
         } catch (err) {
             console.warn('World Bank WDI merge failed:', err);
             window.__wdiIndicatorLoaded = {};
+            window.__wdiMergeOk = false;
             if (note) {
-                note.insertAdjacentHTML('beforeend', ' <strong id="wbLiveStatus" style="color:#e65100;">World Bank data could not be loaded; charts use deterministic modelled series.</strong>');
+                note.insertAdjacentHTML('beforeend', ' <strong id="wbLiveStatus" style="color:#e65100;">' + t('wdi.fail') + '</strong>');
             }
         }
         applyWdiAccuracyBadges(wdiOk);
-        initializeAllCharts();
+        // Refresh charts with merged WDI data (or keep synthetic if merge failed)
+        updateAllCharts();
         updateChartDimensions();
-        applyChartEventPairingClasses();
         resizeAllCharts();
+        applyDashboardLocale();
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                if (typeof onLayoutResize === 'function') onLayoutResize();
+            });
+        });
+        setTimeout(function () {
+            if (typeof onLayoutResize === 'function') onLayoutResize();
+        }, 200);
+        setTimeout(function () {
+            if (typeof onLayoutResize === 'function') onLayoutResize();
+        }, 500);
     })();
 });
 
@@ -4945,13 +5657,15 @@ function toggleCountry(country, chipElement) {
             selectedCountries.splice(index, 1);
             chipElement.classList.remove('selected');
         } else {
-            M.toast({html: 'At least one country must be selected', classes: 'rounded'});
+            M.toast({html: t('toast.minCountry'), classes: 'rounded'});
             return;
         }
     } else {
         selectedCountries.push(country);
         chipElement.classList.add('selected');
     }
+
+    selectedCountries.sort(function (a, b) { return a.localeCompare(b, 'en'); });
 
     // Save selection to localStorage
     localStorage.setItem('selectedCountries', JSON.stringify(selectedCountries));
@@ -4962,22 +5676,26 @@ function toggleCountry(country, chipElement) {
 function getChartData(dataSource, countries = selectedCountries) {
     return {
         labels: YEARS,
-        datasets: countries.map(country => ({
-            label: country,
-            data: dataSource[country],
-            borderColor: COLORS[country],
-            backgroundColor: COLORS[country] + '20',
-            borderWidth: 2,
-            tension: 0.4,
-            fill: false
-        }))
+        datasets: countries.map(country => {
+            var hex = COLORS[country] || '#888888';
+            return {
+                label: country,
+                data: dataSource[country] || [],
+                borderColor: hex,
+                backgroundColor: hex + '20',
+                borderWidth: 2,
+                tension: 0.4,
+                fill: false
+            };
+        })
     };
 }
 
-function getChartOptions(title, yAxisLabel, stacked = false) {
+function getChartOptions(yAxisLabel, stacked = false) {
     const isDark = document.body.classList.contains('dark-theme');
     const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
     const textColor = isDark ? '#e0e0e0' : '#666';
+    const yearLabel = typeof t === 'function' ? t('chart.axis.year') : 'Year';
 
     return {
         responsive: true,
@@ -5003,14 +5721,24 @@ function getChartOptions(title, yAxisLabel, stacked = false) {
                 display: true,
                 title: {
                     display: true,
-                    text: 'Year',
+                    text: yearLabel,
                     color: textColor
                 },
                 grid: {
                     color: gridColor
                 },
                 ticks: {
-                    color: textColor
+                    color: textColor,
+                    autoSkip: false,
+                    maxRotation: 0,
+                    minRotation: 0,
+                    callback: function(value, index) {
+                        const year = YEARS[index];
+                        if (year === undefined) return null;
+                        if (year === YEARS[YEARS.length - 1]) return String(year);
+                        if (year % 10 === 0) return String(year);
+                        return null;
+                    }
                 }
             },
             y: {
@@ -5025,7 +5753,16 @@ function getChartOptions(title, yAxisLabel, stacked = false) {
                     color: gridColor
                 },
                 ticks: {
-                    color: textColor
+                    color: textColor,
+                    callback: function(value) {
+                        if (window.innerWidth < 480) {
+                            var abs = Math.abs(value);
+                            if (abs >= 1e9) return (value / 1e9).toFixed(1).replace(/\.0$/, '') + 'B';
+                            if (abs >= 1e6) return (value / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+                            if (abs >= 1e3) return (value / 1e3).toFixed(1).replace(/\.0$/, '') + 'k';
+                        }
+                        return value;
+                    }
                 }
             }
         },
@@ -5035,6 +5772,26 @@ function getChartOptions(title, yAxisLabel, stacked = false) {
             intersect: false
         }
     };
+}
+
+function getLocalizedChartOptions(canvasId, stacked = false) {
+    const tr = typeof t === 'function' ? t : (k) => k;
+    return getChartOptions(tr('cy.' + canvasId), stacked);
+}
+
+function refreshAllChartsLocale() {
+    const tr = typeof t === 'function' ? t : (k) => k;
+    Object.keys(charts).forEach(function (id) {
+        var c = charts[id];
+        if (!c || !c.options || !c.options.scales) return;
+        if (c.options.scales.x && c.options.scales.x.title) {
+            c.options.scales.x.title.text = tr('chart.axis.year');
+        }
+        if (c.options.scales.y && c.options.scales.y.title) {
+            c.options.scales.y.title.text = tr('cy.' + id);
+        }
+        c.update();
+    });
 }
 
 function createChart(canvasId, data, options) {
@@ -5051,93 +5808,126 @@ function createChart(canvasId, data, options) {
         options: options
     });
 
+    applyChartVisibility(canvasId);
     return charts[canvasId];
+}
+
+/**
+ * Show or hide a chart container based on whether the chart has meaningful data.
+ * A chart is considered "empty/broken" when it has only 1 dataset AND that
+ * dataset has no meaningful range (all values null, 0, or identical).
+ */
+function applyChartVisibility(canvasId) {
+    const chart = charts[canvasId];
+    if (!chart) return;
+    const ctx = document.getElementById(canvasId);
+    if (!ctx) return;
+    const container = ctx.closest('.chart-container');
+    if (!container) return;
+
+    const ds = chart.data.datasets;
+    // Hide chart if any dataset is missing, empty, or has no valid range
+    if (!ds.length || ds.some(d => !d.data || !Array.isArray(d.data) || d.data.length === 0)) {
+        container.style.display = 'none';
+        return;
+    }
+    // Only hide when exactly 1 dataset is present with no useful range
+    if (ds.length !== 1) { container.style.display = ''; return; }
+    const vals = ds[0].data.filter(function (v) { return v != null && Number.isFinite(v) && v !== 0; });
+    const minV = vals.length ? Math.min.apply(null, vals) : 0;
+    const maxV = vals.length ? Math.max.apply(null, vals) : 0;
+    const hasRange = vals.length > 1 && (maxV - minV) / (Math.abs(maxV) || 1) > 0.001;
+    if (!hasRange) {
+        container.style.display = 'none';
+    } else {
+        container.style.display = '';
+    }
 }
 
 function initializeAllCharts() {
     // Economic charts
     createChart('gdpChart',
         getChartData(DATA.gdp),
-        getChartOptions('GDP', 'Trillion USD'));
+        getLocalizedChartOptions('gdpChart'));
 
     createChart('gdpPerCapitaChart',
         getChartData(DATA.gdpPerCapita),
-        getChartOptions('GDP Per Capita', 'USD'));
+        getLocalizedChartOptions('gdpPerCapitaChart'));
 
     createChart('capitalGainsChart',
         getChartData(DATA.additional.capitalGain),
-        getChartOptions('Capital Gains', 'USD'));
+        getLocalizedChartOptions('capitalGainsChart'));
 
     createChart('valuationChart',
         getChartData(DATA.additional.valuation),
-        getChartOptions('Company Valuation Index', 'Index'));
+        getLocalizedChartOptions('valuationChart'));
 
     createChart('militaryBudgetChart',
         getChartData(DATA.military.budget),
-        getChartOptions('Military Expenditure', 'USD bn'));
+        getLocalizedChartOptions('militaryBudgetChart'));
 
     createChart('militaryShareChart',
         getChartData(DATA.military.share),
-        getChartOptions('Military Expenditure', '% of GDP'));
+        getLocalizedChartOptions('militaryShareChart'));
 
     createChart('militaryPerCapitaChart',
         getChartData(DATA.military.perCapita),
-        getChartOptions('Military Expenditure Per Capita', 'USD/person'));
+        getLocalizedChartOptions('militaryPerCapitaChart'));
 
     createChart('productivityChart',
         getChartData(DATA.additional.productivity),
-        getChartOptions('Labour Productivity Index', 'Index (1990 = 100)'));
+        getLocalizedChartOptions('productivityChart'));
 
     // Employment charts
     createChart('employmentChart',
         getChartData(DATA.employment.employment),
-        getChartOptions('Employment to population (15+, ILO modelled)', '%'));
+        getLocalizedChartOptions('employmentChart'));
 
     createChart('unemploymentChart',
         getChartData(DATA.employment.unemployment),
-        getChartOptions('Unemployment Rate', '%'));
+        getLocalizedChartOptions('unemploymentChart'));
 
     createChart('salaryChart',
         getChartData(DATA.salary),
-        getChartOptions('GNI per capita (Atlas, WDI)', 'USD'));
+        getLocalizedChartOptions('salaryChart'));
 
     // Cost of living charts
     createChart('foodCostChart',
         getChartData(DATA.costOfLiving.food),
-        getChartOptions('Food Costs', 'USD/month'));
+        getLocalizedChartOptions('foodCostChart'));
 
     createChart('rentChart',
         getChartData(DATA.costOfLiving.rent),
-        getChartOptions('Rent', 'USD/month'));
+        getLocalizedChartOptions('rentChart'));
 
     createChart('housingChart',
         getChartData(DATA.costOfLiving.housing),
-        getChartOptions('Housing Costs', 'USD'));
+        getLocalizedChartOptions('housingChart'));
 
     createChart('electricityChart',
         getChartData(DATA.costOfLiving.electricity),
-        getChartOptions('Electricity Costs', 'USD/month'));
+        getLocalizedChartOptions('electricityChart'));
 
     createChart('gasChart',
         getChartData(DATA.costOfLiving.gas),
-        getChartOptions('Gas Price', 'USD/liter'));
+        getLocalizedChartOptions('gasChart'));
 
     createChart('carChart',
         getChartData(DATA.costOfLiving.car),
-        getChartOptions('Car Costs', 'USD'));
+        getLocalizedChartOptions('carChart'));
 
     // Telecom charts
     createChart('phoneContractChart',
         getChartData(DATA.telecom.phone),
-        getChartOptions('Monthly Phone Contract', 'USD/month'));
+        getLocalizedChartOptions('phoneContractChart'));
 
     createChart('internetContractChart',
         getChartData(DATA.telecom.internet),
-        getChartOptions('Monthly Broadband / Internet Contract', 'USD/month'));
+        getLocalizedChartOptions('internetContractChart'));
 
     createChart('tvContractChart',
         getChartData(DATA.telecom.tv),
-        getChartOptions('Monthly TV / Streaming Subscription', 'USD/month'));
+        getLocalizedChartOptions('tvContractChart'));
 
     const telecomBundleInitData = {};
     selectedCountries.forEach(country => {
@@ -5147,61 +5937,61 @@ function initializeAllCharts() {
     });
     createChart('telecomBundleChart',
         getChartData(telecomBundleInitData),
-        getChartOptions('Total Telecom Bundle (Phone + Internet + TV)', 'USD/month'));
+        getLocalizedChartOptions('telecomBundleChart'));
 
     // Social charts
     createChart('healthcareChart',
         getChartData(DATA.healthcare),
-        getChartOptions('Health expenditure per capita (WDI)', 'USD/year'));
+        getLocalizedChartOptions('healthcareChart'));
 
     createChart('foodbankChart',
         getChartData(DATA.additional.foodbank),
-        getChartOptions('Food Bank Costs', 'Million USD'));
+        getLocalizedChartOptions('foodbankChart'));
 
     createChart('homeownershipChart',
         getChartData(DATA.social.homeownership),
-        getChartOptions('Homeownership Rate', '%'));
+        getLocalizedChartOptions('homeownershipChart'));
 
     createChart('ageChart',
         getChartData(DATA.social.age),
-        getChartOptions('Average Age', 'Years'));
+        getLocalizedChartOptions('ageChart'));
 
     createChart('educationChart',
         getChartData(DATA.social.education),
-        getChartOptions('Secondary school enrollment, gross (WDI)', '%'));
+        getLocalizedChartOptions('educationChart'));
 
     createChart('literacyChart',
         getChartData(DATA.social.literacy),
-        getChartOptions('Literacy Rate', '%'));
+        getLocalizedChartOptions('literacyChart'));
 
     createChart('genderEqualityChart',
         getChartData(DATA.social.genderEquality),
-        getChartOptions('Gender Equality Index', 'Index (0-1)'));
+        getLocalizedChartOptions('genderEqualityChart'));
 
     createChart('deiChart',
         getChartData(DATA.social.dei),
-        getChartOptions('DEI Index', 'Score (0-100)'));
+        getLocalizedChartOptions('deiChart'));
 
     createChart('happinessChart',
         getChartData(DATA.social.happiness),
-        getChartOptions('Happiness Index', 'Index (0-10)'));
+        getLocalizedChartOptions('happinessChart'));
 
     createChart('politicalFreedomChart',
         getChartData(DATA.social.politicalFreedom),
-        getChartOptions('Political Freedom Index', 'Index (0-10)'));
+        getLocalizedChartOptions('politicalFreedomChart'));
 
     createChart('violenceChart',
         getChartData(DATA.social.violence),
-        getChartOptions('Violence Index', 'Index'));
+        getLocalizedChartOptions('violenceChart'));
 
     // Trade charts
     createChart('exportsChart',
         getChartData(DATA.trade.exports),
-        getChartOptions('Exports', 'Billion USD'));
+        getLocalizedChartOptions('exportsChart'));
 
     createChart('importsChart',
         getChartData(DATA.trade.imports),
-        getChartOptions('Imports', 'Billion USD'));
+        getLocalizedChartOptions('importsChart'));
 
     // Trade balance chart
     const tradeBalanceData = {};
@@ -5212,183 +6002,183 @@ function initializeAllCharts() {
     });
     createChart('tradeBalanceChart',
         getChartData(tradeBalanceData),
-        getChartOptions('Trade Balance', 'Billion USD'));
+        getLocalizedChartOptions('tradeBalanceChart'));
 
     // Demographics charts
     createChart('birthRateChart',
         getChartData(DATA.demographics.birthRate),
-        getChartOptions('Birth Rate', 'Per 1000 people'));
+        getLocalizedChartOptions('birthRateChart'));
 
     createChart('deathRateChart',
         getChartData(DATA.demographics.deathRate),
-        getChartOptions('Death Rate', 'Per 1000 people'));
+        getLocalizedChartOptions('deathRateChart'));
 
     createChart('lifeExpectancyChart',
         getChartData(DATA.demographics.lifeExpectancy),
-        getChartOptions('Life Expectancy', 'Years'));
+        getLocalizedChartOptions('lifeExpectancyChart'));
 
     createChart('fertilityRateChart',
         getChartData(DATA.demographics.fertilityRate),
-        getChartOptions('Fertility Rate', 'Children per woman'));
+        getLocalizedChartOptions('fertilityRateChart'));
 
     createChart('abortionRateChart',
         getChartData(DATA.demographics.abortionRate),
-        getChartOptions('Abortion Rate', 'Per 1,000 women ages 15-44'));
+        getLocalizedChartOptions('abortionRateChart'));
 
     createChart('infantMortalityChart',
         getChartData(DATA.demographics.infantMortality),
-        getChartOptions('Infant Mortality Rate', 'Per 1000 live births'));
+        getLocalizedChartOptions('infantMortalityChart'));
 
     // Immigration charts
     createChart('legalImmigrationChart',
         getChartData(DATA.immigration.legal),
-        getChartOptions('Legal Immigration', 'People'));
+        getLocalizedChartOptions('legalImmigrationChart'));
 
     createChart('illegalImmigrationChart',
         getChartData(DATA.immigration.illegal),
-        getChartOptions('Illegal Immigration', 'People'));
+        getLocalizedChartOptions('illegalImmigrationChart'));
 
     createChart('legalImmigrationPerCapitaChart',
         getChartData(DATA.immigration.legalPerCapita),
-        getChartOptions('Legal Immigration Per Capita', 'Per 100k people'));
+        getLocalizedChartOptions('legalImmigrationPerCapitaChart'));
 
     createChart('illegalImmigrationPerCapitaChart',
         getChartData(DATA.immigration.illegalPerCapita),
-        getChartOptions('Illegal Immigration Per Capita', 'Per 100k people'));
+        getLocalizedChartOptions('illegalImmigrationPerCapitaChart'));
 
     createChart('expatArrivalsChart',
         getChartData(DATA.immigration.expatArrivals),
-        getChartOptions('Expat Arrivals', 'People'));
+        getLocalizedChartOptions('expatArrivalsChart'));
 
     createChart('expatDeparturesChart',
         getChartData(DATA.immigration.expatDepartures),
-        getChartOptions('Expat Departures', 'People'));
+        getLocalizedChartOptions('expatDeparturesChart'));
 
     // Health charts
     createChart('obesityChart',
         getChartData(DATA.health.obesity),
-        getChartOptions('Obesity Rate', '%'));
+        getLocalizedChartOptions('obesityChart'));
 
     createChart('smokingChart',
         getChartData(DATA.health.smoking),
-        getChartOptions('Smoking Prevalence', '%'));
+        getLocalizedChartOptions('smokingChart'));
 
     createChart('diabetesChart',
         getChartData(DATA.health.diabetes),
-        getChartOptions('Diabetes Rate', '%'));
+        getLocalizedChartOptions('diabetesChart'));
 
     createChart('mentalHealthChart',
         getChartData(DATA.health.mentalHealth),
-        getChartOptions('Mental Health Index', 'Index'));
+        getLocalizedChartOptions('mentalHealthChart'));
 
     // Environment charts
     createChart('co2EmissionsChart',
         getChartData(DATA.environment.co2Emissions),
-        getChartOptions('CO2 Emissions', 'metric tons per capita'));
+        getLocalizedChartOptions('co2EmissionsChart'));
 
     createChart('renewableEnergyChart',
         getChartData(DATA.environment.renewableEnergy),
-        getChartOptions('Renewable Energy', '% of total energy'));
+        getLocalizedChartOptions('renewableEnergyChart'));
 
     createChart('forestCoverageChart',
         getChartData(DATA.environment.forestCoverage),
-        getChartOptions('Forest Coverage', '% of land area'));
+        getLocalizedChartOptions('forestCoverageChart'));
 
     createChart('waterQualityChart',
         getChartData(DATA.environment.waterQuality),
-        getChartOptions('Water Quality Index', 'Index'));
+        getLocalizedChartOptions('waterQualityChart'));
 
     // Technology charts
     createChart('internetUsersChart',
         getChartData(DATA.technology.internetUsers),
-        getChartOptions('Internet Users', '% of population'));
+        getLocalizedChartOptions('internetUsersChart'));
 
     createChart('mobilePhonesChart',
         getChartData(DATA.technology.mobilePhones),
-        getChartOptions('Mobile cellular subscriptions', 'per 100 people'));
+        getLocalizedChartOptions('mobilePhonesChart'));
 
     createChart('broadbandSpeedChart',
         getChartData(DATA.technology.broadbandSpeed),
-        getChartOptions('Broadband Speed', 'Mbps'));
+        getLocalizedChartOptions('broadbandSpeedChart'));
 
     createChart('rndInvestmentChart',
         getChartData(DATA.technology.rndInvestment),
-        getChartOptions('R&D Investment', '% of GDP'));
+        getLocalizedChartOptions('rndInvestmentChart'));
 
     // Quality of Life charts
     createChart('qolIndexChart',
         getChartData(DATA.qualityOfLife.qol),
-        getChartOptions('Quality of Life Index', 'Score (0–100)'));
+        getLocalizedChartOptions('qolIndexChart'));
 
     createChart('qolHappinessChart',
         getChartData(DATA.social.happiness),
-        getChartOptions('Happiness Index (World Happiness Report basis)', 'Score (0–10)'));
+        getLocalizedChartOptions('qolHappinessChart'));
 
     createChart('hdiChart',
         getChartData(DATA.qualityOfLife.hdi),
-        getChartOptions('Human Development Index', 'HDI (0–1)'));
+        getLocalizedChartOptions('hdiChart'));
 
     createChart('giniChart',
         getChartData(DATA.qualityOfLife.gini),
-        getChartOptions('Gini Coefficient – Income Inequality', 'Gini (0 = equal, 100 = unequal)'));
+        getLocalizedChartOptions('giniChart'));
 
     createChart('corruptionChart',
         getChartData(DATA.qualityOfLife.corruption),
-        getChartOptions('Corruption Perception Index', 'Score (0–100, higher = cleaner)'));
+        getLocalizedChartOptions('corruptionChart'));
 
     createChart('qolPoliticalChart',
         getChartData(DATA.social.politicalFreedom),
-        getChartOptions('Political Freedom Index', 'Score (0–10)'));
+        getLocalizedChartOptions('qolPoliticalChart'));
 
     createChart('freeSpeechChart',
         getChartData(DATA.social.freeSpeech),
-        getChartOptions('Free Speech Rating', 'Score (0–10)'));
+        getLocalizedChartOptions('freeSpeechChart'));
 
     createChart('legacyMediaRatingChart',
         getChartData(DATA.social.legacyMediaRating),
-        getChartOptions('Legacy Media Trust Rating', 'Score (0–10)'));
+        getLocalizedChartOptions('legacyMediaRatingChart'));
 
     createChart('newMediaRatingChart',
         getChartData(DATA.social.newMediaRating),
-        getChartOptions('New Media Trust Rating', 'Score (0–10)'));
+        getLocalizedChartOptions('newMediaRatingChart'));
 
     createChart('legacyMediaShareChart',
         getChartData(DATA.social.legacyMediaShare),
-        getChartOptions('Legacy Media Market Share', 'Share (%)'));
+        getLocalizedChartOptions('legacyMediaShareChart'));
 
     createChart('newMediaShareChart',
         getChartData(DATA.social.newMediaShare),
-        getChartOptions('New Media Market Share', 'Share (%)'));
+        getLocalizedChartOptions('newMediaShareChart'));
 
     // Health access charts
     createChart('surgeryWaitChart',
         getChartData(DATA.healthAccess.waitTime),
-        getChartOptions('Median Elective Surgery Wait Time', 'Weeks'));
+        getLocalizedChartOptions('surgeryWaitChart'));
 
     createChart('physiciansChart',
         getChartData(DATA.healthAccess.physicians),
-        getChartOptions('Physicians per 1,000 People', 'Physicians / 1k'));
+        getLocalizedChartOptions('physiciansChart'));
 
     createChart('hospitalBedsChart',
         getChartData(DATA.healthAccess.beds),
-        getChartOptions('Hospital Beds per 1,000 People', 'Beds / 1k'));
+        getLocalizedChartOptions('hospitalBedsChart'));
 
     createChart('qolHealthcareChart',
         getChartData(DATA.healthcare),
-        getChartOptions('Healthcare Expenditure per Capita', 'USD / year'));
+        getLocalizedChartOptions('qolHealthcareChart'));
 
     // Religion charts
     createChart('christianChart',
         getChartData(DATA.religion.christian),
-        getChartOptions('Christian Population Share', '% of population'));
+        getLocalizedChartOptions('christianChart'));
 
     createChart('muslimChart',
         getChartData(DATA.religion.muslim),
-        getChartOptions('Muslim Population Share', '% of population'));
+        getLocalizedChartOptions('muslimChart'));
 
     createChart('secularChart',
         getChartData(DATA.religion.secular),
-        getChartOptions('Secular / Unaffiliated Share', '% of population'));
+        getLocalizedChartOptions('secularChart'));
 
     // Hindu+Buddhist combined series
     const hinduBuddhistData = {};
@@ -5399,7 +6189,7 @@ function initializeAllCharts() {
     });
     createChart('hinduBuddhistChart',
         getChartData(hinduBuddhistData),
-        getChartOptions('Hindu + Buddhist Share', '% of population'));
+        getLocalizedChartOptions('hinduBuddhistChart'));
 }
 
 function updateAllCharts() {
@@ -5827,8 +6617,9 @@ function updateAllCharts() {
         charts['hinduBuddhistChart'].update();
     }
 
-    // Update statistics summary
-    updateStatisticsSummary();
+
+    // Hide any chart that ended up with only 1 dataset and no meaningful range
+    Object.keys(charts).forEach(function (id) { applyChartVisibility(id); });
 
     resizeAllCharts();
 }
@@ -5879,52 +6670,52 @@ function updateStatisticsSummary() {
     // Update GDP statistics
     const gdpStats = getStats(DATA.gdp, 2);
     document.getElementById('stat-gdp-avg').textContent = gdpStats.avg.toFixed(2);
-    document.getElementById('stat-gdp-range').textContent = `Range: ${gdpStats.min.toFixed(2)} - ${gdpStats.max.toFixed(2)}`;
+    document.getElementById('stat-gdp-range').textContent = `${t('stats.range')} ${gdpStats.min.toFixed(2)} - ${gdpStats.max.toFixed(2)}`;
 
     // Update GDP Per Capita statistics
     const gdppcStats = getStats(DATA.gdpPerCapita, 0);
     document.getElementById('stat-gdppc-avg').textContent = '$' + gdppcStats.avg.toLocaleString();
-    document.getElementById('stat-gdppc-range').textContent = `Range: $${gdppcStats.min.toLocaleString()} - $${gdppcStats.max.toLocaleString()}`;
+    document.getElementById('stat-gdppc-range').textContent = `${t('stats.range')} $${gdppcStats.min.toLocaleString()} - $${gdppcStats.max.toLocaleString()}`;
 
     // Update Employment statistics
     const empStats = getStats(DATA.employment.employment, 1);
     document.getElementById('stat-employment-avg').textContent = empStats.avg.toFixed(1) + '%';
-    document.getElementById('stat-employment-range').textContent = `Range: ${empStats.min.toFixed(1)}% - ${empStats.max.toFixed(1)}%`;
+    document.getElementById('stat-employment-range').textContent = `${t('stats.range')} ${empStats.min.toFixed(1)}% - ${empStats.max.toFixed(1)}%`;
 
     // Update Salary statistics
     const salaryStats = getStats(DATA.salary, 0);
     document.getElementById('stat-salary-avg').textContent = '$' + salaryStats.avg.toLocaleString();
-    document.getElementById('stat-salary-range').textContent = `Range: $${salaryStats.min.toLocaleString()} - $${salaryStats.max.toLocaleString()}`;
+    document.getElementById('stat-salary-range').textContent = `${t('stats.range')} $${salaryStats.min.toLocaleString()} - $${salaryStats.max.toLocaleString()}`;
 
     // Update Life Expectancy statistics
     const lifeStats = getStats(DATA.demographics.lifeExpectancy, 1);
     document.getElementById('stat-life-avg').textContent = lifeStats.avg.toFixed(1);
-    document.getElementById('stat-life-range').textContent = `Range: ${lifeStats.min.toFixed(1)} - ${lifeStats.max.toFixed(1)}`;
+    document.getElementById('stat-life-range').textContent = `${t('stats.range')} ${lifeStats.min.toFixed(1)} - ${lifeStats.max.toFixed(1)}`;
 
     // Update Birth Rate statistics
     const birthStats = getStats(DATA.demographics.birthRate, 1);
     document.getElementById('stat-birth-avg').textContent = birthStats.avg.toFixed(1);
-    document.getElementById('stat-birth-range').textContent = `Range: ${birthStats.min.toFixed(1)} - ${birthStats.max.toFixed(1)}`;
+    document.getElementById('stat-birth-range').textContent = `${t('stats.range')} ${birthStats.min.toFixed(1)} - ${birthStats.max.toFixed(1)}`;
 
     // Update Rent statistics
     const rentStats = getStats(DATA.costOfLiving.rent, 0);
     document.getElementById('stat-rent-avg').textContent = '$' + rentStats.avg.toLocaleString();
-    document.getElementById('stat-rent-range').textContent = `Range: $${rentStats.min.toLocaleString()} - $${rentStats.max.toLocaleString()}`;
+    document.getElementById('stat-rent-range').textContent = `${t('stats.range')} $${rentStats.min.toLocaleString()} - $${rentStats.max.toLocaleString()}`;
 
     // Update Gas Price statistics
     const gasStats = getStats(DATA.costOfLiving.gas, 2);
     document.getElementById('stat-gas-avg').textContent = '$' + gasStats.avg.toFixed(2);
-    document.getElementById('stat-gas-range').textContent = `Range: $${gasStats.min.toFixed(2)} - $${gasStats.max.toFixed(2)}`;
+    document.getElementById('stat-gas-range').textContent = `${t('stats.range')} $${gasStats.min.toFixed(2)} - $${gasStats.max.toFixed(2)}`;
 
     // Update CO2 Emissions statistics
     const co2Stats = getStats(DATA.environment.co2Emissions, 2);
     document.getElementById('stat-co2-avg').textContent = co2Stats.avg.toFixed(2);
-    document.getElementById('stat-co2-range').textContent = `Range: ${co2Stats.min.toFixed(2)} - ${co2Stats.max.toFixed(2)}`;
+    document.getElementById('stat-co2-range').textContent = `${t('stats.range')} ${co2Stats.min.toFixed(2)} - ${co2Stats.max.toFixed(2)}`;
 
     // Update Education statistics
     const eduStats = getStats(DATA.social.education, 1);
     document.getElementById('stat-edu-avg').textContent = eduStats.avg.toFixed(1) + '%';
-    document.getElementById('stat-edu-range').textContent = `Range: ${eduStats.min.toFixed(1)}% - ${eduStats.max.toFixed(1)}%`;
+    document.getElementById('stat-edu-range').textContent = `${t('stats.range')} ${eduStats.min.toFixed(1)}% - ${eduStats.max.toFixed(1)}%`;
 
     // Update Trade Balance statistics
     const tradeBalanceData = {};
@@ -5935,12 +6726,12 @@ function updateStatisticsSummary() {
     });
     const tradeStats = getStats(tradeBalanceData, 1);
     document.getElementById('stat-trade-avg').textContent = tradeStats.avg.toFixed(1);
-    document.getElementById('stat-trade-range').textContent = `Range: ${tradeStats.min.toFixed(1)} - ${tradeStats.max.toFixed(1)}`;
+    document.getElementById('stat-trade-range').textContent = `${t('stats.range')} ${tradeStats.min.toFixed(1)} - ${tradeStats.max.toFixed(1)}`;
 
     // Update Internet Users statistics
     const internetStats = getStats(DATA.technology.internetUsers, 1);
     document.getElementById('stat-internet-avg').textContent = internetStats.avg.toFixed(1) + '%';
-    document.getElementById('stat-internet-range').textContent = `Range: ${internetStats.min.toFixed(1)}% - ${internetStats.max.toFixed(1)}%`;
+    document.getElementById('stat-internet-range').textContent = `${t('stats.range')} ${internetStats.min.toFixed(1)}% - ${internetStats.max.toFixed(1)}%`;
 
     // Calculate and display growth rates
     const gdpGrowth = getGrowth(DATA.gdp, 2);
@@ -6034,7 +6825,7 @@ function updateHistoricalTrends() {
     const avgGdpFirst = selectedCountries.reduce((sum, c) => sum + DATA.gdp[c][firstIdx], 0) / selectedCountries.length;
     const avgGdpLast = selectedCountries.reduce((sum, c) => sum + DATA.gdp[c][latestIdx], 0) / selectedCountries.length;
     document.getElementById('trend-gdp-details').textContent =
-        `Average: $${avgGdpFirst.toFixed(2)}T (${yFirst}) → $${avgGdpLast.toFixed(2)}T (${yLast})`;
+        `${t('stats.trendAvg')} $${avgGdpFirst.toFixed(2)}T (${yFirst}) → $${avgGdpLast.toFixed(2)}T (${yLast})`;
 
     const lifeTrend = calculateTrend(DATA.demographics.lifeExpectancy, true);
     const lifeTrendEl = document.getElementById('trend-life-change');
@@ -6044,7 +6835,7 @@ function updateHistoricalTrends() {
     const avgLifeFirst = selectedCountries.reduce((sum, c) => sum + DATA.demographics.lifeExpectancy[c][firstIdx], 0) / selectedCountries.length;
     const avgLifeLast = selectedCountries.reduce((sum, c) => sum + DATA.demographics.lifeExpectancy[c][latestIdx], 0) / selectedCountries.length;
     document.getElementById('trend-life-details').textContent =
-        `Average: ${avgLifeFirst.toFixed(1)} years (${yFirst}) → ${avgLifeLast.toFixed(1)} years (${yLast})`;
+        `${t('stats.trendAvg')} ${avgLifeFirst.toFixed(1)} ${t('stats.trendUnitYears')} (${yFirst}) → ${avgLifeLast.toFixed(1)} ${t('stats.trendUnitYears')} (${yLast})`;
 
     const co2Trend = calculateTrend(DATA.environment.co2Emissions);
     const co2TrendEl = document.getElementById('trend-co2-change');
@@ -6054,7 +6845,7 @@ function updateHistoricalTrends() {
     const avgCo2First = selectedCountries.reduce((sum, c) => sum + DATA.environment.co2Emissions[c][firstIdx], 0) / selectedCountries.length;
     const avgCo2Last = selectedCountries.reduce((sum, c) => sum + DATA.environment.co2Emissions[c][latestIdx], 0) / selectedCountries.length;
     document.getElementById('trend-co2-details').textContent =
-        `Average: ${avgCo2First.toFixed(2)} tons (${yFirst}) → ${avgCo2Last.toFixed(2)} tons (${yLast})`;
+        `${t('stats.trendAvg')} ${avgCo2First.toFixed(2)} ${t('stats.trendUnitTons')} (${yFirst}) → ${avgCo2Last.toFixed(2)} ${t('stats.trendUnitTons')} (${yLast})`;
 }
     </script>
 </body>

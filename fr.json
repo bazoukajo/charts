@@ -1,0 +1,22 @@
+{
+    "meta.title": "Indicateurs économiques et sociaux mondiaux (1970–2026)",
+    "lang.toggleTitle": "Changer de langue",
+    "lang.labelEn": "EN",
+    "lang.labelFr": "FR",
+    "country.selectTitle": "Sélectionner les pays à comparer",
+    "tab.economic": "Économie",
+    "tab.employment": "Emploi",
+    "tab.costs": "Coûts",
+    "tab.social": "Social",
+    "tab.demographics": "Population",
+    "tab.health": "Santé",
+    "tab.environment": "Environnement",
+    "tab.technology": "Technologie",
+    "tab.trade": "Commerce",
+    "tab.immigration": "Migration",
+    "tab.wellbeing": "Qualité de vie",
+    "sec.statsSummary": "Indicateurs clés (dernière année 2026)",
+    "sec.yoy": "Variations d’une année sur l’autre (2025 → 2026)",
+    "sec.comparison": "Comparaison détaillée des pays (2026)",
+    "sec.trends": "Tendances de long terme (1970 → 2026)"
+}

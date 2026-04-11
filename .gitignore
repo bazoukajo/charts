@@ -4,6 +4,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+.playwright-mcp
 
 # OS
 .DS_Store
@@ -47,3 +48,29 @@ build/
 test/
 test.html
 simple-test.html
+
+# Local test files or generated files
+*.local
+*.generated
+*.bak
+*.tmp
+*.cache
+*.test.html
+*.scratch.html
+
+
+# Temporary / dev scripts (underscore-prefixed or build-only)
+patch_charts.py
+build_*.py
+_*.mjs
+_*.js
+
+# Generated / build artifacts (never committed)
+*-fr-content.js
+*-en-content.js
+
+# Screenshot artifacts from verify/CI scripts
+charts-*.png
+*-viewport.png
+*-page.png
+
