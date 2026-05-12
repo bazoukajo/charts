@@ -804,9 +804,6 @@
 
     <!-- Main Content -->
     <div class="container">
-        <p class="data-provenance" id="dataProvenanceNote">
-            <strong>Data sources:</strong> On load, the page requests <a href="https://data.worldbank.org/" target="_blank" rel="noopener">World Bank World Development Indicators</a> (WDI) and merges: GDP (current US$), GDP per capita, GNI per capita (Atlas), current health expenditure per capita, secondary school enrollment (gross), goods &amp; services exports/imports, unemployment, employment-to-population (15+, ILO modelled), life expectancy, crude birth/death rates, fertility, infant mortality, CO2 per capita, renewable share, forest area, adult literacy, internet users, mobile subscriptions per 100 people, R&amp;D % of GDP, and population (for immigration-per-capita denominators). Trade balance is computed as exports minus imports from those series. Remaining charts use deterministic modelled series. WDI gaps are forward/backward-filled within each series. Chart pills update after merge: <strong>High (WDI)</strong> when the live indicator loaded; <strong>Partial WDI</strong> if the request failed for that series. <strong>If you open this file as <code>file://</code>, the browser may block the API</strong>, but the dashboard still works using built-in deterministic data (no backend required). Illegal migration and composite "indices" here are not official cross-country statistics.
-        </p>
 
         <!-- Country Selector -->
         <div class="country-selector">
@@ -2911,6 +2908,29 @@
                 </div>
             </div>
         </div>
+
+        <div class="chart-container" id="dataQualityPanel">
+            <div class="chart-title">
+                <i class="material-icons left">verified</i>
+                <span data-i18n="dq.title">Data Quality Snapshot</span>
+            </div>
+            <p class="event-intro" data-i18n="dq.summary">Quick audit of source coverage and model reliance for the currently rendered dashboard.</p>
+            <p class="event-intro"><strong data-i18n="dq.wdiLoaded">WDI indicators loaded:</strong> <span id="dq-wdi-loaded">-</span></p>
+            <p class="event-intro"><strong data-i18n="dq.freshness">Last live data refresh:</strong> <span id="dq-freshness">-</span></p>
+            <p class="event-intro"><strong data-i18n="dq.warning">Quality warning:</strong> <span id="dq-warning">-</span></p>
+            <p class="event-intro"><strong data-i18n="dq.totalCharts">Total chart surfaces:</strong> <span id="dq-total-charts">-</span></p>
+            <p class="event-intro"><strong data-i18n="dq.externalCharts">Charts externally anchored:</strong> <span id="dq-external-charts">-</span></p>
+            <p class="event-intro"><strong data-i18n="dq.modelledCharts">Charts still model-first:</strong> <span id="dq-modelled-charts">-</span></p>
+            <p class="event-intro"><strong data-i18n="dq.horizon">Time horizon:</strong> <span id="dq-horizon">-</span></p>
+            <p class="event-intro"><strong data-i18n="dq.tabBreakdown">Per-tab external coverage:</strong></p>
+            <ul id="dq-tab-breakdown"></ul>
+            <p class="event-intro"><strong data-i18n="dq.countryCoverage">Selected-country WDI point coverage:</strong></p>
+            <ul id="dq-country-coverage"></ul>
+        </div>
+
+        <p class="data-provenance" id="dataProvenanceNote">
+            <strong>Data sources:</strong> On load, the page requests <a href="https://data.worldbank.org/" target="_blank" rel="noopener">World Bank World Development Indicators</a> (WDI) and merges: GDP (current US$), GDP per capita, GNI per capita (Atlas), current health expenditure per capita, secondary school enrollment (gross), goods &amp; services exports/imports, unemployment, employment-to-population (15+, ILO modelled), life expectancy, crude birth/death rates, fertility, infant mortality, CO2 per capita, renewable share, forest area, adult literacy, internet users, mobile subscriptions per 100 people, R&amp;D % of GDP, and population (for immigration-per-capita denominators). Trade balance is computed as exports minus imports from those series. Remaining charts use deterministic modelled series. WDI gaps are forward/backward-filled within each series. Chart pills update after merge: <strong>High (WDI)</strong> when the live indicator loaded; <strong>Partial WDI</strong> if the request failed for that series. <strong>If you open this file as <code>file://</code>, the browser may block the API</strong>, but the dashboard still works using built-in deterministic data (no backend required). Illegal migration and composite "indices" here are not official cross-country statistics.
+        </p>
     </div>
 
     <!-- Materialize JS -->
@@ -5266,6 +5286,9 @@ async function mergeWorldBankIntoData() {
         return fetchWBIndicator(ID[k]).then(function (data) { rows[k] = data; });
     }));
 
+    window.__wdiRows = rows;
+    window.__wdiFetchedAt = Date.now();
+
     window.__wdiIndicatorLoaded = {};
     Object.keys(ID).forEach(function (k) {
         window.__wdiIndicatorLoaded[k] = Array.isArray(rows[k]) && rows[k].length > 0;
@@ -5733,6 +5756,152 @@ function reinjectEventSpeculationBlocks() {
     injectEventSpeculationBlocks();
 }
 
+const EXTERNAL_ANCHOR_CHART_IDS = new Set([
+    'gdpChart', 'gdpPerCapitaChart', 'employmentChart', 'unemploymentChart', 'salaryChart',
+    'healthcareChart', 'educationChart', 'literacyChart', 'exportsChart', 'importsChart',
+    'tradeBalanceChart', 'birthRateChart', 'deathRateChart', 'lifeExpectancyChart',
+    'fertilityRateChart', 'infantMortalityChart', 'co2EmissionsChart', 'renewableEnergyChart',
+    'forestCoverageChart', 'internetUsersChart', 'mobilePhonesChart', 'rndInvestmentChart',
+    'qolHealthcareChart', 'legalImmigrationPerCapitaChart', 'illegalImmigrationPerCapitaChart',
+    'immigrationNativeRatioChart'
+]);
+
+const TAB_QUALITY_MAP = {
+    economic: ['gdpChart', 'gdpPerCapitaChart', 'capitalGainsChart', 'valuationChart', 'militaryBudgetChart', 'militaryShareChart', 'militaryPerCapitaChart', 'productivityChart'],
+    employment: ['employmentChart', 'unemploymentChart', 'salaryChart'],
+    costs: ['foodCostChart', 'rentChart', 'housingChart', 'electricityChart', 'gasChart', 'carChart', 'phoneContractChart', 'internetContractChart', 'tvContractChart', 'telecomBundleChart'],
+    social: ['healthcareChart', 'foodbankChart', 'homeownershipChart', 'ageChart', 'educationChart', 'literacyChart', 'genderEqualityChart', 'deiChart', 'happinessChart', 'politicalFreedomChart', 'violenceChart'],
+    demographics: ['birthRateChart', 'deathRateChart', 'lifeExpectancyChart', 'fertilityRateChart', 'abortionRateChart', 'infantMortalityChart'],
+    health: ['obesityChart', 'smokingChart', 'diabetesChart', 'mentalHealthChart'],
+    environment: ['co2EmissionsChart', 'renewableEnergyChart', 'forestCoverageChart', 'waterQualityChart'],
+    technology: ['internetUsersChart', 'mobilePhonesChart', 'broadbandSpeedChart', 'rndInvestmentChart'],
+    trade: ['exportsChart', 'importsChart', 'tradeBalanceChart'],
+    immigration: ['legalImmigrationChart', 'illegalImmigrationChart', 'legalImmigrationPerCapitaChart', 'illegalImmigrationPerCapitaChart', 'immigrationNativeRatioChart', 'expatArrivalsChart', 'expatDeparturesChart'],
+    wellbeing: ['qolIndexChart', 'qolHappinessChart', 'hdiChart', 'giniChart', 'corruptionChart', 'qolPoliticalChart', 'freeSpeechChart', 'legacyMediaRatingChart', 'newMediaRatingChart', 'legacyMediaShareChart', 'newMediaShareChart', 'surgeryWaitChart', 'physiciansChart', 'hospitalBedsChart', 'qolHealthcareChart', 'christianChart', 'muslimChart', 'secularChart', 'hinduBuddhistChart']
+};
+
+const TAB_QUALITY_LABEL_KEY = {
+    economic: 'tab.economic',
+    employment: 'tab.employment',
+    costs: 'tab.costs',
+    social: 'tab.social',
+    demographics: 'tab.demographics',
+    health: 'tab.health',
+    environment: 'tab.environment',
+    technology: 'tab.technology',
+    trade: 'tab.trade',
+    immigration: 'tab.immigration',
+    wellbeing: 'tab.wellbeing'
+};
+
+function getTabQualityLabel(tabKey) {
+    const i18nKey = TAB_QUALITY_LABEL_KEY[tabKey];
+    if (i18nKey && window.DashboardI18n) {
+        return DashboardI18n.t(i18nKey);
+    }
+    return tabKey;
+}
+
+function buildWdiCoverageByCountry() {
+    const rowsByIndicator = window.__wdiRows || {};
+    const qualityIndicators = ['gdp', 'gdppc', 'emp', 'unemp', 'life', 'co2', 'net', 'pop'];
+    const pointsPerSeries = YEARS.length;
+    const out = {};
+
+    selectedCountries.forEach(function (country) {
+        const iso = COUNTRY_CODES[country];
+        if (!iso) return;
+        let present = 0;
+        let total = 0;
+
+        qualityIndicators.forEach(function (k) {
+            const rows = rowsByIndicator[k];
+            if (!Array.isArray(rows)) return;
+
+            const yearSet = new Set();
+            rows.forEach(function (r) {
+                if (!r || r.countryiso3code !== iso || r.value == null || r.value === '') return;
+                const y = Number(r.date);
+                if (!Number.isFinite(y) || y < YEARS[0] || y > YEARS[YEARS.length - 1]) return;
+                yearSet.add(y);
+            });
+
+            present += yearSet.size;
+            total += pointsPerSeries;
+        });
+
+        if (!total) {
+            out[country] = null;
+            return;
+        }
+        out[country] = (present / total) * 100;
+    });
+
+    return out;
+}
+
+function renderDataQualityLists() {
+    const tabListEl = document.getElementById('dq-tab-breakdown');
+    const countryListEl = document.getElementById('dq-country-coverage');
+    if (tabListEl) {
+        tabListEl.innerHTML = '';
+        Object.keys(TAB_QUALITY_MAP).forEach(function (tabKey) {
+            const ids = TAB_QUALITY_MAP[tabKey];
+            const externalCount = ids.filter(function (id) { return EXTERNAL_ANCHOR_CHART_IDS.has(id); }).length;
+            const li = document.createElement('li');
+            li.textContent = `${getTabQualityLabel(tabKey)}: ${externalCount}/${ids.length}`;
+            tabListEl.appendChild(li);
+        });
+    }
+
+    if (countryListEl) {
+        countryListEl.innerHTML = '';
+        const coverage = buildWdiCoverageByCountry();
+        selectedCountries.forEach(function (country) {
+            const li = document.createElement('li');
+            const pct = coverage[country];
+            li.textContent = pct == null
+                ? `${getCountryDisplayName(country)}: ${window.DashboardI18n ? DashboardI18n.t('dq.notAvailable') : 'n/a'}`
+                : `${getCountryDisplayName(country)}: ${pct.toFixed(1)}%`;
+            countryListEl.appendChild(li);
+        });
+    }
+}
+
+function updateDataQualityPanel() {
+    const totalCharts = (window.DashboardI18n && Array.isArray(DashboardI18n.chartIds))
+        ? DashboardI18n.chartIds.length
+        : 0;
+    const wdiLoadedMap = window.__wdiIndicatorLoaded || {};
+    const wdiTotal = Object.keys(wdiLoadedMap).length;
+    const wdiLoaded = Object.values(wdiLoadedMap).filter(Boolean).length;
+
+    const externallyAnchored = Math.min(totalCharts, EXTERNAL_ANCHOR_CHART_IDS.size);
+    const modelFirst = Math.max(0, totalCharts - externallyAnchored);
+    const fetchedAt = window.__wdiFetchedAt ? new Date(window.__wdiFetchedAt) : null;
+    const warningText = (wdiTotal > 0 && (wdiLoaded / wdiTotal) < 0.75)
+        ? (window.DashboardI18n ? DashboardI18n.t('dq.warningLowCoverage') : 'Low live-source coverage; several charts remain model-first.')
+        : (window.DashboardI18n ? DashboardI18n.t('dq.warningOk') : 'Coverage acceptable for baseline dashboard use.');
+
+    const wdiEl = document.getElementById('dq-wdi-loaded');
+    const freshEl = document.getElementById('dq-freshness');
+    const warningEl = document.getElementById('dq-warning');
+    const totalEl = document.getElementById('dq-total-charts');
+    const externalEl = document.getElementById('dq-external-charts');
+    const modelledEl = document.getElementById('dq-modelled-charts');
+    const horizonEl = document.getElementById('dq-horizon');
+
+    if (wdiEl) wdiEl.textContent = wdiTotal ? `${wdiLoaded}/${wdiTotal}` : '-';
+    if (freshEl) freshEl.textContent = fetchedAt ? fetchedAt.toLocaleString() : '-';
+    if (warningEl) warningEl.textContent = warningText;
+    if (totalEl) totalEl.textContent = totalCharts ? String(totalCharts) : '-';
+    if (externalEl) externalEl.textContent = totalCharts ? String(externallyAnchored) : '-';
+    if (modelledEl) modelledEl.textContent = totalCharts ? String(modelFirst) : '-';
+    if (horizonEl) horizonEl.textContent = `${YEARS[0]}-${YEARS[YEARS.length - 1]}`;
+
+    renderDataQualityLists();
+}
+
 function applyDashboardLocale() {
     if (!window.DashboardI18n) return;
     document.documentElement.lang = DashboardI18n.getLocale() === 'fr' ? 'fr' : 'en';
@@ -5754,6 +5923,7 @@ function applyDashboardLocale() {
         applyWdiAccuracyBadges(typeof window.__wdiMergeOk === 'boolean' ? window.__wdiMergeOk : false);
     }
     DashboardI18n.updateLangToggleUi();
+    updateDataQualityPanel();
     var themeBtn = document.getElementById('theme-toggle-btn');
     if (themeBtn) {
         themeBtn.setAttribute('title', DashboardI18n.t('theme.toggleTitle'));
@@ -5824,6 +5994,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateChartDimensions();
     applyChartEventPairingClasses();
     resizeAllCharts();
+    updateDataQualityPanel();
     applyDashboardLocale();
     if (typeof bindChartResizeObservers === 'function') bindChartResizeObservers();
 

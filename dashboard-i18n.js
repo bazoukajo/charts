@@ -111,6 +111,57 @@
     "Graphique masqué en raison de données insuffisantes",
   );
 
+  add("dq.title", "Data Quality Snapshot", "Instantané de qualité des données");
+  add(
+    "dq.summary",
+    "Quick audit of source coverage and model reliance for the currently rendered dashboard.",
+    "Audit rapide de la couverture des sources et de la part modélisée pour le tableau de bord affiché.",
+  );
+  add("dq.wdiLoaded", "WDI indicators loaded:", "Indicateurs WDI chargés :");
+  add(
+    "dq.totalCharts",
+    "Total chart surfaces:",
+    "Nombre total de graphiques :",
+  );
+  add(
+    "dq.externalCharts",
+    "Charts externally anchored:",
+    "Graphiques ancrés sur des sources externes :",
+  );
+  add(
+    "dq.modelledCharts",
+    "Charts still model-first:",
+    "Graphiques encore principalement modélisés :",
+  );
+  add("dq.horizon", "Time horizon:", "Horizon temporel :");
+  add(
+    "dq.freshness",
+    "Last live data refresh:",
+    "Dernière actualisation des données live :",
+  );
+  add("dq.warning", "Quality warning:", "Alerte qualité :");
+  add(
+    "dq.warningLowCoverage",
+    "Low live-source coverage; several charts remain model-first.",
+    "Couverture des sources live faible ; plusieurs graphiques restent principalement modélisés.",
+  );
+  add(
+    "dq.warningOk",
+    "Coverage acceptable for baseline dashboard use.",
+    "Couverture acceptable pour un usage de base du tableau de bord.",
+  );
+  add(
+    "dq.tabBreakdown",
+    "Per-tab external coverage:",
+    "Couverture externe par onglet :",
+  );
+  add(
+    "dq.countryCoverage",
+    "Selected-country WDI point coverage:",
+    "Couverture des points WDI pour les pays sélectionnés :",
+  );
+  add("dq.notAvailable", "n/a", "n/d");
+
   add("table.country", "Country", "Pays");
   add("table.gdp", "GDP (T$)", "PIB (T$)");
   add("table.gdppc", "GDP/Capita ($)", "PIB/hab. ($)");
