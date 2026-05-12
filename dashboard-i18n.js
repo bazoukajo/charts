@@ -23,12 +23,24 @@
   add("lang.toggleTitle", "Switch language", "Changer de langue");
   add("lang.labelEn", "EN", "EN");
   add("lang.labelFr", "FR", "FR");
+  add(
+    "theme.toggleTitle",
+    "Toggle light/dark theme",
+    "Basculer thème clair/sombre",
+  );
+  add("theme.toggleAria", "Toggle theme", "Basculer le thème");
 
   add(
     "country.selectTitle",
     "Select Countries to Compare",
     "Sélectionner les pays à comparer",
   );
+  add(
+    "country.europeAggregateNote",
+    "Europe is a derived aggregate of the European countries included in this dashboard, not a sovereign-country series.",
+    "L'Europe est un agrégat dérivé des pays européens inclus dans ce tableau de bord, et non une série d'État souverain.",
+  );
+  add("country.europeAggregateLabel", "Europe (Aggregate)", "Europe (Agrégat)");
 
   add("tab.economic", "Economic", "Économie");
   add("tab.employment", "Jobs", "Emploi");
@@ -365,6 +377,7 @@
     "illegalImmigrationChart",
     "legalImmigrationPerCapitaChart",
     "illegalImmigrationPerCapitaChart",
+    "immigrationNativeRatioChart",
     "expatArrivalsChart",
     "expatDeparturesChart",
     "qolIndexChart",
@@ -449,6 +462,8 @@
       "Legal Immigration Per Capita (Per 100k people)",
     illegalImmigrationPerCapitaChart:
       "Illegal Immigration Per Capita (Per 100k people)",
+    immigrationNativeRatioChart:
+      "Immigration Inflow Ratio (% of resident population)",
     expatArrivalsChart: "Expat Arrivals (People)",
     expatDeparturesChart: "Expat Departures (People)",
     qolIndexChart: "Quality of Life Index (Score 0–100)",
@@ -534,6 +549,8 @@
     illegalImmigrationChart: "Immigration irrégulière (personnes)",
     legalImmigrationPerCapitaChart: "pour 100k hab.",
     illegalImmigrationPerCapitaChart: "pour 100k hab.",
+    immigrationNativeRatioChart:
+      "Ratio des flux migratoires (% population résidente)",
     expatArrivalsChart: "Personnes",
     expatDeparturesChart: "Personnes",
     qolIndexChart: "Score (0–100)",
@@ -550,7 +567,7 @@
     surgeryWaitChart: "Semaines",
     physiciansChart: "Médecins / 1k",
     hospitalBedsChart: "Lits / 1k",
-    qolHealthcareChart: "USD / year",
+    qolHealthcareChart: "USD / an",
     christianChart: "% de la population",
     muslimChart: "% de la population",
     secularChart: "% de la population",
@@ -615,13 +632,14 @@
     illegalImmigrationChart: "People",
     legalImmigrationPerCapitaChart: "Per 100k people",
     illegalImmigrationPerCapitaChart: "Per 100k people",
+    immigrationNativeRatioChart: "% of resident population",
     expatArrivalsChart: "People",
     expatDeparturesChart: "People",
     qolIndexChart: "Score (0–100)",
     qolHappinessChart: "Score (0–10)",
     hdiChart: "HDI (0–1)",
-    giniChart: "Gini (0 = égal, 100 = inégal)",
-    corruptionChart: "Score (0–100, plus haut = plus propre)",
+    giniChart: "Gini (0 = equal, 100 = unequal)",
+    corruptionChart: "Score (0–100, higher = cleaner)",
     qolPoliticalChart: "Score (0–10)",
     freeSpeechChart: "Score (0–10)",
     legacyMediaRatingChart: "Score (0–10)",
@@ -631,7 +649,7 @@
     surgeryWaitChart: "Weeks",
     physiciansChart: "Physicians / 1k",
     hospitalBedsChart: "Beds / 1k",
-    qolHealthcareChart: "USD / year",
+    qolHealthcareChart: "USD / an",
     christianChart: "% of population",
     muslimChart: "% of population",
     secularChart: "% of population",
@@ -696,6 +714,7 @@
     illegalImmigrationChart: "Personnes",
     legalImmigrationPerCapitaChart: "pour 100k hab.",
     illegalImmigrationPerCapitaChart: "pour 100k hab.",
+    immigrationNativeRatioChart: "% de la population résidente",
     expatArrivalsChart: "Personnes",
     expatDeparturesChart: "Personnes",
     qolIndexChart: "Score (0–100)",

@@ -797,7 +797,7 @@
         <a href="#" id="lang-toggle" class="header-action-btn" onclick="if(window.DashboardI18n)DashboardI18n.toggleLocale(); return false;" title="Switch language">
             <span id="lang-toggle-label">EN</span>
         </a>
-        <a href="#" class="header-action-btn" onclick="toggleTheme(); return false;" title="Toggle light/dark theme" aria-label="Toggle theme">
+        <a href="#" id="theme-toggle-btn" class="header-action-btn" onclick="toggleTheme(); return false;" title="Toggle light/dark theme" aria-label="Toggle theme">
             <i class="material-icons" id="theme-icon">light_mode</i>
         </a>
     </div>
@@ -815,12 +815,13 @@
                     <i class="material-icons left">public</i>
                     <span data-i18n="country.selectTitle">Select Countries to Compare</span>
                 </div>
+                <p class="event-intro" data-i18n="country.europeAggregateNote">Europe is a derived aggregate of the European countries included in this dashboard, not a sovereign-country series.</p>
                 <div id="countryChips"></div>
             </div>
         </div>
 
         <!-- Statistics Summary Section -->
-        <div id="statisticsSummary" style="display: none;">
+        <div id="statisticsSummary">
             <div class="section-header">
                 <h2><i class="material-icons left">assessment</i><span data-i18n="sec.statsSummary">Key Statistics Summary (Latest Year 2026)</span></h2>
             </div>
@@ -2413,19 +2414,20 @@
             <div class="historical-context historical-context--below-chart">
                 <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Legal &amp; irregular migration (modelled)</h3>
                 <p class="event-intro">Use UN DESA, OECD, and national immigration statistics for policy work; these charts are illustrative. Denominators for per-capita charts use WDI population when merged.</p>
+                <p class="event-intro">This dashboard does not validate bilateral origin-country flows, so it cannot tell you exactly where migrants came from each year. For that question, use bilateral UN/OECD/IOM datasets. What it can show is the demographic effect of migration: population growth, changes in the working-age share, pressure on schools and housing, and shifts in age diversity.</p>
                 <div class="event-columns">
                     <div>
-                        <h4 class="event-good-h">Orderly migration &amp; integration</h4>
+                        <h4 class="event-good-h">Demographic gains</h4>
                         <ul>
-                            <li><strong>EU single market mobility</strong> — high legal movement within the bloc.</li>
-                            <li><strong>Skilled-worker programs (1990s+)</strong> — Canada, Australia, and others expanded pathways.</li>
+                            <li><strong>Young inflows</strong> — can slow population aging and support labor supply.</li>
+                            <li><strong>Family and skilled-worker migration</strong> — often raises school-age and working-age cohorts.</li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="event-bad-h">Displacement &amp; pressure</h4>
+                        <h4 class="event-bad-h">Adjustment pressures</h4>
                         <ul>
-                            <li><strong>2011 Syria war &amp; 2015 EU surge</strong> — asylum and border-management stress.</li>
-                            <li><strong>2022 Ukraine war</strong> — largest refugee flow in Europe in decades (UNHCR).</li>
+                            <li><strong>Rapid inflows</strong> — can strain housing, schools, and integration services.</li>
+                            <li><strong>Large refugee waves</strong> — change local age structure and dependency ratios quickly.</li>
                         </ul>
                     </div>
                 </div>
@@ -2473,9 +2475,22 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col s12">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <span>Immigration Inflow Ratio (% of resident population)</span>
+                            <span class="accuracy-badge accuracy-medium">Estimated</span>
+                        </div>
+                        <canvas id="immigrationNativeRatioChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
             <div class="historical-context historical-context--below-chart">
                 <h3><i class="material-icons tiny" style="vertical-align: middle;">history</i> Migration per 100k population</h3>
                 <p class="event-intro">Per-capita flows scale raw counts by population; the same absolute inflow looks larger for small countries. Policy regimes (visas, asylum rules) dominate year-to-year changes.</p>
+                <p class="event-intro">The native/immigration ratio chart is an annual inflow ratio: (legal + irregular inflows) / resident population x 100. It is not a stock share of all foreign-born residents.</p>
                 <div class="event-columns">
                     <div>
                         <h4 class="event-good-h">Integration &amp; regularization</h4>
@@ -3008,6 +3023,39 @@ const COUNTRY_CODES = {
     'Venezuela': 'VEN'
 };
 
+const DISPLAY_COUNTRIES = COUNTRIES.slice(0, 6).concat(['Europe'], COUNTRIES.slice(6));
+
+const EUROPE_COUNTRIES = [
+    'Finland', 'France', 'Germany', 'Italy', 'Norway',
+    'Romania', 'Russia', 'Sweden', 'Ukraine', 'United Kingdom'
+];
+
+const EUROPE_POPULATION_BASE_1990 = {
+    FIN: 5.0,
+    FRA: 56.7,
+    DEU: 79.4,
+    ITA: 56.7,
+    NOR: 4.24,
+    ROU: 23.2,
+    RUS: 147.9,
+    SWE: 8.6,
+    UKR: 51.9,
+    GBR: 57.2
+};
+
+const EUROPE_POPULATION_GROWTH = {
+    FIN: 1.0035,
+    FRA: 1.0050,
+    DEU: 1.0015,
+    ITA: 1.0005,
+    NOR: 1.0060,
+    ROU: 0.9980,
+    RUS: 0.9990,
+    SWE: 1.0045,
+    UKR: 0.9950,
+    GBR: 1.0055
+};
+
 /* Distinct hex per country (Brazil & Finland previously shared #ff9896, so lines looked like a single series). */
 const COLORS = {
     'Australia': '#8dd3c7',
@@ -3023,6 +3071,7 @@ const COLORS = {
     'Malaysia': '#dbdb8d',
     'New Zealand': '#9edae5',
     'Norway': '#c49c94',
+    'Europe': '#1f77b4',
     'Russia': '#17becf',
     'South Africa': '#c7c7c7',
     'South Korea': '#98df8a',
@@ -3432,6 +3481,7 @@ function generateImmigrationData() {
     const illegal = {};
     const legalPerCapita = {};
     const illegalPerCapita = {};
+    const nativeRatio = {};
     const expatArrivals = {};
     const expatDepartures = {};
 
@@ -3441,6 +3491,7 @@ function generateImmigrationData() {
         illegal[country] = [];
         legalPerCapita[country] = [];
         illegalPerCapita[country] = [];
+        nativeRatio[country] = [];
         expatArrivals[country] = [];
         expatDepartures[country] = [];
 
@@ -3491,16 +3542,18 @@ function generateImmigrationData() {
             // Calculate per capita (per 100,000 people)
             const legalPerCap = (legalCount / (population * 1000000)) * 100000;
             const illegalPerCap = (illegalCount / (population * 1000000)) * 100000;
+            const inflowRatio = ((legalCount + illegalCount) / (population * 1000000)) * 100;
 
             legalPerCapita[country].push(parseFloat(legalPerCap.toFixed(2)));
             illegalPerCapita[country].push(parseFloat(illegalPerCap.toFixed(2)));
+            nativeRatio[country].push(parseFloat(inflowRatio.toFixed(4)));
 
             // Update population for next year
             population = population * popGrowthRates[code];
         });
     });
 
-    return { legal, illegal, legalPerCapita, illegalPerCapita, expatArrivals, expatDepartures };
+    return { legal, illegal, legalPerCapita, illegalPerCapita, nativeRatio, expatArrivals, expatDepartures };
 }
 
 function generateEmploymentData() {
@@ -4958,7 +5011,173 @@ function buildSyntheticData() {
     };
 }
 
-let DATA = buildSyntheticData();
+function buildEuropePopulationSeries() {
+    const seriesByCountry = {};
+
+    EUROPE_COUNTRIES.forEach(function (country) {
+        const code = COUNTRY_CODES[country];
+        const growth = EUROPE_POPULATION_GROWTH[code];
+        let population = EUROPE_POPULATION_BASE_1990[code] / Math.pow(growth, 20);
+
+        seriesByCountry[country] = YEARS.map(function (_, idx) {
+            if (idx > 0) {
+                population *= growth;
+            }
+            return parseFloat(population.toFixed(3));
+        });
+    });
+
+    seriesByCountry.Europe = YEARS.map(function (_, idx) {
+        let total = 0;
+        EUROPE_COUNTRIES.forEach(function (country) {
+            total += seriesByCountry[country][idx];
+        });
+        return parseFloat(total.toFixed(3));
+    });
+
+    return seriesByCountry;
+}
+
+function sumCountrySeries(sourceMap, countries, digits) {
+    return YEARS.map(function (_, idx) {
+        let total = 0;
+        let found = false;
+
+        countries.forEach(function (country) {
+            const series = sourceMap[country];
+            const value = series && series[idx];
+            if (value == null || !Number.isFinite(value)) return;
+            total += value;
+            found = true;
+        });
+
+        return found ? parseFloat(total.toFixed(digits)) : null;
+    });
+}
+
+function weightedCountrySeries(sourceMap, countries, weightsByCountry, digits) {
+    return YEARS.map(function (_, idx) {
+        let weightedTotal = 0;
+        let weightTotal = 0;
+
+        countries.forEach(function (country) {
+            const series = sourceMap[country];
+            const value = series && series[idx];
+            const weightSeries = weightsByCountry[country];
+            const weight = weightSeries && weightSeries[idx];
+            if (value == null || !Number.isFinite(value) || weight == null || !Number.isFinite(weight) || weight <= 0) return;
+            weightedTotal += value * weight;
+            weightTotal += weight;
+        });
+
+        if (!weightTotal) return null;
+        return parseFloat((weightedTotal / weightTotal).toFixed(digits));
+    });
+}
+
+function perCapitaFromTotalSeries(totalSeries, populationSeries, factor, digits) {
+    return YEARS.map(function (_, idx) {
+        const total = totalSeries[idx];
+        const population = populationSeries[idx];
+        if (total == null || !Number.isFinite(total) || population == null || !Number.isFinite(population) || population <= 0) {
+            return null;
+        }
+        return parseFloat(((total / population) * factor).toFixed(digits));
+    });
+}
+
+function buildEuropeAggregate(data) {
+    const populationByCountry = buildEuropePopulationSeries();
+    const europePopulation = populationByCountry.Europe;
+    const europeGdp = sumCountrySeries(data.gdp, EUROPE_COUNTRIES, 2);
+    const europeBudget = sumCountrySeries(data.military.budget, EUROPE_COUNTRIES, 1);
+
+    data.gdp.Europe = europeGdp;
+    data.gdpPerCapita.Europe = perCapitaFromTotalSeries(europeGdp, europePopulation, 1000000, 0);
+
+    data.immigration.legal.Europe = sumCountrySeries(data.immigration.legal, EUROPE_COUNTRIES, 0);
+    data.immigration.illegal.Europe = sumCountrySeries(data.immigration.illegal, EUROPE_COUNTRIES, 0);
+    const europeImmigrationTotal = YEARS.map(function (_, idx) {
+        const legal = data.immigration.legal.Europe[idx];
+        const illegal = data.immigration.illegal.Europe[idx];
+        if ((legal == null || !Number.isFinite(legal)) && (illegal == null || !Number.isFinite(illegal))) {
+            return null;
+        }
+        return (Number.isFinite(legal) ? legal : 0) + (Number.isFinite(illegal) ? illegal : 0);
+    });
+    data.immigration.legalPerCapita.Europe = perCapitaFromTotalSeries(data.immigration.legal.Europe, europePopulation, 0.1, 2);
+    data.immigration.illegalPerCapita.Europe = perCapitaFromTotalSeries(data.immigration.illegal.Europe, europePopulation, 0.1, 2);
+    data.immigration.nativeRatio.Europe = perCapitaFromTotalSeries(europeImmigrationTotal, europePopulation, 100, 4);
+    data.immigration.expatArrivals.Europe = sumCountrySeries(data.immigration.expatArrivals, EUROPE_COUNTRIES, 0);
+    data.immigration.expatDepartures.Europe = sumCountrySeries(data.immigration.expatDepartures, EUROPE_COUNTRIES, 0);
+
+    data.employment.employment.Europe = weightedCountrySeries(data.employment.employment, EUROPE_COUNTRIES, populationByCountry, 1);
+    data.employment.unemployment.Europe = weightedCountrySeries(data.employment.unemployment, EUROPE_COUNTRIES, populationByCountry, 1);
+
+    data.salary.Europe = weightedCountrySeries(data.salary, EUROPE_COUNTRIES, populationByCountry, 0);
+
+    ['food', 'rent', 'housing', 'electricity', 'gas', 'car'].forEach(function (field) {
+        data.costOfLiving[field].Europe = weightedCountrySeries(data.costOfLiving[field], EUROPE_COUNTRIES, populationByCountry, 1);
+    });
+
+    data.healthcare.Europe = weightedCountrySeries(data.healthcare, EUROPE_COUNTRIES, populationByCountry, 0);
+
+    data.trade.exports.Europe = sumCountrySeries(data.trade.exports, EUROPE_COUNTRIES, 1);
+    data.trade.imports.Europe = sumCountrySeries(data.trade.imports, EUROPE_COUNTRIES, 1);
+
+    ['homeownership', 'age', 'education', 'violence', 'literacy', 'genderEquality', 'dei', 'happiness', 'politicalFreedom', 'freeSpeech', 'legacyMediaRating', 'newMediaRating', 'legacyMediaShare', 'newMediaShare'].forEach(function (field) {
+        data.social[field].Europe = weightedCountrySeries(data.social[field], EUROPE_COUNTRIES, populationByCountry, field === 'genderEquality' ? 3 : 1);
+    });
+
+    ['birthRate', 'deathRate', 'lifeExpectancy', 'fertilityRate', 'abortionRate', 'infantMortality'].forEach(function (field) {
+        data.demographics[field].Europe = weightedCountrySeries(data.demographics[field], EUROPE_COUNTRIES, populationByCountry, field === 'fertilityRate' ? 2 : 1);
+    });
+
+    ['obesity', 'smoking', 'diabetes', 'mentalHealth'].forEach(function (field) {
+        data.health[field].Europe = weightedCountrySeries(data.health[field], EUROPE_COUNTRIES, populationByCountry, 1);
+    });
+
+    ['co2Emissions', 'renewableEnergy', 'forestCoverage', 'waterQuality'].forEach(function (field) {
+        data.environment[field].Europe = weightedCountrySeries(data.environment[field], EUROPE_COUNTRIES, populationByCountry, field === 'co2Emissions' ? 1 : 1);
+    });
+
+    ['internetUsers', 'mobilePhones', 'broadbandSpeed', 'rndInvestment'].forEach(function (field) {
+        data.technology[field].Europe = weightedCountrySeries(data.technology[field], EUROPE_COUNTRIES, populationByCountry, field === 'broadbandSpeed' || field === 'rndInvestment' ? 2 : 1);
+    });
+
+    ['foodbank', 'capitalGain', 'valuation', 'productivity'].forEach(function (field) {
+        data.additional[field].Europe = weightedCountrySeries(data.additional[field], EUROPE_COUNTRIES, populationByCountry, field === 'productivity' ? 1 : 1);
+    });
+
+    ['qol', 'hdi', 'gini', 'corruption'].forEach(function (field) {
+        data.qualityOfLife[field].Europe = weightedCountrySeries(data.qualityOfLife[field], EUROPE_COUNTRIES, populationByCountry, field === 'hdi' ? 3 : 1);
+    });
+
+    ['waitTime', 'physicians', 'beds'].forEach(function (field) {
+        data.healthAccess[field].Europe = weightedCountrySeries(data.healthAccess[field], EUROPE_COUNTRIES, populationByCountry, field === 'physicians' ? 2 : 1);
+    });
+
+    ['christian', 'muslim', 'hindu', 'buddhist', 'secular', 'other'].forEach(function (field) {
+        data.religion[field].Europe = weightedCountrySeries(data.religion[field], EUROPE_COUNTRIES, populationByCountry, 1);
+    });
+
+    ['phone', 'internet', 'tv'].forEach(function (field) {
+        data.telecom[field].Europe = weightedCountrySeries(data.telecom[field], EUROPE_COUNTRIES, populationByCountry, field === 'internet' ? 1 : 0);
+    });
+
+    data.military.budget.Europe = europeBudget;
+    data.military.share.Europe = YEARS.map(function (_, idx) {
+        const budget = europeBudget[idx];
+        const gdp = europeGdp[idx];
+        if (budget == null || !Number.isFinite(budget) || gdp == null || !Number.isFinite(gdp) || gdp <= 0) return null;
+        return parseFloat((budget / (gdp * 10)).toFixed(2));
+    });
+    data.military.perCapita.Europe = perCapitaFromTotalSeries(europeBudget, europePopulation, 1000, 0);
+
+    return data;
+}
+
+let DATA = buildEuropeAggregate(buildSyntheticData());
 
 function wbIsoList() {
     return [...new Set(Object.values(COUNTRY_CODES))].sort().join(';');
@@ -5089,8 +5308,11 @@ async function mergeWorldBankIntoData() {
             const illegal = DATA.immigration.illegal[country][i];
             DATA.immigration.legalPerCapita[country][i] = parseFloat(((legal / p) * 100000).toFixed(2));
             DATA.immigration.illegalPerCapita[country][i] = parseFloat(((illegal / p) * 100000).toFixed(2));
+            DATA.immigration.nativeRatio[country][i] = parseFloat((((legal + illegal) / p) * 100).toFixed(4));
         }
     }
+
+    buildEuropeAggregate(DATA);
 }
 
 /**
@@ -5123,6 +5345,7 @@ function applyWdiAccuracyBadges(wdiMergeSucceeded) {
         { id: 'rndInvestmentChart', keys: ['rnd'] },
         { id: 'legalImmigrationPerCapitaChart', mode: 'popOnly' },
         { id: 'illegalImmigrationPerCapitaChart', mode: 'popOnly' },
+        { id: 'immigrationNativeRatioChart', mode: 'popOnly' },
         { id: 'expatArrivalsChart', keys: [] },
         { id: 'expatDeparturesChart', keys: [] },
         { id: 'deiChart', keys: [] },
@@ -5208,21 +5431,21 @@ function applyWdiAccuracyBadges(wdiMergeSucceeded) {
 // Chart initialization and management
 
 function getDefaultSelectedCountries() {
-    const n = COUNTRIES.length;
-    if (n <= 4) return [...COUNTRIES];
+    const n = DISPLAY_COUNTRIES.length;
+    if (n <= 4) return [...DISPLAY_COUNTRIES];
     /* Four countries spaced across the alphabetical list (no “default = United States first”). */
     const idx = [0, Math.floor(n / 4), Math.floor(n / 2), Math.floor((3 * n) / 4)];
     const out = [];
     idx.forEach(function (i) {
-        var c = COUNTRIES[i];
+        var c = DISPLAY_COUNTRIES[i];
         if (c && out.indexOf(c) === -1) out.push(c);
     });
-    return out.length ? out : COUNTRIES.slice(0, 4);
+    return out.length ? out : DISPLAY_COUNTRIES.slice(0, 4);
 }
 
 function normalizeSelectedCountries(raw) {
     if (!Array.isArray(raw)) return getDefaultSelectedCountries();
-    var v = raw.filter(function (c) { return typeof c === 'string' && COUNTRIES.indexOf(c) !== -1; });
+    var v = raw.filter(function (c) { return typeof c === 'string' && DISPLAY_COUNTRIES.indexOf(c) !== -1; });
     v.sort(function (a, b) { return a.localeCompare(b, 'en'); });
     if (v.length === 0) return getDefaultSelectedCountries();
     return v;
@@ -5531,6 +5754,11 @@ function applyDashboardLocale() {
         applyWdiAccuracyBadges(typeof window.__wdiMergeOk === 'boolean' ? window.__wdiMergeOk : false);
     }
     DashboardI18n.updateLangToggleUi();
+    var themeBtn = document.getElementById('theme-toggle-btn');
+    if (themeBtn) {
+        themeBtn.setAttribute('title', DashboardI18n.t('theme.toggleTitle'));
+        themeBtn.setAttribute('aria-label', DashboardI18n.t('theme.toggleAria'));
+    }
 }
 
 window.applyDashboardLocale = applyDashboardLocale;
@@ -5640,13 +5868,58 @@ document.addEventListener('DOMContentLoaded', function() {
 function createCountryChips() {
     const container = document.getElementById('countryChips');
 
-    COUNTRIES.forEach(country => {
+    DISPLAY_COUNTRIES.forEach(country => {
         const chip = document.createElement('div');
         chip.className = 'chip' + (selectedCountries.includes(country) ? ' selected' : '');
-        chip.innerHTML = `<i class="material-icons tiny left">public</i>${country}`;
+        chip.innerHTML = `<i class="material-icons tiny left">public</i>${getCountryDisplayName(country)}`;
         chip.onclick = () => toggleCountry(country, chip);
         container.appendChild(chip);
     });
+}
+
+function getCountryDisplayName(country) {
+    const locale = (typeof getLocale === 'function') ? getLocale() : 'en';
+
+    if (country === 'Europe') {
+        return locale === 'fr' ? t('country.europeAggregateLabel') : 'Europe (Aggregate)';
+    }
+
+    if (locale !== 'fr') return country;
+
+    const countryFr = {
+        'United States': 'États-Unis',
+        'United Kingdom': 'Royaume-Uni',
+        'United Arab Emirates': 'Émirats arabes unis',
+        'New Zealand': 'Nouvelle-Zélande',
+        'South Korea': 'Corée du Sud',
+        'South Africa': 'Afrique du Sud',
+        'Sweden': 'Suède',
+        'Saudi Arabia': 'Arabie saoudite',
+        'Russia': 'Russie',
+        'Romania': 'Roumanie',
+        'Norway': 'Norvège',
+        'Mexico': 'Mexique',
+        'Malaysia': 'Malaisie',
+        'Japan': 'Japon',
+        'Italy': 'Italie',
+        'Israel': 'Israël',
+        'Iran': 'Iran',
+        'India': 'Inde',
+        'Germany': 'Allemagne',
+        'France': 'France',
+        'Finland': 'Finlande',
+        'Cuba': 'Cuba',
+        'China': 'Chine',
+        'Canada': 'Canada',
+        'Brazil': 'Brésil',
+        'Australia': 'Australie',
+        'Argentina': 'Argentine',
+        'Ukraine': 'Ukraine',
+        'Somalia': 'Somalie',
+        'Venezuela': 'Venezuela'
+    };
+
+    return countryFr[country] || country;
 }
 
 function toggleCountry(country, chipElement) {
@@ -5679,7 +5952,7 @@ function getChartData(dataSource, countries = selectedCountries) {
         datasets: countries.map(country => {
             var hex = COLORS[country] || '#888888';
             return {
-                label: country,
+                label: getCountryDisplayName(country),
                 data: dataSource[country] || [],
                 borderColor: hex,
                 backgroundColor: hex + '20',
@@ -6045,6 +6318,10 @@ function initializeAllCharts() {
     createChart('illegalImmigrationPerCapitaChart',
         getChartData(DATA.immigration.illegalPerCapita),
         getLocalizedChartOptions('illegalImmigrationPerCapitaChart'));
+
+    createChart('immigrationNativeRatioChart',
+        getChartData(DATA.immigration.nativeRatio),
+        getLocalizedChartOptions('immigrationNativeRatioChart'));
 
     createChart('expatArrivalsChart',
         getChartData(DATA.immigration.expatArrivals),
@@ -6440,6 +6717,11 @@ function updateAllCharts() {
         charts['illegalImmigrationPerCapitaChart'].update();
     }
 
+    if (charts['immigrationNativeRatioChart']) {
+        charts['immigrationNativeRatioChart'].data = getChartData(DATA.immigration.nativeRatio);
+        charts['immigrationNativeRatioChart'].update();
+    }
+
     if (charts['expatArrivalsChart']) {
         charts['expatArrivalsChart'].data = getChartData(DATA.immigration.expatArrivals);
         charts['expatArrivalsChart'].update();
@@ -6784,7 +7066,7 @@ function updateComparisonTable() {
         const internet = DATA.technology.internetUsers[country][latestIdx].toFixed(1) + '%';
 
         row.innerHTML = `
-            <td style="padding: 10px; font-weight: 500; border-bottom: 1px solid var(--border-color);">${country}</td>
+            <td style="padding: 10px; font-weight: 500; border-bottom: 1px solid var(--border-color);">${getCountryDisplayName(country)}</td>
             <td style="padding: 10px; text-align: right; border-bottom: 1px solid var(--border-color);">${gdp}</td>
             <td style="padding: 10px; text-align: right; border-bottom: 1px solid var(--border-color);">${gdppc}</td>
             <td style="padding: 10px; text-align: right; border-bottom: 1px solid var(--border-color);">${employment}</td>
